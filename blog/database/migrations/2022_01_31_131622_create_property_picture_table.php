@@ -14,8 +14,8 @@ class CreatePropertyPictureTable extends Migration
     public function up()
     {
         Schema::create('property_picture', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->foreignId('id_property')->constrained('id');
+            $table->id();
+            $table->foreignId('id_property')->constrained('property');
             $table->string('title');
             $table->string('path');
             $table->string('alt');

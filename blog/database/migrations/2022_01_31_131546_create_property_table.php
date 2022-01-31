@@ -14,10 +14,10 @@ class CreatePropertyTable extends Migration
     public function up()
     {
         Schema::create('property', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->foreignId('id_property_type')->constrained('id');
-            $table->foreignId('id_kitchen')->constrained('id');
-            $table->foreignId('id_heater')->constrained('id');
+            $table->id();
+            $table->foreignId('id_property_type')->constrained('property_type');
+            $table->foreignId('id_kitchen')->constrained('kitchen');
+            $table->foreignId('id_heater')->constrained('heater');
             $table->string('name');
             $table->integer('price');
             $table->integer('number');

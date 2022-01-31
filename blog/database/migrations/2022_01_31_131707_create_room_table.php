@@ -14,9 +14,9 @@ class CreateRoomTable extends Migration
     public function up()
     {
         Schema::create('room', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->foreignId('id_property')->constrained('id');
-            $table->foreignId('id_room_type')->constrained('id');
+            $table->id();
+            $table->foreignId('id_property')->constrained('property');
+            $table->foreignId('id_room_type')->constrained('room_type');
             $table->timestamps();
         });
     }

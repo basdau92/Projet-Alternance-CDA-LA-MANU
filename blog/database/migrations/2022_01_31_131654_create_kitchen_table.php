@@ -14,7 +14,7 @@ class CreateKitchenTable extends Migration
     public function up()
     {
         Schema::create('kitchen', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name');
             $table->timestamps();
         });
