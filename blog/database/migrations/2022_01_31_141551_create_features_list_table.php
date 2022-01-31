@@ -13,7 +13,7 @@ class CreateFeatureListTable extends Migration
      */
     public function up()
     {
-        Schema::create('feature_list', function (Blueprint $table) {
+        Schema::create('features_list', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_hygiene')->constrained('hygiene');
             $table->foreignId('id_outdoor')->constrained('outdoor');
@@ -30,6 +30,6 @@ class CreateFeatureListTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('feature_list');
+        Schema::dropIfExists('features_list');
     }
 }
