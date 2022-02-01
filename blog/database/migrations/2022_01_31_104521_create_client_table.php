@@ -20,8 +20,9 @@ class CreateClientTable extends Migration
             $table->string('firstname');
             $table->string('mail');
             $table->integer('phone');
-            $table->string('passwordhash');
-            $table->timestamps();
+            $table->string('password');
+            $table->timestamp('created_at')->useCurent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
@@ -32,6 +33,6 @@ class CreateClientTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employee');
+        Schema::dropIfExists('client');
     }
 }
