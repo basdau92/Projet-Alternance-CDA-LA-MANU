@@ -12,25 +12,24 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
-        $this->call(AgencySeeder::class);
-        $this->call(ClientSeeder::class);
-        $this->call(energyAuditSeeder::class);
-        $this->call(PropertyCategorySeeder::class);
-        $this->call(PropertyTypeSeeder::class);
-        $this->call(hygieneSeeder::class);
-        $this->call(outdoorSeeder::class);
-        $this->call(annexeSeeder::class);
-        $this->call(featuresListSeeder::class);
-        $this->call(energyAuditSeeder::class);
-        $this->call(parkingNumberSeeder::class);    
+    { 
         $this->call([
-            heaterSeeder::class,
-            kitchenSeeder::class,
-            propertyPictureSeeder::class,
-            propertySeeder::class,
-            roomSeeder::class,
-            roomTypeSeeder::class,
+            AgencySeeder::class,
+            ClientSeeder::class,
+            PropertyCategorySeeder::class,
+            PropertyPictureSeeder::class,
+            RoomTypeSeeder::class,
+            RoomSeeder::class,
+            PropertySeeder::class,
+            EnergyAuditSeeder::class,
+            PropertyTypeSeeder::class,
+            AnnexeSeeder::class,
+            HeaterSeeder::class,
+            HygieneSeeder::class,
+            KitchenSeeder::class,
+            OutdoorSeeder::class,
+            FeaturesListSeeder::class,
+            ParkingNumberSeeder::class,
         ]);
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class kitchenSeeder extends Seeder
+class KitchenSeeder extends Seeder
 {
     /**
      * Run the database seeds for the "kitchen" table (DB: projetimmo). 
