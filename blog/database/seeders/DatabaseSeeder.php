@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(AgencySeeder::class);
+        $this->call(ClientSeeder::class);
         $this->call(energyAuditSeeder::class);
         $this->call(PropertyCategorySeeder::class);
         $this->call(PropertyTypeSeeder::class);

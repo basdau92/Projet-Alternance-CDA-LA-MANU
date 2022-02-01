@@ -16,3 +16,16 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+// API route group
+$router->group(['prefix' => 'auth'], function () use ($router) {
+    $router->post('register', 'AuthController@register');
+    $router->post('login', 'AuthController@login');
+    $router->get('client/{id}', 'AuthController@show');
+    
+    // $router->get('profile', 'ClientController@profile');
+
+    //get one user by id
+    // $router->get('users/{id}', 'ClientController@singleUser');
+    // $router->get('users', 'ClientController@allUsers');
+});
