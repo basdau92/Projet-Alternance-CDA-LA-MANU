@@ -21,8 +21,7 @@ class CreateClientTable extends Migration
             $table->string('mail');
             $table->integer('phone');
             $table->string('password');
-            $table->timestamp('created_at')->useCurent();
-            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+            $table->timestamps();
         });
     }
 
