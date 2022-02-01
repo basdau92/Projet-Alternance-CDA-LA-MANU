@@ -53,10 +53,16 @@ class ClientController extends Controller
      */
     public function updateClient($id, Request $request)
     {
-        $client = Client::findOrFail($id);
-        $client->update($request->all());
+        try {
+            $client = Client::findOrFail($id);
+            $client->update($request->all());
 
-        return response()->json($client, 200);
+            return response()->json($client, 200);
+
+        } catch (\Exception $e) {
+
+            return response()->json(['message' => 'client not found!'], 404);
+        }
     }
 
     /**
