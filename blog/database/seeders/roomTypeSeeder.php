@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class roomTypeSeeder extends Seeder
+class RoomTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds for the "room_type" table (DB: projetimmo).

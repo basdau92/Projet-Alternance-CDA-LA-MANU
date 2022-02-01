@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class propertyPictureSeeder extends Seeder
+class PropertyPictureSeeder extends Seeder
 {
     /**
      * Run the database seeds for the "property_picture" table (DB: projetimmo).
