@@ -15,15 +15,15 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AgencySeeder::class);
         $this->call(ClientSeeder::class);
-        $this->call(energyAuditSeeder::class);
-        $this->call(PropertyCategorySeeder::class);
-        $this->call(PropertyTypeSeeder::class);
-        $this->call(hygieneSeeder::class);
-        $this->call(outdoorSeeder::class);
-        $this->call(annexeSeeder::class);
-        $this->call(energyAuditSeeder::class);
-        $this->call(parkingNumberSeeder::class);    
         $this->call([
+            energyAuditSeeder::class,
+            PropertyCategorySeeder::class,
+            PropertyTypeSeeder::class,
+            hygieneSeeder::class,
+            outdoorSeeder::class,
+            annexeSeeder::class,
+            energyAuditSeeder::class,
+            parkingNumberSeeder::class,
             heaterSeeder::class,
             kitchenSeeder::class,
             propertySeeder::class,

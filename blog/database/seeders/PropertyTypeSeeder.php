@@ -39,8 +39,8 @@ class PropertyTypeSeeder extends Seeder
             ],
             [
                 'name' => 'Terrain',
-                'id_property_category' =>NULL,
-                'id_energy_audit' =>NULL,
+                'id_property_category' =>1,
+                'id_energy_audit' =>1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]
