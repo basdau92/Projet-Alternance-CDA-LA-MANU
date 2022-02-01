@@ -19,16 +19,16 @@ class DatabaseSeeder extends Seeder
         $this->call(hygieneSeeder::class);
         $this->call(outdoorSeeder::class);
         $this->call(annexeSeeder::class);
-        $this->call(featuresListSeeder::class);
         $this->call(energyAuditSeeder::class);
         $this->call(parkingNumberSeeder::class);    
         $this->call([
             heaterSeeder::class,
             kitchenSeeder::class,
-            propertyPictureSeeder::class,
             propertySeeder::class,
-            roomSeeder::class,
+            propertyPictureSeeder::class,
             roomTypeSeeder::class,
+            roomSeeder::class,
         ]);
+        $this->call(featuresListSeeder::class);
     }
 }
