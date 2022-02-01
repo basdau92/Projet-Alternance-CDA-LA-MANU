@@ -69,6 +69,17 @@ class AuthController extends Controller
     }
 
     /**
+     * Retrieve the user for the given ID.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id)
+    {
+        return Client::findOrFail($id);
+    }
+
+    /**
      * Get the authenticated User.
      *
      * @return \Illuminate\Http\JsonResponse
