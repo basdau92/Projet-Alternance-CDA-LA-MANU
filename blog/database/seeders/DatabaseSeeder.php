@@ -22,5 +22,13 @@ class DatabaseSeeder extends Seeder
         $this->call(featuresListSeeder::class);
         $this->call(energyAuditSeeder::class);
         $this->call(parkingNumberSeeder::class);    
+        $this->call([
+            heaterSeeder::class,
+            kitchenSeeder::class,
+            propertyPictureSeeder::class,
+            propertySeeder::class,
+            roomSeeder::class,
+            roomTypeSeeder::class,
+        ]);
     }
 }
