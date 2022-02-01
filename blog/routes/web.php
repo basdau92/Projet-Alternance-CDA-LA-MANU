@@ -23,11 +23,13 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
     $router->post('login', 'AuthController@login');
 });
 
-$router->group(['prefix' => 'client'], function () use ($router)
-{
-    //get one client by id
+$router->group(['prefix' => 'client'], function () use ($router) {
     $router->get('/{id}', 'ClientController@singleClient');
     $router->get('/', 'ClientController@allClients');
+    $router->delete('/{id}', 'ClientController@deleteClient');
+    $router->put('/{id}', 'ClientController@updateClient');
+    
+    $router->get('/mes-favoris/{id}', 'ClientController@showFavorites');
 });
     
 
