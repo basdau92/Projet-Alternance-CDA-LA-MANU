@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class hygieneSeeder extends Seeder
+class HygieneSeeder extends Seeder
 {
     /**
      * Run the database seeds.
