@@ -21,8 +21,13 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'auth'], function () use ($router) {
     $router->post('register', 'AuthController@register');
     $router->post('login', 'AuthController@login');
-
-    //get one client by id
-    $router->get('client/{id}', 'ClientController@singleClient');
-    $router->get('client', 'ClientController@allClient');
 });
+
+$router->group(['prefix' => 'client'], function () use ($router)
+{
+    //get one client by id
+    $router->get('/{id}', 'ClientController@singleClient');
+    $router->get('/', 'ClientController@allClients');
+});
+    
+
