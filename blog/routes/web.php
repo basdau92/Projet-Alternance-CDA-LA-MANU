@@ -24,12 +24,18 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
 });
 
 $router->group(['prefix' => 'client'], function () use ($router) {
+
+    // $router->get('/mes-favoris', function(){
+    //     $favorite = new FavoriteList();
+    //     return $favorite->hasManyProperties();
+    // });
     $router->get('/{id}', 'ClientController@singleClient');
     $router->get('/', 'ClientController@allClients');
     $router->delete('/{id}', 'ClientController@deleteClient');
-    $router->put('/{id}', 'ClientController@updateClient');
-    
-    $router->get('/mes-favoris/{id}', 'ClientController@showFavorites');
+    $router->put('/{id}', 'ClientController@updateClient'); 
 });
+
+$router->get('/mes-favoris', 'FavoriteListController@showFavoriteList');
+
     
 
