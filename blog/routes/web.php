@@ -33,7 +33,7 @@ $router->group(['prefix' => 'client'], function () use ($router) {
 });
 
 $router->group(['prefix' => 'property'], function () use ($router) {
-    $router->post('create', 'PropertyController@create');
+    $router->post('add','PropertyController@create');
     
 });
     

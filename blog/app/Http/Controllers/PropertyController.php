@@ -34,7 +34,6 @@ class PropertyController extends Controller
             'floor' => 'required|numeric',
             'is_furnished' => 'required|boolean',
             'is_available' => 'required|boolean',
-           
         ]);
 
         try {
@@ -59,6 +58,7 @@ class PropertyController extends Controller
             $property_type->name = $request->input('name_property_type');
             $property_type->id_property_category = $request->input('id_property_category');
             $property_type->id_energy_audit = $request->input('id_energy_audit');
+            //$rooms = $request->input('room');
             
 
             $property_type->save();
