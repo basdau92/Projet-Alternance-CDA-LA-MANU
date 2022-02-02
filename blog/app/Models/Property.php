@@ -47,10 +47,10 @@ class Property extends Model
      * 
      * 
      */
-    public function getAllProperties() {
-        foreach (Property::all() as $property) {
-            echo $property->name;
-        }
-    }
+    // public function getAllProperties() {
+    //     foreach (Property::all() as $property) {
+    //         echo $property->name;
+    //     }
+    // }
 
 }

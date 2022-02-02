@@ -101,10 +101,16 @@ class PropertyController extends Controller
      */
     public function updateProperty($id, Request $request)
     {
-        $property = Property::findOrFail($id);
-        $property->update($request->all());
+        try{
+            $property = Property::findOrFail($id);
+            $property->update($request->all());
+            return response()->json($property, 200);
 
-        return response()->json($property, 200);
+        } catch (\Exception $e) {
+
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
+        }
+        
     }
 
 }
