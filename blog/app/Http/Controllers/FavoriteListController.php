@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FavoriteList;
+use App\Models\Property;
 use Illuminate\Support\Facades\Auth;
 
 class FavoriteListController extends Controller
@@ -11,18 +11,19 @@ class FavoriteListController extends Controller
     {
         $this->middleware('auth:api');
     }
+
     /**
      * Get the FavoriteList 
      */
     public function showFavoriteList()
     {   
-        $favorite = new FavoriteList();
+        $favoriteList = new Property();
         
         try {
-            $favorite->hasManyProperties()
+            $favoriteList->belongsToFavoriteList()
                      ->where(Auth::userOrFail()->id)
                      ->get();
-            return response()->json(['favorite_list' => $favorite], 200);
+            return response()->json(['favorite_list' => $favoriteList], 200);
 
         } catch (\Exception $e) {
 

@@ -14,7 +14,7 @@ class PropertyController extends Controller
      */
     public function __construct()
     {
-        //
+        $this->middleware('auth:api');
     }
 
     public function create(Request $request)
@@ -45,11 +45,7 @@ class PropertyController extends Controller
             $property->zipcode = $request->input('zipcode');
             $property->description = $request->input('description');
             $property->surface = $request->input('surface');
-            
 
-
-
-           
 
             $property->save();
 
@@ -62,14 +58,5 @@ class PropertyController extends Controller
         }
 
     }
-
-    
-
-    
-
-    
-
-   
-
    
 }
