@@ -3,12 +3,11 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 
 
-class annexeSeeder extends Seeder
+class AnnexeSeeder extends Seeder
 {
     /**
      * Run the database seeds.

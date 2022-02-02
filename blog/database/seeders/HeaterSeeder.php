@@ -4,39 +4,34 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 
-class hygieneSeeder extends Seeder
+class HeaterSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeds for the "heater" table (DB: projetimmo).
      *
      * @return void
      */
     public function run()
     {
-        DB::table('hygiene')->insert([
-            [
-                'name' => 'WC externe',
+        DB::table('heater')->insert([
+            [   
+                'name' => 'chauffage au sol',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'name' => 'WC inclu SDB',
+                'name' => 'chauffage électrique',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'name' => 'Salle de bain',
+                'name' => 'climatisation convertible',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
-            [
-                'name' => 'Douche traditionnele',
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-            ]
-
+            
         ]);
     }
 }

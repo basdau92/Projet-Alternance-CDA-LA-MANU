@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 
-class parkingNumberSeeder extends Seeder
+class ParkingNumberSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -65,7 +65,6 @@ class parkingNumberSeeder extends Seeder
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]
             
-
         ]);
     }
 }

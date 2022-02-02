@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 
-class outdoorSeeder extends Seeder
+class OutdoorSeeder extends Seeder
 {
     /**
      * Run the database seeds.
