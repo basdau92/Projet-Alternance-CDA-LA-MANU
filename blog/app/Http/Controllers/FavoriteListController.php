@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\FavoriteList;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class FavoriteListController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     /**
      * Get the FavoriteList 
      */
@@ -23,7 +26,7 @@ class FavoriteListController extends Controller
 
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'list not found!'], 404);
+            return response()->json(['message' => 'list not found!','error'=>$e->getMessage()], 404);
         }
     }
 }
