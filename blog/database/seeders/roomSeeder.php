@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 
 class RoomSeeder extends Seeder
 {
@@ -16,18 +16,25 @@ class RoomSeeder extends Seeder
     public function run()
     {
         DB::table('room')->insert([
-            ['id_property' => 1, 
+            [
+                'id_property' => 1, 
                 'id_room_type' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')],
-            ['id_property' => 2, 
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+                'id_property' => 2, 
                 'id_room_type' => 2,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')],
-            ['id_property' => 3, 
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+                'id_property' => 3, 
                 'id_room_type' => 3,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')],
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            
         ]);    
     }
 }
