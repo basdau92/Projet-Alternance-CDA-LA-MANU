@@ -15,9 +15,9 @@ class CreatePropertyTable extends Migration
     {
         Schema::create('property', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_property_type')->constrained('property_type');
-            $table->foreignId('id_kitchen')->constrained('kitchen');
-            $table->foreignId('id_heater')->constrained('heater');
+            $table->foreignId('id_property_type')->nullable()->constrained('property_type');
+            $table->foreignId('id_kitchen')->nullable()->constrained('kitchen');
+            $table->foreignId('id_heater')->nullable()->constrained('heater');
             $table->string('name');
             $table->integer('price');
             $table->integer('number');
