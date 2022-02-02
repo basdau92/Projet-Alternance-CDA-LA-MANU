@@ -21,14 +21,11 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'auth'], function () use ($router) {
     $router->post('register', 'AuthController@register');
     $router->post('login', 'AuthController@login');
+    
 });
 
 $router->group(['prefix' => 'client'], function () use ($router) {
 
-    // $router->get('/mes-favoris', function(){
-    //     $favorite = new FavoriteList();
-    //     return $favorite->hasManyProperties();
-    // });
     $router->get('/{id}', 'ClientController@singleClient');
     $router->get('/', 'ClientController@allClients');
     $router->delete('/{id}', 'ClientController@deleteClient');
