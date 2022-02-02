@@ -63,13 +63,57 @@ class PropertyController extends Controller
 
     }
 
-    
+    /** SHOW ALL PROPERTIES
+     * Get all properties.
+     *
+     * 
+     * @return Response
+     */
+    public function allProperties()
+    {
+        return response()->json(['property' => Property::all()]);
+    }
 
-    
+    /** SHOW ONE PROPERTY
+     * Get a single property.
+     *
+     * @param int $id
+     * @return Response
+     */
+    public function singleProperty($id)
+    {
+        try {
+            $property = Property::findOrFail($id);
 
-    
+            return response()->json(['property' => $property], 200);
 
-   
+        } catch (\Exception $e) {
+            
+            return response()->json(['message' => 'property not found !'], 404);
+        }
+    }
 
-   
+    /** UPDATE A PROPERTY
+     * update a single property.
+     *
+     * @param int $id
+     * @return Response
+     */
+    public function updateProperty($id, Request $request)
+    {
+        $property = Property::findOrFail($id);
+        $property->update($request->all());
+
+        return response()->json($property, 200);
+    }
+
 }
+
+    
+
+    
+
+   
+
+   
+

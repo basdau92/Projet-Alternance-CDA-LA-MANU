@@ -34,7 +34,9 @@ $router->group(['prefix' => 'client'], function () use ($router) {
 
 $router->group(['prefix' => 'property'], function () use ($router) {
     $router->post('create', 'PropertyController@create');
-    
+    $router->get('/{id}', 'PropertyController@singleProperty');
+    $router->get('/', 'PropertyController@allProperties');
+    $router->put('/{id}', 'PropertyController@updateProperty');
 });
     
 
