@@ -17,7 +17,7 @@ class PropertyController extends Controller
      */
     public function __construct()
     {
-        //
+        $this->middleware('auth:api');
     }
 
     public function create(Request $request)
@@ -66,7 +66,7 @@ class PropertyController extends Controller
             
             $property->save();
 
-
+            $property->save();
 
             //return successful response
             return response()->json(['property' => $property,'property_type' => $property_type, 'message' => 'CREATED'], 201);
@@ -77,14 +77,5 @@ class PropertyController extends Controller
         }
 
     }
-
-    
-
-    
-
-    
-
-   
-
    
 }
