@@ -53,10 +53,16 @@ class ClientController extends Controller
      */
     public function updateClient($id, Request $request)
     {
-        $client = Client::findOrFail($id);
-        $client->update($request->all());
+        try {
+            $client = Client::findOrFail($id);
+            $client->update($request->all());
 
-        return response()->json($client, 200);
+            return response()->json($client, 200);
+
+        } catch (\Exception $e) {
+
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
+        }
     }
 
     /**
@@ -64,13 +70,14 @@ class ClientController extends Controller
      * 
      */
     public function deleteClient($id)
-    {
-        Client::findOrFail($id)->delete();
-        return response('Deleted Successfully', 200);
-    }
+    {   
+        try {
+            Client::findOrFail($id)->delete();
+            return response('Deleted Successfully', 200);
 
-    public function showFavorites($id)
-    {
-        Client::findOrFail($id);
+        } catch (\Exception $e) {
+
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
+        }
     }
 }
