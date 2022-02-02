@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 
-class HygieneSeeder extends Seeder
+class OutdoorSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,24 +15,24 @@ class HygieneSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('hygiene')->insert([
+        DB::table('outdoor')->insert([
             [
-                'name' => 'WC externe',
+                'name' => 'Jardin',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'name' => 'WC inclu SDB',
+                'name' => 'Balcon',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'name' => 'Salle de bain',
+                'name' => 'Terrasse',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'name' => 'Douche traditionnele',
+                'name' => 'Véranda',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]

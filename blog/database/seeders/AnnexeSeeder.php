@@ -4,9 +4,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 
-class ParkingNumberSeeder extends Seeder
+
+class AnnexeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,56 +16,52 @@ class ParkingNumberSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('parking_number')->insert([
+        DB::table('annexe')->insert([
             [
-                'number' => 1,
-                'id_annexe' =>1,
+                'name' => 'Parking public',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'number' => 2,
-                'id_annexe' =>1,
+                'name' => 'Parking prive',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'number' => 3,
-                'id_annexe' =>1,
+                'name' => 'Cave',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'number' => 1,
-                'id_annexe' =>3,
+                'name' => 'Garage',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'number' => 5,
-                'id_annexe' =>3,
+                'name' => 'Climatisation',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'number' => 4,
-                'id_annexe' =>3,
+                'name' => 'Interfone',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'number' => 1,
-                'id_annexe' =>2,
+                'name' => 'Fibre',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'number' => 4,
-                'id_annexe' =>2,
+                'name' => 'Alarme',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+                'name' => 'Digicode',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]
-            
 
         ]);
     }

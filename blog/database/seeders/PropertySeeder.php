@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 
 class PropertySeeder extends Seeder
 {
@@ -16,7 +16,8 @@ class PropertySeeder extends Seeder
     public function run()
     {
         DB::table('property')->insert([
-            ['name' => 'Résidence Launey ', 
+            [
+                'name' => 'Résidence Launey ', 
                 'price' => 630500, 
                 'number' => 12, 
                 'address' => 'Impasse Bonaparte', 
@@ -32,8 +33,10 @@ class PropertySeeder extends Seeder
                 'id_kitchen' => 1, 
                 'id_heater' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')], 
-            ['name' => 'Maison rue Berlioz ', 
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ], 
+            [
+                'name' => 'Maison rue Berlioz ', 
                 'price' => 7500000, 
                 'number' => 3, 
                 'address' => 'rue Berlioz',
@@ -49,8 +52,10 @@ class PropertySeeder extends Seeder
                 'id_kitchen' => 2, 
                 'id_heater' => 2,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')],
-            ['name' => 'Studio Priredux F1 ',
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+                'name' => 'Studio Priredux F1 ',
                 'price' => 203875, 
                 'number' => 24, 
                 'address' => 'boulevard St-Michel',
@@ -66,7 +71,9 @@ class PropertySeeder extends Seeder
                 'id_kitchen' => 3, 
                 'id_heater' => 3,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')],
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            
         ]);
     }
 }
