@@ -31,5 +31,6 @@ class DatabaseSeeder extends Seeder
             FeaturesListSeeder::class,
             ParkingNumberSeeder::class,
         ]);
+        
     }
 }
