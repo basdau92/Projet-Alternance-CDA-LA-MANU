@@ -118,6 +118,10 @@ class PropertyController extends Controller
     {
         try{
             $property = Property::findOrFail($id);
+            $propertyType = PropertyType::findOrFail($property->id_property_type);
+            $propertyCategory = PropertyCategory::findOrFail($propertyType->id_property_category);
+            $propertyPicture = PropertyPicture::findOrFail($propertyCategory->id_property_type);
+            
             $property->update($request->all());
             return response()->json($property, 200);
 
