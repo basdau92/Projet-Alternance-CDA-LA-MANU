@@ -14,7 +14,7 @@ class ClientController extends Controller
      */
     public function __construct()
     {
-        //
+        $this->middleware('auth:api');
     }
 
     /**
@@ -80,4 +80,36 @@ class ClientController extends Controller
             return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
         }
     }
+
+    /**
+     * Authorize the client to upload document
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function uploadDocument(Request $request) 
+    {
+        $extensionArray = array('jpg', 'png', 'jpeg', 'pdf', 'doc', 'docx', 'odt'); // Authorized extension
+
+        if ($request->hasFile('document')) {
+
+            $file = $request->file('document');
+            $filename = $file->hashName(); // Generate a unique, random name 
+            $file_ext = $file->extension(); // Determine the file's extension based on the file's MIME type
+            $document = time() . '.' . $filename ;
+            $destination_path = storage_path('client');
+                if (in_array(strtolower($file_ext), $extensionArray)) {
+                $result = $request->file('document')->move($destination_path, $document);
+                
+                return $result;
+                
+                } else {
+                    return $this->result['message'] = 'The extension\'s file isn\'t correct!';
+                }
+
+        } else {
+            return $this->result['message'] = 'Cannot upload file';
+        }
+    }
 }
+
