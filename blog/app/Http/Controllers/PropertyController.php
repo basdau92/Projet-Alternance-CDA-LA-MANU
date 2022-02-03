@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\Property;
 use App\Models\PropertyType;
+use App\Models\PropertyCategory;
+use App\Models\Heater;
+use App\Models\Kitchen;
 use App\Models\Room;
 use App\Models\Hygiene;
 use App\Models\Outdoor;
@@ -13,6 +16,7 @@ use App\Models\FeaturesList;
 
 
 
+use App\Models\RoomType;
 
 use Illuminate\Http\Request;
 
@@ -123,9 +127,75 @@ class PropertyController extends Controller
 
         } catch (\Exception $e) {
             //return error message
-            return response()->json(['message' => 'Property create Failed!','error'=>$e->getMessage()], 409);
+            return response()->json(['message' => 'Le prospect n\'a pas pu être créé !','error'=>$e->getMessage()], 409);
         }
 
     }
-   
-}
+
+    /** SHOW ALL PROPERTIES
+     * Get all properties.
+     *
+     * 
+     * @return Response
+     */
+    public function allProperties()
+    {
+        return response()->json(['property' => Property::all()]);
+    }
+
+    /** SHOW ONE PROPERTY
+     * Get a single property.
+     *
+     * @param int $id
+     * @return Response
+     */
+    public function singleProperty($id)
+    {
+        try {
+            $property = Property::findOrFail($id);
+
+            return response()->json(['property' => $property], 200);
+
+        } catch (\Exception $e) {
+            
+            return response()->json(['message' => 'La propriété n\'a pas été trouvé !'], 404);
+        }
+    }
+
+    /** UPDATE A PROPERTY
+     * update a single property.
+     *
+     * @param int $id
+     * @return Response
+     */
+    public function updateProperty($id, Request $request)
+    {
+        try{
+            $property = Property::findOrFail($id);
+            $propertyType = PropertyType::findOrFail($property->id_property_type);
+            $propertyCategory = PropertyCategory::findOrFail($propertyType->id_property_category);
+            $kitchen = Kitchen::findOrFail($property->id_kitchen);
+            $heater = Heater::findOrFail($property->id_heater);
+            $room = Room::findOrFail($property->id);
+
+            foreach ($room as $key) {
+                $roomType = RoomType::findOrFail($key->id_room_type);
+            } 
+            
+            $property->update($request->all());
+            return response()->json($property, 200);
+            return response()->json($propertyType, 200);
+            return response()->json($propertyCategory, 200);
+            return response()->json($kitchen, 200);
+            return response()->json($heater, 200);
+            return response()->json($room, 200);
+            return response()->json($roomType, 200);
+
+        } catch (\Exception $e) {
+
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
+        }
+        
+    }
+
+}   

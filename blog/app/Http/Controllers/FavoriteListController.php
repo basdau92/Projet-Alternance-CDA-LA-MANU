@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Property;
+use App\Models\FavoriteList;
 use Illuminate\Support\Facades\Auth;
 
 class FavoriteListController extends Controller
@@ -17,17 +17,16 @@ class FavoriteListController extends Controller
      */
     public function showFavoriteList()
     {   
-        $favoriteList = new Property();
-        
         try {
-            $favoriteList->belongsToFavoriteList()
-                     ->where(Auth::userOrFail()->id)
-                     ->get();
+
+            $favoriteList = FavoriteList::with(['hasManyProperties'])
+                                        ->where('id_client', Auth::userOrFail()->id)
+                                        ->get();
             return response()->json(['favorite_list' => $favoriteList], 200);
 
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'list not found!','error'=>$e->getMessage()], 404);
+            return response()->json(['message' => 'La liste de favoris n\'a pas été trouvé!','error'=>$e->getMessage()], 404);
         }
     }
 }

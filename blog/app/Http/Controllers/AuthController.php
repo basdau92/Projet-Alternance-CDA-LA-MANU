@@ -19,6 +19,12 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login','register']]);
     }
 
+    /**
+     * Register new client
+     *
+     * @param Request $request
+     * @return Response
+     */
     public function register(Request $request)
     {
         //validate incoming request 
@@ -47,7 +53,7 @@ class AuthController extends Controller
 
         } catch (\Exception $e) {
             //return error message
-            return response()->json(['message' => 'Client Registration Failed!'], 409);
+            return response()->json(['message' => 'L\'enregistrement du client a échoué !'], 409);
         }
 
     }
@@ -60,7 +66,7 @@ class AuthController extends Controller
         ]);
         $credentials = $request->only(['mail', 'password']);
         if (!$token = Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'ACCÈS NON AUTORISÉ! VEUILLEZ VOUS AUTHENTIFIER.'], 401);
         }
         return $this->respondWithToken($token);
     }
@@ -84,7 +90,7 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'Vous avez été connecté avec succès !']);
     }
 
     /**

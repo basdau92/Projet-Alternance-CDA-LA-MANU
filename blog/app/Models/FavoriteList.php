@@ -10,8 +10,8 @@ class FavoriteList extends Model
     /**
      * get the properties for the favorite's list
      */
-    // public function hasManyProperties()
-    // {
-    //     return $this->belongsTo(Property::class);
-    // }
+    public function hasManyProperties()
+    {
+        return $this->belongsTo(Property::class,'id_property','id');
+    }
 }
