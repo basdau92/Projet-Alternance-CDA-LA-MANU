@@ -26,11 +26,14 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
 
 $router->group(['prefix' => 'client'], function () use ($router) {
 
+    $router->get('/my-favorites', 'FavoriteListController@showFavoriteList');
+    $router->post('/document', 'ClientController@uploadDocument');
     $router->get('/{id}', 'ClientController@singleClient');
     $router->get('/', 'ClientController@allClients');
     $router->delete('/{id}', 'ClientController@deleteClient');
     $router->put('/{id}', 'ClientController@updateClient'); 
 });
+<<<<<<< HEAD
 
 $router->group(['prefix' => 'property'], function () use ($router) {
     $router->post('/', 'PropertyController@create');
@@ -39,3 +42,5 @@ $router->group(['prefix' => 'property'], function () use ($router) {
     $router->put('/{id}', 'PropertyController@updateProperty');
 });
 $router->get('/mes-favoris', 'FavoriteListController@showFavoriteList');
+=======
+>>>>>>> IB
