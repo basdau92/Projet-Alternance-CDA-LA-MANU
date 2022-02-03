@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
-use App\Models\ClientDocument;
 use Illuminate\Http\Request;
+use App\Models\ClientDocument;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\Response;
 
 class ClientController extends Controller
 {
@@ -73,7 +75,7 @@ class ClientController extends Controller
     {
         try {
             Client::findOrFail($id)->delete();
-            return response('Deleted Successfully', 200);
+            return response('La ressource a bien été supprimé !', 200);
         } catch (\Exception $e) {
 
             return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
@@ -105,6 +107,7 @@ class ClientController extends Controller
                     $clientDocument->id_client = Auth::userOrFail()->id;
 
                     $request->file('document')->move($destination_path, $document); // move the file to storage/client
+                    $clientDocument->name = $filename;
                     $clientDocument->path = $destination_path;
                     $clientDocument->save();
 
@@ -115,6 +118,38 @@ class ClientController extends Controller
             }
         } catch (\Exception $e) {
             return response()->json(['message' => 'Le fichier ne peut pas être uploadé!', 'error' => $e->getMessage()], 409);
+        }
+    }
+
+    /**
+     * Authorize delete of documents
+     *
+     * @param [type] $id
+     * @return void
+     */
+    public function deleteDocument($id)
+    {
+        try {
+            ClientDocument::findOrFail($id)->delete();
+            return response('La ressource a bien été supprimé !', 200);
+        } catch (\Exception $e) {
+
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
+        }
+    }
+
+    public function readDocument($filename)
+    {
+        $exists = Storage::disk('storage')->exists('client/'.$filename);
+
+        if($exists) {
+            $content = Storage::get('storage/client/' . $filename);
+            $mime = Storage::mimeType('storage/client/'.$filename);
+            $response = Response::make($content, 200);       
+            $response->header('Content-Type', $mime);
+            return $response;
+        } else {
+           return 'error';
         }
     }
 }
