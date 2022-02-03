@@ -19,6 +19,12 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login','register']]);
     }
 
+    /**
+     * Register new client
+     *
+     * @param Request $request
+     * @return Response
+     */
     public function register(Request $request)
     {
         //validate incoming request 
