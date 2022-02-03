@@ -33,7 +33,7 @@ $router->group(['prefix' => 'client'], function () use ($router) {
 });
 
 $router->group(['prefix' => 'property'], function () use ($router) {
-    $router->post('add','PropertyController@create');
+    $router->post('/','PropertyController@create');
     
 });
 $router->get('/mes-favoris', 'FavoriteListController@showFavoriteList');
