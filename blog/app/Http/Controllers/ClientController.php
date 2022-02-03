@@ -32,7 +32,7 @@ class ClientController extends Controller
 
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'client not found!'], 404);
+            return response()->json(['message' => 'Le client n\'a pas été trouvé!'], 404);
         }
     }
 
@@ -104,11 +104,11 @@ class ClientController extends Controller
                 return $result;
                 
                 } else {
-                    return $this->result['message'] = 'The extension\'s file isn\'t correct!';
+                    return $this->result['message'] = 'L\'extension du fichier n\'est pas autorisée!';
                 }
 
         } else {
-            return $this->result['message'] = 'Cannot upload file';
+            return $this->result['message'] = 'Le fichier ne peut pas être uploadé!';
         }
     }
 }
