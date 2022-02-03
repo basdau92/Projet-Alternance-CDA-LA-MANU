@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Property;
 use App\Models\FavoriteList;
 use Illuminate\Support\Facades\Auth;
 
