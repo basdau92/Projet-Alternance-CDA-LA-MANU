@@ -73,7 +73,7 @@ class PropertyController extends Controller
 
         } catch (\Exception $e) {
             //return error message
-            return response()->json(['message' => 'Property create Failed!','error'=>$e->getMessage()], 409);
+            return response()->json(['message' => 'Le prospect n\'a pas pu être créé !','error'=>$e->getMessage()], 409);
         }
 
     }
@@ -104,7 +104,7 @@ class PropertyController extends Controller
 
         } catch (\Exception $e) {
             
-            return response()->json(['message' => 'property not found !'], 404);
+            return response()->json(['message' => 'La propriété n\'a pas été trouvé !'], 404);
         }
     }
 

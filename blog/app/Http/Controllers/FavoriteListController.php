@@ -26,7 +26,7 @@ class FavoriteListController extends Controller
 
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'list not found!','error'=>$e->getMessage()], 404);
+            return response()->json(['message' => 'La liste de favoris n\'a pas été trouvé!','error'=>$e->getMessage()], 404);
         }
     }
 }
