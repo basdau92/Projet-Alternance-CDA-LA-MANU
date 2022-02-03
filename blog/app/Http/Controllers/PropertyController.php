@@ -8,6 +8,7 @@ use App\Models\PropertyCategory;
 use App\Models\Heater;
 use App\Models\Kitchen;
 use App\Models\Room;
+use App\Models\RoomType;
 
 use Illuminate\Http\Request;
 
@@ -126,10 +127,16 @@ class PropertyController extends Controller
             $kitchen = Kitchen::findOrFail($property->id_kitchen);
             $heater = Heater::findOrFail($property->id_heater);
             $room = Room::findOrFail($property->id);
+            $roomType = RoomType::findOrFail($key->id_room_type);
             
-        
             $property->update($request->all());
             return response()->json($property, 200);
+            return response()->json($propertyType, 200);
+            return response()->json($propertyCategory, 200);
+            return response()->json($kitchen, 200);
+            return response()->json($heater, 200);
+            return response()->json($room, 200);
+            return response()->json($roomType, 200);
 
         } catch (\Exception $e) {
 
