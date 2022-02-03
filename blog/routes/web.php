@@ -33,7 +33,6 @@ $router->group(['prefix' => 'client'], function () use ($router) {
     $router->delete('/{id}', 'ClientController@deleteClient');
     $router->put('/{id}', 'ClientController@updateClient'); 
 });
-<<<<<<< HEAD
 
 $router->group(['prefix' => 'property'], function () use ($router) {
     $router->post('/', 'PropertyController@create');
@@ -42,5 +41,3 @@ $router->group(['prefix' => 'property'], function () use ($router) {
     $router->put('/{id}', 'PropertyController@updateProperty');
 });
 $router->get('/mes-favoris', 'FavoriteListController@showFavoriteList');
-=======
->>>>>>> IB
