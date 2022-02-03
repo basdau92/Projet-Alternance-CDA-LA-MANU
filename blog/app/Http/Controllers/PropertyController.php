@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Property;
 use App\Models\PropertyType;
+use App\Models\PropertyCategory;
+use App\Models\Heater;
+use App\Models\Kitchen;
 use App\Models\Room;
 
 use Illuminate\Http\Request;
@@ -120,8 +123,11 @@ class PropertyController extends Controller
             $property = Property::findOrFail($id);
             $propertyType = PropertyType::findOrFail($property->id_property_type);
             $propertyCategory = PropertyCategory::findOrFail($propertyType->id_property_category);
-            $propertyPicture = PropertyPicture::findOrFail($propertyCategory->id_property_type);
+            $kitchen = Kitchen::findOrFail($property->id_kitchen);
+            $heater = Heater::findOrFail($property->id_heater);
+            $room = Room::findOrFail($property->id);
             
+        
             $property->update($request->all());
             return response()->json($property, 200);
 
