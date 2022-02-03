@@ -127,7 +127,10 @@ class PropertyController extends Controller
             $kitchen = Kitchen::findOrFail($property->id_kitchen);
             $heater = Heater::findOrFail($property->id_heater);
             $room = Room::findOrFail($property->id);
-            $roomType = RoomType::findOrFail($key->id_room_type);
+
+            foreach ($room as $key) {
+                $roomType = RoomType::findOrFail($key->id_room_type);
+            } 
             
             $property->update($request->all());
             return response()->json($property, 200);
