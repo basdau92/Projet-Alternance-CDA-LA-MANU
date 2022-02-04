@@ -138,9 +138,17 @@ class PropertyController extends Controller
      * 
      * @return Response
      */
-    public function allProperties()
+    public function allProperties(Request $request)
     {
-        return response()->json(['property' => Property::all()]);
+        try {
+            $allProperties = Property::all();
+
+            
+
+        } catch (\Exception $e) {
+            
+            return response()->json(['message' => 'La propriété n\'a pas été trouvé !'], 404);
+        }
     }
 
     /** SHOW ONE PROPERTY
@@ -177,23 +185,13 @@ class PropertyController extends Controller
             $kitchen = Kitchen::findOrFail($property->id_kitchen);
             $heater = Heater::findOrFail($property->id_heater);
             $room = Room::findOrFail($property->id);
-
-            foreach ($room as $key) {
-                $roomType = RoomType::findOrFail($key->id_room_type);
-            } 
             
             $property->update($request->all());
             return response()->json($property, 200);
-            return response()->json($propertyType, 200);
-            return response()->json($propertyCategory, 200);
-            return response()->json($kitchen, 200);
-            return response()->json($heater, 200);
-            return response()->json($room, 200);
-            return response()->json($roomType, 200);
 
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l\'état actuel.', $error->getmessage()], 409);
         }
         
     }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Property extends Model
 {
-    protected $table = 'property';
+    protected $table = 'property'; 
 
     /**
      * The attributes that are mass assignable.
