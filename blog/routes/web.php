@@ -28,6 +28,8 @@ $router->group(['prefix' => 'client'], function () use ($router) {
 
     $router->get('/my-favorites', 'FavoriteListController@showFavoriteList');
     $router->post('/document', 'ClientController@uploadDocument');
+    $router->delete('/document/{id}', 'ClientController@deleteDocument');
+    $router->get('/my-documents', 'ClientController@readDocument');
     $router->get('/{id}', 'ClientController@singleClient');
     $router->get('/', 'ClientController@allClients');
     $router->delete('/{id}', 'ClientController@deleteClient');
