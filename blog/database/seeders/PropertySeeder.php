@@ -17,6 +17,10 @@ class PropertySeeder extends Seeder
     {
         DB::table('property')->insert([
             [
+                'id_property_type' => 1, 
+                'id_kitchen' => 1, 
+                'id_heater' => 1,
+                'id_energy_audit' => 1,
                 'name' => 'Résidence Launey ', 
                 'price' => 630500, 
                 'number' => 12, 
@@ -29,13 +33,15 @@ class PropertySeeder extends Seeder
                 'is_furnished' => true, 
                 'is_available' => true,
                 'is_prospect' => false, 
-                'id_property_type' => 1, 
-                'id_kitchen' => 1, 
-                'id_heater' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ], 
             [
+                
+                'id_property_type' => 2, 
+                'id_kitchen' => 2, 
+                'id_heater' => 2,
+                'id_energy_audit' => 2,
                 'name' => 'Maison rue Berlioz ', 
                 'price' => 7500000, 
                 'number' => 3, 
@@ -47,14 +53,15 @@ class PropertySeeder extends Seeder
                 'floor' => 0, 
                 'is_furnished' => true, 
                 'is_available' => true,
-                'is_prospect' => false, 
-                'id_property_type' => 2, 
-                'id_kitchen' => 2, 
-                'id_heater' => 2,
+                'is_prospect' => false,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
+                'id_property_type' => 3, 
+                'id_kitchen' => 3, 
+                'id_heater' => 3,
+                'id_energy_audit' => 3,
                 'name' => 'Studio Priredux F1 ',
                 'price' => 203875, 
                 'number' => 24, 
@@ -66,10 +73,7 @@ class PropertySeeder extends Seeder
                 'floor' => 2, 
                 'is_furnished' => false, 
                 'is_available' => true,
-                'is_prospect' => false, 
-                'id_property_type' => 3, 
-                'id_kitchen' => 3, 
-                'id_heater' => 3,
+                'is_prospect' => false,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
