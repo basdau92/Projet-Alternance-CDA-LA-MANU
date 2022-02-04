@@ -213,7 +213,7 @@ class PropertyController extends Controller
             $allProperties = Property::all(); 
             // dd($allProperties);
 
-            // $getAll = $allProperties
+            $getAll = $allProperties;
             
             return response()->json($allProperties, 200);
 
