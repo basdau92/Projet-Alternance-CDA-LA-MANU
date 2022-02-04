@@ -206,7 +206,7 @@ class PropertyController extends Controller
      * 
      * @return Response
      */
-    public function allProperties()
+    public function allProperties() /*Faire commentaires, essayer de trouver moyen d'appeler méthode dans modèle Property*/
     {
         try {
 
@@ -229,10 +229,10 @@ class PropertyController extends Controller
      * @param int $id
      * @return Response
      */
-    public function singleProperty($id)
+    public function singleProperty($id) /*Faire commentaires */
     {
         try {
-            $property = Property::findOrFail($id);
+            $property = Property::findOrFail($id); 
 
             return response()->json(['property' => $property], 200);
 
@@ -248,7 +248,7 @@ class PropertyController extends Controller
      * @param int $id
      * @return Response
      */
-    public function updateProperty($id, Request $request)
+    public function updateProperty($id, Request $request) /*Faire commentaires + validate() */
     {
         try{
             $property = Property::findOrFail($id);
