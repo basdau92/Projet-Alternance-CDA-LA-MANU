@@ -16,6 +16,7 @@ class CreateClientDocumentTable extends Migration
         Schema::create('client_document', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('id_client')->constrained('client');
+            $table->string('name');
             $table->string('path');
             $table->timestamps();
         });

@@ -32,12 +32,13 @@ class PropertyController extends Controller
        $this->middleware('auth:api');
     }
 
-    public function compareSizeArray($array1,$array2,$array3)
+    public function compareSizeArray($tab)
     {
-        $tab = [count($array1),count($array2),count($array3)];
         $value = max($tab);
-        $key = array_search($value,$tab);
-        return $key;   
+        $maxSize = count($value);
+        $maxName = array_search($value,$tab);
+
+        return [$maxSize,$maxName];   
     }
 
     public function create(Request $request)
@@ -75,25 +76,27 @@ class PropertyController extends Controller
             $property->is_prospect = true;
             $property->id_kitchen = $request->input('id_kitchen');
             $property->id_heater = $request->input('id_heater');
+            $property->id_energy_audit = $request->input('id_energy_audit');
 
+            // Données appartenant à propertyType
             $propertyType->name = $request->input('name_property_type');
             $propertyType->id_property_category = $request->input('id_property_category');
-            $propertyType->id_energy_audit = $request->input('id_energy_audit');
 
+            // Récupérer les donnés envoyés sous forme de tableau
             $rooms = unserialize($request->input('room'));
 
             $hygienes = unserialize($request->input('hygiene'));
             $outdoors = unserialize($request->input('outdoor'));
             $annexes = unserialize($request->input('annexe'));
-            //dd($annexes);
-
-            //$maxTab = $this->compareSizeArray($hygienes,$outdoors,$annexes);
+            $parkingNumbers = unserialize($request->input('parking_number'));
             
+
             $propertyType->save();
             $property->id_property_type = $propertyType->id;
             
             $property->save();
 
+            // Insérer les rooms associés à un property
             foreach($rooms as $r)
             {
                 $room = new Room();
@@ -103,27 +106,92 @@ class PropertyController extends Controller
                 $room->save();
             }
 
-            for($i=0;$i<5;$i++)
+            // Insérer les features_list associés à un property
+            $tab = ['annexe'=>$annexes,'outdoor'=>$outdoors,'hygiene'=>$hygienes];
+
+            $max = $this->compareSizeArray($tab);
+            $maxSize = $max[0];
+            $maxName = $max[1];
+            switch($maxName)
             {
-                $featuresList = new FeaturesList();
-                $featuresList->id_property = $property->id;
-
-                $featuresList->id_annexe = $annexes[$i];
-
-                if(array_key_exists($i,$outdoors))
+                case 'annexe':
                 {
-                    $featuresList->id_outdoor = $outdoors[$i];
-                }
-                if(array_key_exists($i,$hygienes))
-                {
-                   $featuresList->id_hygiene = $hygienes[$i];
-                }
-                $featuresList->save();
+                    for($i=0;$i<$maxSize;$i++)
+                    {
+                        $featuresList = new FeaturesList();
+                        $featuresList->id_property = $property->id;
 
+                        $featuresList->id_annexe = $annexes[$i];
+
+                        if(array_key_exists($i,$outdoors))
+                        {
+                            $featuresList->id_outdoor = $outdoors[$i];
+                        }
+                        if(array_key_exists($i,$hygienes))
+                        {
+                        $featuresList->id_hygiene = $hygienes[$i];
+                        }
+                        $featuresList->save();
+
+                    }
+
+                    break;
+                }
+                case 'outdoor':
+                {
+                    for($i=0;$i<$maxSize;$i++)
+                    {
+                        $featuresList = new FeaturesList();
+                        $featuresList->id_property = $property->id;
+
+                        $featuresList->id_outdoor = $outdoors[$i];
+
+                        if(array_key_exists($i,$annexes))
+                        {
+                            $featuresList->id_annexe = $annexes[$i];
+                        }
+                        if(array_key_exists($i,$hygienes))
+                        {
+                        $featuresList->id_hygiene = $hygienes[$i];
+                        }
+                        $featuresList->save();
+
+                    }
+
+                    break;
+                }
+                case 'hygiene':
+                {
+                    for($i=0;$i<$maxSize;$i++)
+                    {
+                        $featuresList = new FeaturesList();
+                        $featuresList->id_property = $property->id;
+
+                        $featuresList->id_hygiene = $hygienes[$i];
+
+                        if(array_key_exists($i,$annexes))
+                        {
+                            $featuresList->id_annexe = $annexes[$i];
+                        }
+                        if(array_key_exists($i,$outdoors))
+                        {
+                        $featuresList->id_outdoor = $outdoors[$i];
+                        }
+                        $featuresList->save();
+
+                    }
+
+                    break;
+                }
             }
 
+            // Insérer les parkingNumber de chaque annexe
+
+
+
+
             //return successful response
-              return response()->json(['property' => $property,'property_type' => $propertyType, 'room' => $room,'message' => 'CREATED'], 201);
+             return response()->json(['property' => $property,'property_type' => $propertyType, 'room' => $room,'message' => 'CREATED'], 201);
 
         } catch (\Exception $e) {
             //return error message
@@ -138,12 +206,16 @@ class PropertyController extends Controller
      * 
      * @return Response
      */
-    public function allProperties(Request $request)
+    public function allProperties()
     {
         try {
-            $allProperties = Property::all();
 
+            $allProperties = Property::all(); 
+            // dd($allProperties);
+
+            // $getAll = $allProperties
             
+            return response()->json($allProperties, 200);
 
         } catch (\Exception $e) {
             
@@ -184,16 +256,15 @@ class PropertyController extends Controller
             $propertyCategory = PropertyCategory::findOrFail($propertyType->id_property_category);
             $kitchen = Kitchen::findOrFail($property->id_kitchen);
             $heater = Heater::findOrFail($property->id_heater);
-            $room = Room::findOrFail($property->id);
-            
+
             $property->update($request->all());
             return response()->json($property, 200);
+           
 
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l\'état actuel.', $error->getmessage()], 409);
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.','error'=>$e->getMessage()], 409);
         }
         
     }
-
 }   
