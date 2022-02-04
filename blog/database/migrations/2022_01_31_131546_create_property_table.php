@@ -18,6 +18,7 @@ class CreatePropertyTable extends Migration
             $table->foreignId('id_property_type')->nullable()->constrained('property_type');
             $table->foreignId('id_kitchen')->nullable()->constrained('kitchen');
             $table->foreignId('id_heater')->nullable()->constrained('heater');
+            $table->foreignId('id_energy_audit')->nullable()->constrained('energy_audit');
             $table->string('name');
             $table->integer('price');
             $table->integer('number');
