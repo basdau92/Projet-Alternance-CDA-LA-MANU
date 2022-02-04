@@ -178,10 +178,6 @@ class PropertyController extends Controller
             $heater = Heater::findOrFail($property->id_heater);
             $room = Room::findOrFail($property->id);
 
-            foreach ($room as $key) {
-                $roomType = RoomType::findOrFail($key->id_room_type);
-            } 
-            
             $property->update($request->all());
             return response()->json($property, 200);
             return response()->json($propertyType, 200);
@@ -189,13 +185,11 @@ class PropertyController extends Controller
             return response()->json($kitchen, 200);
             return response()->json($heater, 200);
             return response()->json($room, 200);
-            return response()->json($roomType, 200);
 
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.','error'=>$e->getMessage()], 409);
         }
         
     }
-
 }   

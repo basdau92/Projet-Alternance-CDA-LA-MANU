@@ -6,7 +6,7 @@ use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Models\ClientDocument;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Symfony\Component\HttpFoundation\Response;
 
 class ClientController extends Controller
@@ -121,6 +121,25 @@ class ClientController extends Controller
         }
     }
 
+    public function readDocument()
+    {
+        try {
+            $directory = storage_path('client');
+            $files = File::allFiles($directory);
+
+            foreach ($files as $file) {
+                $content = $file->getContents();
+                
+            }
+            // dd($content);
+
+            return response()->json(['document' => $content], 200);
+        } catch (\Exception $e) {
+
+            return response()->json(['message' => 'Le fichier n\'a pas été trouvé !', 'error' => $e->getMessage()], 404);
+        }
+    }
+
     /**
      * Authorize delete of documents
      *
@@ -135,21 +154,6 @@ class ClientController extends Controller
         } catch (\Exception $e) {
 
             return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
-        }
-    }
-
-    public function readDocument($filename)
-    {
-        $exists = Storage::disk('storage')->exists('client/'.$filename);
-
-        if($exists) {
-            $content = Storage::get('storage/client/' . $filename);
-            $mime = Storage::mimeType('storage/client/'.$filename);
-            $response = Response::make($content, 200);       
-            $response->header('Content-Type', $mime);
-            return $response;
-        } else {
-           return 'error';
         }
     }
 }
