@@ -208,7 +208,19 @@ class PropertyController extends Controller
      */
     public function allProperties()
     {
-        return response()->json(['property' => Property::all()]);
+        try {
+
+            $allProperties = Property::all(); 
+            // dd($allProperties);
+
+            $getAll = $allProperties;
+            
+            return response()->json($allProperties, 200);
+
+        } catch (\Exception $e) {
+            
+            return response()->json(['message' => 'La propriété n\'a pas été trouvé !'], 404);
+        }
     }
 
     /** SHOW ONE PROPERTY
