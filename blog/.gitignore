@@ -4,3 +4,7 @@ Homestead.json
 Homestead.yaml
 .env
 .phpunit.result.cache
+storage/client
+storage/energyAudit
+storage/propertyPictures
+

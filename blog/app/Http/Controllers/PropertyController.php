@@ -14,6 +14,10 @@ use App\Models\Outdoor;
 use App\Models\Annexe;
 use App\Models\FeaturesList;
 use App\Models\ParkingNumber;
+use App\Models\EnergyAudit;
+use App\Models\PropertyPicture;
+
+
 
 
 
@@ -244,6 +248,89 @@ class PropertyController extends Controller
         } catch (\Exception $e) {
             //return error message
             return response()->json(['message' => 'Le prospect n\'a pas pu être créé !','error'=>$e->getMessage()], 409);
+        }
+
+    }
+
+    /**
+     * Upload property pictures
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function uploadPropertyPictures(Request $request)
+    {
+        try {
+            $images = $request->file('images');
+            $id_property = $request->input('id_property');
+            
+            foreach($images as $image)
+            {
+                $extensionArray = array('jpg', 'png', 'jpeg', 'pdf', 'doc', 'docx', 'odt'); // Authorized extension
+                $filename = $image->hashName(); // Generate a unique, random name 
+                $file_ext = $image->extension(); // Determine the file's extension based on the file's MIME type
+                $document = time() . '.' . $filename;
+                $file_ext = $image->extension(); 
+                $destination_path = storage_path('propertyPictures');
+                if (in_array(strtolower($file_ext), $extensionArray)) {
+
+                    $propertyPicture = new PropertyPicture();
+                    $image->move($destination_path, $document); // move the file to storage/energyAudit
+                    $propertyPicture->title = $filename;
+                    $propertyPicture->path = $destination_path;
+                    $propertyPicture->alt = $request->input('alt');
+                    $propertyPicture->id_property = $id_property;
+                    $propertyPicture->save();  
+                }
+                
+            }
+            $result = PropertyPicture::where('id_property',$id_property)->get();
+
+            return response()->json(['property_pictures' => $result, 'message' => 'File uploaded !'], 201);
+
+            
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Le fichier ne peut pas être uploadé!', 'error' => $e->getMessage()], 409);
+        }
+
+
+    }
+
+    /**
+     * Upload energy audit file
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function uploadEnergyAudit(Request $request)
+    {
+        try {
+            // ensure the request has a file
+            if ($request->hasFile('energyAudit')) {
+
+                $extensionArray = array('jpg', 'png', 'jpeg', 'pdf', 'doc', 'docx', 'odt'); // Authorized extension
+                $file = $request->file('energyAudit'); // Retrieve file from the request
+                $filename = $file->hashName(); // Generate a unique, random name 
+                $file_ext = $file->extension(); // Determine the file's extension based on the file's MIME type
+                $document = time() . '.' . $filename;
+                $destination_path = storage_path('energyAudit'); // Save the file locally in the storage/energyAudit folder
+
+                if (in_array(strtolower($file_ext), $extensionArray)) {
+
+                    $energyAudit = new EnergyAudit();
+                    $request->file('energyAudit')->move($destination_path, $document); // move the file to storage/energyAudit
+                    $energyAudit->title = $filename;
+                    $energyAudit->path = $destination_path;
+                    $energyAudit->alt = $request->input('alt');
+                    $energyAudit->save();
+
+                    return response()->json(['energy_audit' => $energyAudit->id, 'message' => 'File uploaded !'], 201);
+                } else {
+                    return $this->result['message'] = 'L\'extension du fichier n\'est pas autorisée!';
+                }
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Le fichier ne peut pas être uploadé!', 'error' => $e->getMessage()], 409);
         }
 
     }
