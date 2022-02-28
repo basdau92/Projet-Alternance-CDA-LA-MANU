@@ -343,7 +343,19 @@ class PropertyController extends Controller
      */
     public function allProperties()
     {
-        return response()->json(['property' => Property::all()]);
+        try {
+
+            $allProperties = Property::all(); 
+            // dd($allProperties);
+
+            $getAll = $allProperties;
+            
+            return response()->json($allProperties, 200);
+
+        } catch (\Exception $e) {
+            
+            return response()->json(['message' => 'La propriété n\'a pas été trouvé !'], 404);
+        }
     }
 
     /** SHOW ONE PROPERTY
@@ -379,15 +391,10 @@ class PropertyController extends Controller
             $propertyCategory = PropertyCategory::findOrFail($propertyType->id_property_category);
             $kitchen = Kitchen::findOrFail($property->id_kitchen);
             $heater = Heater::findOrFail($property->id_heater);
-            $room = Room::findOrFail($property->id);
 
             $property->update($request->all());
             return response()->json($property, 200);
-            return response()->json($propertyType, 200);
-            return response()->json($propertyCategory, 200);
-            return response()->json($kitchen, 200);
-            return response()->json($heater, 200);
-            return response()->json($room, 200);
+           
 
         } catch (\Exception $e) {
 

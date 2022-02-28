@@ -30,6 +30,7 @@ $router->group(['prefix' => 'client'], function () use ($router) {
     $router->post('/document', 'ClientController@uploadDocument');
     $router->delete('/document/{id}', 'ClientController@deleteDocument');
     $router->get('/my-documents', 'ClientController@readDocument');
+    $router->get('/my-document', 'ClientController@readSingleDocument');
     $router->get('/{id}', 'ClientController@singleClient');
     $router->get('/', 'ClientController@allClients');
     $router->delete('/{id}', 'ClientController@deleteClient');
@@ -46,4 +47,3 @@ $router->group(['prefix' => 'property'], function () use ($router) {
     $router->get('/', 'PropertyController@allProperties');
     $router->put('/{id}', 'PropertyController@updateProperty');
 });
-$router->get('/mes-favoris', 'FavoriteListController@showFavoriteList');

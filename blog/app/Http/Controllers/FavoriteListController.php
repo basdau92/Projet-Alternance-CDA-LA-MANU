@@ -19,7 +19,7 @@ class FavoriteListController extends Controller
     {   
         try {
 
-            $favoriteList = FavoriteList::with(['hasManyProperties'])
+            $favoriteList = FavoriteList::with(['favoriteList'])
                                         ->where('id_client', Auth::userOrFail()->id)
                                         ->get();
             return response()->json(['favorite_list' => $favoriteList], 200);

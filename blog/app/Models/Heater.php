@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Heater extends Model
 {
     protected $table = 'heater';
+
 }
