@@ -19,18 +19,18 @@ $router->get('/', function () use ($router) {
 
 // API route group
 $router->group(['prefix' => 'auth'], function () use ($router) {
+
     $router->post('register', 'AuthController@register');
     $router->post('login', 'AuthController@login');
-    
 });
 
 $router->group(['prefix' => 'client'], function () use ($router) {
 
     $router->get('/my-favorites', 'FavoriteListController@showFavoriteList');
-    $router->post('/document', 'ClientController@uploadDocument');
+    $router->post('/document', 'ClientController@upload');
     $router->delete('/document/{id}', 'ClientController@deleteDocument');
-    $router->get('/my-documents', 'ClientController@readDocument');
-    $router->get('/my-document', 'ClientController@readSingleDocument');
+    $router->get('/my-documents', 'ClientController@readFiles');
+    $router->get('/my-document/{id}', 'ClientController@readSingleDocument');
     $router->get('/{id}', 'ClientController@singleClient');
     $router->get('/', 'ClientController@allClients');
     $router->delete('/{id}', 'ClientController@deleteClient');
@@ -38,6 +38,7 @@ $router->group(['prefix' => 'client'], function () use ($router) {
 });
 
 $router->group(['prefix' => 'property'], function () use ($router) {
+
     $router->post('/', 'PropertyController@create');
     $router->get('/{id}', 'PropertyController@singleProperty');
     $router->get('/', 'PropertyController@allProperties');
