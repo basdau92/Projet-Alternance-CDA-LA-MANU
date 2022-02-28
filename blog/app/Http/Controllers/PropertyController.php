@@ -210,16 +210,13 @@ class PropertyController extends Controller
     {
         try {
 
-            $allProperties = Property::all(); 
-            // dd($allProperties);
+            $getAllDatas = Property::with(['hasOneEnergyAudits', 'hasOnePropertyTypes'])->get();
 
-            $getAll = $allProperties;
-            
-            return response()->json($allProperties, 200);
+            return response()->json(['property'=>$getAllDatas], 200);
 
         } catch (\Exception $e) {
             
-            return response()->json(['message' => 'La propriété n\'a pas été trouvé !'], 404);
+            return response()->json(['message' => 'La propriété n\'a pas été trouvé !', 'Error'=>$e->getMessage()], 404);
         }
     }
 
