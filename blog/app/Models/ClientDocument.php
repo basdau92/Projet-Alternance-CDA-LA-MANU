@@ -22,6 +22,6 @@ class ClientDocument extends Model
      */
     public function showDocument()
     {
-        return $this->belongsTo(Client::class,'id_client','id');
+        return $this->belongsTo(ClientDocument::class,'id_client','id');
     }
 }
