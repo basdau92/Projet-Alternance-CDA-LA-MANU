@@ -15,7 +15,7 @@ class CreateClientTable extends Migration
     {
         Schema::create('client', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('id_agency')->constrained('agency');
+            $table->foreignId('id_agency')->nullable()->constrained('agency');
             $table->string('lastname');
             $table->string('firstname');
             $table->string('mail');

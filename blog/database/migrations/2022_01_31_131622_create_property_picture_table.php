@@ -18,8 +18,8 @@ class CreatePropertyPictureTable extends Migration
             $table->foreignId('id_property')->constrained('property');
             $table->string('title');
             $table->string('path');
-            $table->string('alt');
-            $table->integer('order');
+            $table->string('alt')->nullable();
+            $table->integer('order')->nullable();
             $table->timestamps();
         });
     }
