@@ -31,11 +31,13 @@ $router->group(['prefix' => 'client'], function () use ($router) {
     $router->delete('/documents/{id}', 'ClientController@deleteFile');
     $router->put('/documents/{id}', 'ClientController@updateFile');
     $router->get('/documents', 'ClientController@readFiles');
-    // $router->get('/my-document/{id}', 'ClientController@readSingleDocument');
+    $router->post('/add-favorites', 'FavoriteListController@createFavoriteList');
+    $router->delete('delete-favorites/{id}', 'FavoriteListController@deleteFavoriteList');
     $router->get('/{id}', 'ClientController@singleClient');
     $router->get('/', 'ClientController@allClients');
     $router->delete('/{id}', 'ClientController@deleteClient');
     $router->put('/{id}', 'ClientController@updateClient'); 
+
 });
 
 $router->group(['prefix' => 'property'], function () use ($router) {

@@ -3,20 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\EnergyAudit;
 use App\Models\PropertyType;
+use App\Models\PropertyCategory;
 
 class Property extends Model
 {
-    protected $table = 'property';
-    
-    /**
-     * Get the types of all properties  
-     */
-    public function hasManyProperties(){
-        
-        return $this->hasMany(PropertyType::class);
-    }
-
     /**
      * The attributes that are mass assignable.
      *
@@ -52,14 +44,28 @@ class Property extends Model
     ];
 
     /**
-     * Retrieve all properties by name.
-     * 
-     * 
+     * Define table that should be used by the model.  
      */
-    // public function getAllProperties() {
-    //     foreach (Property::all() as $property) {
-    //         echo $property->name;
-    //     }
-    // }
+    protected $table = 'property';
 
+    /**
+     * Relationship "One To One" with the EnergyAudit model table. 
+     */
+    public function EnergyAudits(){
+        return $this->hasOne(EnergyAudit::class, 'id', 'id');
+    }
+    
+    /**
+     * Relationship "One To One" with the PropertyType model table.
+     */
+    public function PropertyTypes(){
+        return $this->hasOne(PropertyType::class, 'id', 'id');
+    }
+
+    /**
+     * Relationship "One To One through intermediate model" with the PropertyCategory model table.
+     */
+    public function PropertyCategories(){
+        return $this->hasOneThrough(PropertyCategory::class, PropertyType::class, 'id', 'id');
+    }
 }
