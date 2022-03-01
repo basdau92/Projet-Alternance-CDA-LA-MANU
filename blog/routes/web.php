@@ -27,15 +27,18 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
 $router->group(['prefix' => 'client'], function () use ($router) {
 
     $router->get('/my-favorites', 'FavoriteListController@showFavoriteList');
-    $router->post('/documents', 'ClientController@upload');
-    $router->delete('/my-documents/{id}', 'ClientController@deleteFile');
-    $router->put('/my-documents/{id}', 'ClientController@updateFile');
+    $router->post('/add-favorites', 'FavoriteListController@createFavoriteList');
+    $router->delete('delete-favorites/{id}', 'FavoriteListController@deleteFavoriteList');
+
+    $router->post('/document', 'ClientController@upload');
+    $router->delete('/document/{id}', 'ClientController@deleteDocument');
     $router->get('/my-documents', 'ClientController@readFiles');
     // $router->get('/my-document/{id}', 'ClientController@readSingleDocument');
     $router->get('/{id}', 'ClientController@singleClient');
     $router->get('/', 'ClientController@allClients');
     $router->delete('/{id}', 'ClientController@deleteClient');
     $router->put('/{id}', 'ClientController@updateClient'); 
+
 });
 
 $router->group(['prefix' => 'property'], function () use ($router) {
