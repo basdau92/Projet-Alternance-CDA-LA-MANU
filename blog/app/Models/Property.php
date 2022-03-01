@@ -3,10 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\PropertyType;
 
 class Property extends Model
 {
     protected $table = 'property';
+    
+    /**
+     * Get the types of all properties  
+     */
+    public function hasManyProperties(){
+        
+        return $this->hasMany(PropertyType::class);
+    }
 
     /**
      * The attributes that are mass assignable.

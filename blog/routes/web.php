@@ -40,6 +40,10 @@ $router->group(['prefix' => 'client'], function () use ($router) {
 $router->group(['prefix' => 'property'], function () use ($router) {
 
     $router->post('/', 'PropertyController@create');
+    $router->post('/pictures', 'PropertyController@uploadPropertyPictures');
+    $router->post('/energy-audit', 'PropertyController@uploadEnergyAudit');
+
+
     $router->get('/{id}', 'PropertyController@singleProperty');
     $router->get('/', 'PropertyController@allProperties');
     $router->put('/{id}', 'PropertyController@updateProperty');

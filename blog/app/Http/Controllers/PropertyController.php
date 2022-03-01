@@ -13,6 +13,13 @@ use App\Models\Hygiene;
 use App\Models\Outdoor;
 use App\Models\Annexe;
 use App\Models\FeaturesList;
+use App\Models\ParkingNumber;
+use App\Models\EnergyAudit;
+use App\Models\PropertyPicture;
+
+
+
+
 
 
 
@@ -105,6 +112,7 @@ class PropertyController extends Controller
                 $room->id_room_type = $r;
                 $room->save();
             }
+            
 
             // Insérer les features_list associés à un property
             $tab = ['annexe'=>$annexes,'outdoor'=>$outdoors,'hygiene'=>$hygienes];
@@ -112,6 +120,10 @@ class PropertyController extends Controller
             $max = $this->compareSizeArray($tab);
             $maxSize = $max[0];
             $maxName = $max[1];
+            // Resultat des parkingNumber insérer
+            $resultParkingNumbers = [];
+
+            //Insértion des annexes, outdoors et hygienes dans la table featuresList
             switch($maxName)
             {
                 case 'annexe':
@@ -122,6 +134,20 @@ class PropertyController extends Controller
                         $featuresList->id_property = $property->id;
 
                         $featuresList->id_annexe = $annexes[$i];
+                        array_push($resultParkingNumbers,[$annexes[$i] => ParkingNumber::where('id_annexe',$annexes[$i])->get()]);
+
+
+                        // Insérer les parkingNumber de chaque annexe
+
+                        $parkingNumber = $parkingNumbers[$i];
+                        $sizeParkingNumber = count($parkingNumber);
+                        for($j=0;$j<$sizeParkingNumber;$j++)
+                        {
+                            $pn = new ParkingNumber();
+                            $pn->id_annexe = $annexes[$i];
+                            $pn->number = $parkingNumber[$j];
+                            $pn->save();
+                        }
 
                         if(array_key_exists($i,$outdoors))
                         {
@@ -149,6 +175,20 @@ class PropertyController extends Controller
                         if(array_key_exists($i,$annexes))
                         {
                             $featuresList->id_annexe = $annexes[$i];
+
+                            // Insérer les parkingNumber de chaque annexe
+
+                            $parkingNumber = $parkingNumbers[$i];
+                            $sizeParkingNumber = count($parkingNumber);
+                            for($j=0;$j<$sizeParkingNumber;$j++)
+                            {
+                                $pn = new ParkingNumber();
+                                $pn->id_annexe = $annexes[$i];
+                                $pn->number = $parkingNumber[$j];
+                                $pn->save();
+                            }
+                            array_push($resultParkingNumbers,[$annexes[$i] => ParkingNumber::where('id_annexe',$annexes[$i])->get()]);
+
                         }
                         if(array_key_exists($i,$hygienes))
                         {
@@ -172,10 +212,24 @@ class PropertyController extends Controller
                         if(array_key_exists($i,$annexes))
                         {
                             $featuresList->id_annexe = $annexes[$i];
+
+                            // Insérer les parkingNumber de chaque annexe
+
+                            $parkingNumber = $parkingNumbers[$i];
+                            $sizeParkingNumber = count($parkingNumber);
+                            for($j=0;$j<$sizeParkingNumber;$j++)
+                            {
+                                $pn = new ParkingNumber();
+                                $pn->id_annexe = $annexes[$i];
+                                $pn->number = $parkingNumber[$j];
+                                $pn->save();
+                            }
+                            array_push($resultParkingNumbers,[$annexes[$i] => ParkingNumber::where('id_annexe',$annexes[$i])->get()]);
+
                         }
                         if(array_key_exists($i,$outdoors))
                         {
-                        $featuresList->id_outdoor = $outdoors[$i];
+                            $featuresList->id_outdoor = $outdoors[$i];
                         }
                         $featuresList->save();
 
@@ -184,18 +238,99 @@ class PropertyController extends Controller
                     break;
                 }
             }
-
-            // Insérer les parkingNumber de chaque annexe
-
-
-
-
+             $resultRooms = Room::where('id_property',$property->id)->get();
+             $resultfeaturesList = FeaturesList::where('id_property',$property->id)->get();
+            //dd($request);
+            
             //return successful response
-             return response()->json(['property' => $property,'property_type' => $propertyType, 'room' => $room,'message' => 'CREATED'], 201);
-
+             return response()->json(['property' => $property,'property_type' => $propertyType,'rooms' => $resultRooms,'featuresList' => $resultfeaturesList,'parkingNumbers' =>$resultParkingNumbers ,'message' => 'CREATED'], 201);
+            //return response()->json(['rooms'=>$resultRooms],201);
         } catch (\Exception $e) {
             //return error message
             return response()->json(['message' => 'Le prospect n\'a pas pu être créé !','error'=>$e->getMessage()], 409);
+        }
+
+    }
+
+    /**
+     * Upload property pictures
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function uploadPropertyPictures(Request $request)
+    {
+        try {
+            $images = $request->file('images');
+            $id_property = $request->input('id_property');
+            
+            foreach($images as $image)
+            {
+                $extensionArray = array('jpg', 'png', 'jpeg', 'pdf', 'doc', 'docx', 'odt'); // Authorized extension
+                $filename = $image->hashName(); // Generate a unique, random name 
+                $file_ext = $image->extension(); // Determine the file's extension based on the file's MIME type
+                $document = time() . '.' . $filename;
+                $file_ext = $image->extension(); 
+                $destination_path = storage_path('propertyPictures');
+                if (in_array(strtolower($file_ext), $extensionArray)) {
+
+                    $propertyPicture = new PropertyPicture();
+                    $image->move($destination_path, $document); // move the file to storage/energyAudit
+                    $propertyPicture->title = $filename;
+                    $propertyPicture->path = $destination_path;
+                    $propertyPicture->alt = $request->input('alt');
+                    $propertyPicture->id_property = $id_property;
+                    $propertyPicture->save();  
+                }
+                
+            }
+            $result = PropertyPicture::where('id_property',$id_property)->get();
+
+            return response()->json(['property_pictures' => $result, 'message' => 'File uploaded !'], 201);
+
+            
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Le fichier ne peut pas être uploadé!', 'error' => $e->getMessage()], 409);
+        }
+
+
+    }
+
+    /**
+     * Upload energy audit file
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function uploadEnergyAudit(Request $request)
+    {
+        try {
+            // ensure the request has a file
+            if ($request->hasFile('energyAudit')) {
+
+                $extensionArray = array('jpg', 'png', 'jpeg', 'pdf', 'doc', 'docx', 'odt'); // Authorized extension
+                $file = $request->file('energyAudit'); // Retrieve file from the request
+                $filename = $file->hashName(); // Generate a unique, random name 
+                $file_ext = $file->extension(); // Determine the file's extension based on the file's MIME type
+                $document = time() . '.' . $filename;
+                $destination_path = storage_path('energyAudit'); // Save the file locally in the storage/energyAudit folder
+
+                if (in_array(strtolower($file_ext), $extensionArray)) {
+
+                    $energyAudit = new EnergyAudit();
+                    $request->file('energyAudit')->move($destination_path, $document); // move the file to storage/energyAudit
+                    $energyAudit->title = $filename;
+                    $energyAudit->path = $destination_path;
+                    $energyAudit->alt = $request->input('alt');
+                    $energyAudit->save();
+
+                    return response()->json(['energy_audit' => $energyAudit->id, 'message' => 'File uploaded !'], 201);
+                } else {
+                    return $this->result['message'] = 'L\'extension du fichier n\'est pas autorisée!';
+                }
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Le fichier ne peut pas être uploadé!', 'error' => $e->getMessage()], 409);
         }
 
     }
@@ -208,7 +343,19 @@ class PropertyController extends Controller
      */
     public function allProperties()
     {
-        return response()->json(['property' => Property::all()]);
+        try {
+
+            $allProperties = Property::all(); 
+            // dd($allProperties);
+
+            $getAll = $allProperties;
+            
+            return response()->json($allProperties, 200);
+
+        } catch (\Exception $e) {
+            
+            return response()->json(['message' => 'La propriété n\'a pas été trouvé !'], 404);
+        }
     }
 
     /** SHOW ONE PROPERTY
