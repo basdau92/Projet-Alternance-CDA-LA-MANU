@@ -22,7 +22,7 @@ class ClientController extends Controller
     }
 
     /**
-     * Get one client.
+     * Get one client by id 
      *
      * @param  int  $id
      * @return Response
@@ -83,60 +83,110 @@ class ClientController extends Controller
     }
 
     /**
-     * Authorize the client to upload document and store them in DB
+     * Authorize the client to upload documents and store them in DB
+     * 
+     * still need to define the max size of the file
      *
      * @param Request $request
      * @return Response
      */
-    public function uploadDocument(Request $request)
+    public function upload(Request $request)
     {
-        try {
-            // ensure the request has a file
-            if ($request->hasFile('document')) {
+        if (!$request->hasFile('document')) { // ensure the request has a file
+            return response()->json('Aucun fichier n\'a été trouvé !', 400); // client side error, Bad Request
+        }
 
-                $extensionArray = array('jpg', 'png', 'jpeg', 'pdf', 'doc', 'docx', 'odt'); // Authorized extension
-                $file = $request->file('document'); // Retrieve file from the request
+        try {
+            $files = $request->file('document'); // retrieve file from the request
+            $id_client = $request->input('id_client');
+
+            foreach ($files as $file) {
+                $extensionArray = ['jpg', 'png', 'jpeg', 'pdf', 'doc', 'docx', 'odt']; // Authorized extension
                 $filename = $file->hashName(); // Generate a unique, random name 
                 $file_ext = $file->extension(); // Determine the file's extension based on the file's MIME type
-                $document = time() . '.' . $filename;
-                $destination_path = storage_path('client'); // Save the file locally in the storage/client folder
+                $document =  time() . '-' . $filename; //add timestamp to the filename
 
-                if (in_array(strtolower($file_ext), $extensionArray)) {
+                $destination_path = storage_path('client');
+                $check = in_array(strtolower($file_ext), $extensionArray);
+
+                if ($check) {
+                    $file->move($destination_path, $document); // move the file to storage/client
 
                     $clientDocument = new ClientDocument();
                     $clientDocument->id_client = Auth::userOrFail()->id;
-
-                    $request->file('document')->move($destination_path, $document); // move the file to storage/client
-                    $clientDocument->name = $filename;
+                    $clientDocument->name = $document;
                     $clientDocument->path = $destination_path;
+                    $clientDocument->id_client = $id_client;
                     $clientDocument->save();
-
-                    return response()->json(['client_document' => $clientDocument, 'message' => 'File uploaded !'], 201);
                 } else {
-                    return $this->result['message'] = 'L\'extension du fichier n\'est pas autorisée!';
+                    return response()->json('L\'extension du fichier n\'est pas autorisée!', 403);
                 }
             }
+            $result = clientDocument::where('id_client', $id_client)->get();
+
+            return response()->json(['document' => $result, 'message' => 'File uploaded !'], 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Le fichier ne peut pas être uploadé!', 'error' => $e->getMessage()], 409);
         }
     }
 
-    public function readDocument()
+    /**
+     * Retrieve all the documents of logged in client
+     * 
+     * @param Request $request
+     * @return Response
+     */
+    public function readFiles(Request $request)
     {
+        if (!$request->hasFile('document')) { // ensure the request has a file
+            return response()->json('Aucun fichier n\'a été trouvé !', 400); // client side error, Bad Request
+        }
+
         try {
-            $directory = storage_path('client');
-            $files = File::allFiles($directory);
+            $document = ClientDocument::with((['showDocument']))
+                ->where('id_client', Auth::userOrFail()->id)
+                ->get();
+            $directory = storage_path('client'); // fetch of the storage folder
+            $data = $document->path = $directory;
+            $files = File::files($data); // retrieving files 
 
             foreach ($files as $file) {
                 $content = $file->getContents();
-                
             }
-            // dd($content);
 
-            return response()->json(['document' => $content], 200);
+            $encode = base64_encode($content); // encoding content of the file into string 
+            return response()->json(['document' => $encode], 200);
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'Le fichier n\'a pas été trouvé !', 'error' => $e->getMessage()], 404);
+            return response()->json(['message' => 'Aucun fichier n\'a été trouvé !', 'error' => $e->getMessage()], 404);
+        }
+    }
+
+    /**
+     * Update uploaded document
+     * 
+     * WASN'T ABLE TO TEST ON POSTMAN 
+     * 
+     * @param Request $request
+     * @return Response
+     */
+    public function updateFile(Request $request, $id)
+    {
+        $clientDocument = ClientDocument::find($id);
+        $updatedFile = $request->file('document');
+
+        if ($request->hasFile('document')) {
+            $destination_path = storage_path('client');
+            $filename = md5(uniqid(rand(), true)) . str_replace(' ', '-', $updatedFile->getClientOriginalName());
+            $updatedFile->move($destination_path, $filename);
+            $existFile = $clientDocument['document'];
+            $update['document'] = $destination_path . '/' . $filename;
+        }
+
+        $clientDocument->update($updatedFile);
+
+        if (isset($existFile) && file_exists($existFile)) {
+            unlink($existFile);
         }
     }
 
@@ -146,7 +196,7 @@ class ClientController extends Controller
      * @param [type] $id
      * @return void
      */
-    public function deleteDocument($id)
+    public function deleteFile($id)
     {
         try {
             ClientDocument::findOrFail($id)->delete();

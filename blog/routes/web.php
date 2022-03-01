@@ -19,17 +19,19 @@ $router->get('/', function () use ($router) {
 
 // API route group
 $router->group(['prefix' => 'auth'], function () use ($router) {
+
     $router->post('register', 'AuthController@register');
     $router->post('login', 'AuthController@login');
-    
 });
 
 $router->group(['prefix' => 'client'], function () use ($router) {
 
     $router->get('/my-favorites', 'FavoriteListController@showFavoriteList');
-    $router->post('/document', 'ClientController@uploadDocument');
-    $router->delete('/document/{id}', 'ClientController@deleteDocument');
-    $router->get('/my-documents', 'ClientController@readDocument');
+    $router->post('/documents', 'ClientController@upload');
+    $router->delete('/my-documents/{id}', 'ClientController@deleteFile');
+    $router->put('/my-documents/{id}', 'ClientController@updateFile');
+    $router->get('/my-documents', 'ClientController@readFiles');
+    // $router->get('/my-document/{id}', 'ClientController@readSingleDocument');
     $router->get('/{id}', 'ClientController@singleClient');
     $router->get('/', 'ClientController@allClients');
     $router->delete('/{id}', 'ClientController@deleteClient');
@@ -37,9 +39,13 @@ $router->group(['prefix' => 'client'], function () use ($router) {
 });
 
 $router->group(['prefix' => 'property'], function () use ($router) {
+
     $router->post('/', 'PropertyController@create');
+    $router->post('/pictures', 'PropertyController@uploadPropertyPictures');
+    $router->post('/energy-audit', 'PropertyController@uploadEnergyAudit');
+
+
     $router->get('/{id}', 'PropertyController@singleProperty');
     $router->get('/', 'PropertyController@allProperties');
     $router->put('/{id}', 'PropertyController@updateProperty');
 });
-$router->get('/mes-favoris', 'FavoriteListController@showFavoriteList');

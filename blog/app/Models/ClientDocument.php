@@ -14,6 +14,14 @@ class ClientDocument extends Model
      * @var array
      */
     protected $fillable = [
-        'id_client', 'path'
+        'id_client', 'name', 'path'
     ];
+
+    /**
+     * get a document from a client
+     */
+    public function showDocument()
+    {
+        return $this->belongsTo(ClientDocument::class,'id_client','id');
+    }
 }

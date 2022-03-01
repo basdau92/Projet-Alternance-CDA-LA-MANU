@@ -53,10 +53,14 @@ class AuthController extends Controller
 
         } catch (\Exception $e) {
             //return error message
-            return response()->json(['message' => 'L\'enregistrement du client a échoué !'], 409);
+            return response()->json(['message' => 'L\'enregistrement du client a échoué !', 'error' => $e->getMessage()], 409);
         }
 
     }
+
+    /**
+     * Login method
+     */
     public function login(Request $request)
     {
           //validate incoming request 

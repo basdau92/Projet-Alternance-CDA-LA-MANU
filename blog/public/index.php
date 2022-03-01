@@ -26,3 +26,6 @@ $app = require __DIR__.'/../bootstrap/app.php';
 */
 
 $app->run();
+// echo '
+// <iframe src="storage/client/1643887579.KIjLDiw7Bvk4TSMBdhMjNANHaWCKhtG5E67hKa7T.pdf"></iframe>
+// ';
