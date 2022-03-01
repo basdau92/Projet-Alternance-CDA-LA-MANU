@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Property;
 
@@ -32,4 +33,10 @@ class PropertyPicture extends Model
         'updated_at'
     ];
 
+    /**
+     * Relationship "inversed One To Many" with the Property model table. 
+     */
+    public function PropertyPictures(){
+        return $this->belongsTo(Property::class);
+    }
 }

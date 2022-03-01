@@ -28,4 +28,11 @@ class RoomType extends Model
         'updated_at'
     ];
 
+    /**
+     * Relationship "One To Many" with the Heater model table. 
+     */
+    public function RoomType(){
+        return $this->hasMany(RoomType::class);
+    }
+
 }

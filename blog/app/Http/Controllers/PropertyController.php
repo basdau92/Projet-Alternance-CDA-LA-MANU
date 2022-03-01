@@ -282,7 +282,8 @@ class PropertyController extends Controller
     {
         try {
             // Try to get several models/tables datas related to the Property model/table by Eloquence.
-            $getAllDatas = Property::with(['EnergyAudits', 'PropertyTypes', 'PropertyCategories'])->get();
+            $getAllDatas = Property::with(['EnergyAudits', 'PropertyTypes', 'PropertyCategories', 
+                                            'PropertyPictures', 'Kitchen', 'Heater'])->get();
             
             // If successful, return successful response.
             return response()->json(['property'=>$getAllDatas], 200);

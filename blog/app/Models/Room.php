@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Property;
+use App\Models\RoomType;
 
 class Room extends Model
 {
@@ -15,8 +17,8 @@ class Room extends Model
      */
     protected $fillable = [
         'id',
-        'id_property_type',
-        'id_room_type'
+        'id_property',
+        'id_room_type',
     ];
 
     /**
@@ -28,5 +30,12 @@ class Room extends Model
         'created_at',
         'updated_at'
     ];
+
+    /**
+     * Relationship "One To Many" with the Heater model table. 
+     */
+    public function RoomType(){
+        return $this->hasMany(RoomType::class);
+    }
 
 }

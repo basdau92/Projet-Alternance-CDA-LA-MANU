@@ -24,7 +24,8 @@ class PropertyCategory extends Model
      */
     protected $hidden = [
         'created_at',
-        'updated_at'
+        'updated_at',
+        'laravel_through_key'
     ];
 
     /**
@@ -36,6 +37,6 @@ class PropertyCategory extends Model
      * Relationship "One To Many" with the PropertyType model table. 
      */
     public function PropertyCategories(){
-        return $this->hasMany(PropertyType::class);
+        return $this->belongsTo(PropertyType::class);
     }
 }
