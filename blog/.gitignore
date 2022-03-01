@@ -5,9 +5,5 @@ Homestead.yaml
 .env
 .phpunit.result.cache
 storage/client
-<<<<<<< HEAD
-=======
 storage/energyAudit
 storage/propertyPictures
-
->>>>>>> e09ce92be68f803f181500256395af5153f9eae3
