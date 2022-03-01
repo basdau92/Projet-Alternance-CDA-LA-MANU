@@ -102,7 +102,7 @@ class PropertyController extends Controller
                 $room->save();
             }
             
-
+            
             // Insert the features_list related to one property.
             $tab = ['annexe'=>$annexes,'outdoor'=>$outdoors,'hygiene'=>$hygienes];
 
@@ -224,17 +224,17 @@ class PropertyController extends Controller
              $resultfeaturesList = FeaturesList::where('id_property',$property->id)->get();
             //dd($request);
             
-            //return successful response
+            //Return successful response.
              return response()->json(['property' => $property,'property_type' => $propertyType,'rooms' => $resultRooms,'featuresList' => $resultfeaturesList,'parkingNumbers' =>$resultParkingNumbers ,'message' => 'CREATED'], 201);
-            //return response()->json(['rooms'=>$resultRooms],201);
+            //Return response()->json(['rooms'=>$resultRooms],201);
         } catch (\Exception $e) {
-            //return error message
+            //Return error message.
             return response()->json(['message' => 'Le prospect n\'a pas pu être créé !','error'=>$e->getMessage()], 409);
         }
     }
 
     /**
-     * Upload energy audit file
+     * Upload energy audit file.
      *
      * @param Request $request
      * @return Response
@@ -347,7 +347,6 @@ class PropertyController extends Controller
             $property->update($request->all());
             return response()->json($property, 200);
            
-
         } catch (\Exception $e) {
             // If unsuccessful, return a custom error message and a HTML status.
             return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.','error'=>$e->getMessage()], 409);
