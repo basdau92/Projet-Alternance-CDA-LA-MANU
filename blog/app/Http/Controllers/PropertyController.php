@@ -169,7 +169,6 @@ class PropertyController extends Controller
                         }
                         $featuresList->save();
                     }
-
                     break;
                 }
             }
