@@ -13,11 +13,7 @@ use App\Models\Hygiene;
 use App\Models\Outdoor;
 use App\Models\Annexe;
 use App\Models\FeaturesList;
-
-
-
 use App\Models\RoomType;
-
 use Illuminate\Http\Request;
 
 class PropertyController extends Controller
@@ -78,11 +74,11 @@ class PropertyController extends Controller
             $property->id_heater = $request->input('id_heater');
             $property->id_energy_audit = $request->input('id_energy_audit');
 
-            // Données appartenant à propertyType
+            // Datas belonging to propertyType.
             $propertyType->name = $request->input('name_property_type');
             $propertyType->id_property_category = $request->input('id_property_category');
 
-            // Récupérer les donnés envoyés sous forme de tableau
+            // Get posted datas through an array.
             $rooms = unserialize($request->input('room'));
 
             $hygienes = unserialize($request->input('hygiene'));
@@ -93,10 +89,9 @@ class PropertyController extends Controller
 
             $propertyType->save();
             $property->id_property_type = $propertyType->id;
-            
             $property->save();
 
-            // Insérer les rooms associés à un property
+            // Insert the rooms related to one property.
             foreach($rooms as $r)
             {
                 $room = new Room();
@@ -106,7 +101,7 @@ class PropertyController extends Controller
                 $room->save();
             }
 
-            // Insérer les features_list associés à un property
+            // Insert the features_list related to one property.
             $tab = ['annexe'=>$annexes,'outdoor'=>$outdoors,'hygiene'=>$hygienes];
 
             $max = $this->compareSizeArray($tab);
@@ -120,7 +115,6 @@ class PropertyController extends Controller
                     {
                         $featuresList = new FeaturesList();
                         $featuresList->id_property = $property->id;
-
                         $featuresList->id_annexe = $annexes[$i];
 
                         if(array_key_exists($i,$outdoors))
@@ -129,10 +123,9 @@ class PropertyController extends Controller
                         }
                         if(array_key_exists($i,$hygienes))
                         {
-                        $featuresList->id_hygiene = $hygienes[$i];
+                            $featuresList->id_hygiene = $hygienes[$i];
                         }
                         $featuresList->save();
-
                     }
 
                     break;
@@ -143,7 +136,6 @@ class PropertyController extends Controller
                     {
                         $featuresList = new FeaturesList();
                         $featuresList->id_property = $property->id;
-
                         $featuresList->id_outdoor = $outdoors[$i];
 
                         if(array_key_exists($i,$annexes))
@@ -152,10 +144,9 @@ class PropertyController extends Controller
                         }
                         if(array_key_exists($i,$hygienes))
                         {
-                        $featuresList->id_hygiene = $hygienes[$i];
+                            $featuresList->id_hygiene = $hygienes[$i];
                         }
                         $featuresList->save();
-
                     }
 
                     break;
@@ -166,7 +157,6 @@ class PropertyController extends Controller
                     {
                         $featuresList = new FeaturesList();
                         $featuresList->id_property = $property->id;
-
                         $featuresList->id_hygiene = $hygienes[$i];
 
                         if(array_key_exists($i,$annexes))
@@ -175,29 +165,24 @@ class PropertyController extends Controller
                         }
                         if(array_key_exists($i,$outdoors))
                         {
-                        $featuresList->id_outdoor = $outdoors[$i];
+                            $featuresList->id_outdoor = $outdoors[$i];
                         }
                         $featuresList->save();
-
                     }
 
                     break;
                 }
             }
 
-            // Insérer les parkingNumber de chaque annexe
+            // Insert parkingNumber from each annexes. 
 
-
-
-
-            //return successful response
+            // Return successful responses.
              return response()->json(['property' => $property,'property_type' => $propertyType, 'room' => $room,'message' => 'CREATED'], 201);
 
         } catch (\Exception $e) {
-            //return error message
+            // Return a custom error message.
             return response()->json(['message' => 'Le prospect n\'a pas pu être créé !','error'=>$e->getMessage()], 409);
         }
-
     }
 
     /** SHOW ALL PROPERTIES
@@ -206,16 +191,18 @@ class PropertyController extends Controller
      * 
      * @return Response
      */
-    public function allProperties() /*Faire commentaires, essayer de trouver moyen d'appeler méthode dans modèle Property*/
+    public function allProperties() 
     {
         try {
-
-            $getAllDatas = Property::with(['hasOneEnergyAudits', 'hasOnePropertyTypes'])->get();
-
+            // Try to get several models/tables datas related to the Property model/table by Eloquence.
+            $getAllDatas = Property::with(['EnergyAudits', 'PropertyTypes', 'PropertyCategories'])->get();
+            
+            // If successful, return successful response.
             return response()->json(['property'=>$getAllDatas], 200);
 
         } catch (\Exception $e) {
             
+            // If unsuccessful, return a custom error message and a HTML status.
             return response()->json(['message' => 'La propriété n\'a pas été trouvé !', 'Error'=>$e->getMessage()], 404);
         }
     }
@@ -226,15 +213,16 @@ class PropertyController extends Controller
      * @param int $id
      * @return Response
      */
-    public function singleProperty($id) /*Faire commentaires */
+    public function singleProperty($id) 
     {
         try {
+            // Try to find a specific record by an id and return an array if successful. Generates an error otherwise.
             $property = Property::findOrFail($id); 
 
             return response()->json(['property' => $property], 200);
 
         } catch (\Exception $e) {
-            
+            // If unsuccessful, return a custom error message and a HTML status.
             return response()->json(['message' => 'La propriété n\'a pas été trouvé !'], 404);
         }
     }
@@ -248,20 +236,34 @@ class PropertyController extends Controller
     public function updateProperty($id, Request $request) /*Faire commentaires + validate() */
     {
         try{
+            /* Try to find a specific record in the Property model/table by an id and return an array if successful. 
+            Generates an error otherwise.*/
             $property = Property::findOrFail($id);
-            $propertyType = PropertyType::findOrFail($property->id_property_type);
-            $propertyCategory = PropertyCategory::findOrFail($propertyType->id_property_category);
-            $kitchen = Kitchen::findOrFail($property->id_kitchen);
-            $heater = Heater::findOrFail($property->id_heater);
 
+            /* Try to find a specific record in the Property model/table by accessing the id_property_type in the
+            Property model/table and return an array if successful. Generates an error otherwise.*/
+            $propertyType = PropertyType::findOrFail($property->id_property_type);
+
+            /* Try to find a specific record in the Property model/table by accessing the id_property_category in the
+            PropertyType model/table and return an array if successful. Generates an error otherwise.*/
+            $propertyCategory = PropertyCategory::findOrFail($propertyType->id_property_category);
+            
+            /* Try to find a specific record in the Property model/table by accessing the id_kitchen in the
+            Property model/table and return an array if successful. Generates an error otherwise.*/
+            $kitchen = Kitchen::findOrFail($property->id_kitchen);
+            
+            /* Try to find a specific record in the Property model/table by accessing the id_heater in the
+            Property model/table and return an array if successful. Generates an error otherwise.*/
+            $heater = Heater::findOrFail($property->id_heater);
+            
+            /* Update all the specific records in the columns passed as parameters in methods, then return the results in a JSON file.*/
             $property->update($request->all());
             return response()->json($property, 200);
            
 
         } catch (\Exception $e) {
-
+            // If unsuccessful, return a custom error message and a HTML status.
             return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.','error'=>$e->getMessage()], 409);
         }
-        
     }
 }   

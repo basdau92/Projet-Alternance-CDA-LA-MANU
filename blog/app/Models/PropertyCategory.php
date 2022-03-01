@@ -33,9 +33,9 @@ class PropertyCategory extends Model
     protected $table = 'property_category';
 
     /**
-     * Relationship with the PropertyType model table. 
+     * Relationship "One To Many" with the PropertyType model table. 
      */
-    public function belongsToPropertyType(){
-        return $this->belongsTo(PropertyType::class, 'id_property_category', 'id');
+    public function PropertyCategories(){
+        return $this->hasMany(PropertyType::class);
     }
 }

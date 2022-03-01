@@ -35,9 +35,9 @@ class EnergyAudit extends Model
     protected $table = 'energy_audit';
 
     /**
-     * Relationship with the PropertyType model table. 
+     * Relationship "inversed One To One" with the Property model table. 
      */
-    public function belongsToProperty(){
-        return $this->belongsTo(Property::class, 'id_energy_audit', 'id');
+    public function Property(){
+        return $this->belongsTo(Property::class);
     }
 }
