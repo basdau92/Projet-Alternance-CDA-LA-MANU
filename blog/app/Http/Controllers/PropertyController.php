@@ -282,6 +282,9 @@ class PropertyController extends Controller
                     $propertyPicture->id_property = $id_property;
                     $propertyPicture->save();  
                 }
+                else {
+                    return $this->result['message'] = 'L\'extension '.$file_ext.' n\'est pas autorisée!';
+                }
                 
             }
             $result = PropertyPicture::where('id_property',$id_property)->get();
@@ -326,7 +329,7 @@ class PropertyController extends Controller
 
                     return response()->json(['energy_audit' => $energyAudit->id, 'message' => 'File uploaded !'], 201);
                 } else {
-                    return $this->result['message'] = 'L\'extension du fichier n\'est pas autorisée!';
+                    return $this->result['message'] = 'L\'extension '.$file_ext.' n\'est pas autorisée!';
                 }
             }
         } catch (\Exception $e) {
