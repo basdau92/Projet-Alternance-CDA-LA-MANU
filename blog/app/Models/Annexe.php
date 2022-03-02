@@ -33,7 +33,7 @@ class Annexe extends Model
     /**
      * Relationship "inversed One To Many" with the FeaturesList model table. 
      */
-    public function Annexes(){
+    public function annexes(){
         return $this->belongsTo(FeaturesList::class);
     }
 }

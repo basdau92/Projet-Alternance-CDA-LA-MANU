@@ -36,7 +36,7 @@ class PropertyCategory extends Model
     /**
      * Relationship "inversed One To Many" with the PropertyType model table. 
      */
-    public function PropertyCategories(){
+    public function propertyCategories(){
         return $this->belongsTo(PropertyType::class);
     }
 }

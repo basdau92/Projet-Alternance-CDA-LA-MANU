@@ -31,7 +31,7 @@ class Heater extends Model
     /**
      * Relationship "inversed One To One" with the Heater model table. 
      */
-    public function Heater(){
+    public function heater(){
         return $this->belongsTo(Heater::class);
     }
 

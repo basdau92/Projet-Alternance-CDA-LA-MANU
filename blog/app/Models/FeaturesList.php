@@ -38,28 +38,28 @@ class FeaturesList extends Model
     /**
      * Relationship "One To Many" with the Hygiene model table. 
      */
-    public function Hygienes(){
+    public function hygienes(){
         return $this->hasMany(Hygiene::class);
     }
 
     /**
      * Relationship "One To Many" with the Outdoor model table. 
      */
-    public function Outdoors(){
+    public function outdoors(){
         return $this->hasMany(Outdoor::class);
     }
 
     /**
      * Relationship "One To Many" with the Annexe model table. 
      */
-    public function Annexes(){
+    public function annexes(){
         return $this->hasMany(Annexe::class);
     }
 
     /**
      * Relationship "One To One" through intermediate model with the Annexe model table. 
      */
-    public function ParkingNumbers(){
+    public function parkingNumbers(){
         return $this->hasOneThrough(ParkingNumber::class, Annexe::class, 'id', 'id');
     }
 }
