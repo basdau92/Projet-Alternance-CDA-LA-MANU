@@ -109,10 +109,10 @@ class PropertyController extends Controller
             $max = $this->compareSizeArray($tab);
             $maxSize = $max[0];
             $maxName = $max[1];
-            // Resultat des parkingNumber insérer
+            // Results of inserted parkingNumber. 
             $resultParkingNumbers = [];
 
-            //Insertion des annexes, outdoors et hygienes dans la table featuresList
+            // Insert annexes, outdoors and hygienes in the table Featureslist.
             switch($maxName)
             {
                 case 'annexe':
@@ -125,7 +125,7 @@ class PropertyController extends Controller
                         array_push($resultParkingNumbers,[$annexes[$i] => ParkingNumber::where('id_annexe',$annexes[$i])->get()]);
 
 
-                        // Insérer les parkingNumber de chaque annexe
+                        // Insert parkingNumber from each annexe.
 
                         $parkingNumber = $parkingNumbers[$i];
                         $sizeParkingNumber = count($parkingNumber);
@@ -162,7 +162,7 @@ class PropertyController extends Controller
                         {
                             $featuresList->id_annexe = $annexes[$i];
 
-                            // Insérer les parkingNumber de chaque annexe
+                            // Insert parkingNumber from each annexe.
 
                             $parkingNumber = $parkingNumbers[$i];
                             $sizeParkingNumber = count($parkingNumber);
@@ -197,7 +197,7 @@ class PropertyController extends Controller
                         {
                             $featuresList->id_annexe = $annexes[$i];
 
-                            // Insérer les parkingNumber de chaque annexe
+                            // Insert parkingNumber from each annexe.
 
                             $parkingNumber = $parkingNumbers[$i];
                             $sizeParkingNumber = count($parkingNumber);
@@ -224,11 +224,11 @@ class PropertyController extends Controller
              $resultfeaturesList = FeaturesList::where('id_property',$property->id)->get();
             //dd($request);
             
-            //Return successful response.
+            // Return successful response.
              return response()->json(['property' => $property,'property_type' => $propertyType,'rooms' => $resultRooms,'featuresList' => $resultfeaturesList,'parkingNumbers' =>$resultParkingNumbers ,'message' => 'CREATED'], 201);
-            //Return response()->json(['rooms'=>$resultRooms],201);
+            // Return response()->json(['rooms'=>$resultRooms],201);
         } catch (\Exception $e) {
-            //Return error message.
+            // Return error message.
             return response()->json(['message' => 'Le prospect n\'a pas pu être créé !','error'=>$e->getMessage()], 409);
         }
     }
@@ -242,20 +242,20 @@ class PropertyController extends Controller
     public function uploadEnergyAudit(Request $request)
     {
         try {
-            // ensure the request has a file
+            // Ensure the request has a file.
             if ($request->hasFile('energyAudit')) {
 
-                $extensionArray = array('jpg', 'png', 'jpeg', 'pdf', 'doc', 'docx', 'odt'); // Authorized extension
-                $file = $request->file('energyAudit'); // Retrieve file from the request
-                $filename = $file->hashName(); // Generate a unique, random name 
-                $file_ext = $file->extension(); // Determine the file's extension based on the file's MIME type
+                $extensionArray = array('jpg', 'png', 'jpeg', 'pdf', 'doc', 'docx', 'odt'); // Authorized extension.
+                $file = $request->file('energyAudit'); // Retrieve file from the request.
+                $filename = $file->hashName(); // Generate a unique, random name. 
+                $file_ext = $file->extension(); // Determine the file's extension based on the file's MIME type.
                 $document = time() . '.' . $filename;
-                $destination_path = storage_path('energyAudit'); // Save the file locally in the storage/energyAudit folder
+                $destination_path = storage_path('energyAudit'); // Save the file locally in the storage/energyAudit folder.
 
                 if (in_array(strtolower($file_ext), $extensionArray)) {
 
                     $energyAudit = new EnergyAudit();
-                    $request->file('energyAudit')->move($destination_path, $document); // move the file to storage/energyAudit
+                    $request->file('energyAudit')->move($destination_path, $document); // Move the file to storage/energyAudit.
                     $energyAudit->title = $filename;
                     $energyAudit->path = $destination_path;
                     $energyAudit->alt = $request->input('alt');
@@ -285,7 +285,8 @@ class PropertyController extends Controller
             $getAllDatas = Property::with(['EnergyAudits', 'PropertyTypes', 'PropertyCategories', 
                                             'PropertyPictures', 'Kitchen', 'Heater',
                                             'Rooms', 'RoomTypes', 'FeaturesLists',
-                                            'Hygienes', 'Outdoors', 'Annexes', 'ParkingNumbers'])->get();
+                                            'Hygienes', 'Outdoors', 'Annexes', 'ParkingNumbers'])
+                                    ->get();
             
             // If successful, return successful response.
             return response()->json(['property'=>$getAllDatas], 200);
@@ -323,30 +324,59 @@ class PropertyController extends Controller
      * @param int $id
      * @return Response
      */
-    public function updateProperty($id, Request $request) /*Faire commentaires + validate() */
+    public function updateProperty($id, Request $request) 
     {
         try{
-            /* Try to find a specific record in the Property model/table by an id and return an array if successful. 
-            Generates an error otherwise.*/
+            /* Find a specific record in the Property model/table by an id, return an array if successful. 
+            Generates an error otherwise. Validate the inputs.*/
             $property = Property::findOrFail($id);
 
-            /* Try to find a specific record in the Property model/table by accessing the id_property_type in the
-            Property model/table and return an array if successful. Generates an error otherwise.*/
+            $this->validate($request, [
+                'name' => 'required|string', 
+                'price' => 'required|numeric', 
+                'number' => 'required|unique:property', 
+                'address' => 'required|string', 
+                'addition_address' => 'required|string', 
+                'zipcode' => 'required|string', 
+                'description' => 'required', 
+                'surface' => 'required|numeric', 
+                'floor' => 'required|numeric', 
+                'is_furnished' => 'required|boolean', 
+                'is_available' => 'required|boolean', 
+                'is_prospect' => 'required|boolean'
+            ]);
+
+            /* Find a specific record in the Property model/table by accessing the id_property_type in the
+            Property model/table, return an array if successful. Generates an error otherwise. Validate the inputs.*/
             $propertyType = PropertyType::findOrFail($property->id_property_type);
 
-            /* Try to find a specific record in the Property model/table by accessing the id_property_category in the
-            PropertyType model/table and return an array if successful. Generates an error otherwise.*/
+            $this->validate($request, [
+                'name' => 'required|string',
+            ]);
+
+            /* Same as above.*/
             $propertyCategory = PropertyCategory::findOrFail($propertyType->id_property_category);
+
+            $this->validate($request, [
+                'name' => 'required|string',
+            ]);
             
-            /* Try to find a specific record in the Property model/table by accessing the id_kitchen in the
-            Property model/table and return an array if successful. Generates an error otherwise.*/
+            /* Same as above.*/
             $kitchen = Kitchen::findOrFail($property->id_kitchen);
+
+            $this->validate($request, [
+                'name' => 'required|string',
+            ]);
             
-            /* Try to find a specific record in the Property model/table by accessing the id_heater in the
-            Property model/table and return an array if successful. Generates an error otherwise.*/
+            /* Same as above.*/
             $heater = Heater::findOrFail($property->id_heater);
+
+            $this->validate($request, [
+                'name' => 'required|string',
+            ]);
             
-            /* Update all the specific records in the columns passed as parameters in methods, then return the results in a JSON file.*/
+            /* Update all the specific records in the columns passed as parameters in methods, 
+            then return the results in a JSON file.*/
             $property->update($request->all());
             return response()->json($property, 200);
            
