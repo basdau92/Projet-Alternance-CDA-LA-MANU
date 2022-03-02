@@ -32,10 +32,9 @@ class Room extends Model
     ];
 
     /**
-     * Relationship "One To Many" with the Heater model table. 
+     * Relationship "One To One" with the RoomType model table. 
      */
     public function RoomType(){
-        return $this->hasMany(RoomType::class);
+        return $this->hasOne(RoomType::class);
     }
-
 }

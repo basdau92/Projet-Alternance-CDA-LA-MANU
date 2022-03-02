@@ -34,7 +34,7 @@ class PropertyCategory extends Model
     protected $table = 'property_category';
 
     /**
-     * Relationship "One To Many" with the PropertyType model table. 
+     * Relationship "inversed One To Many" with the PropertyType model table. 
      */
     public function PropertyCategories(){
         return $this->belongsTo(PropertyType::class);

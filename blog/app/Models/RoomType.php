@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Room;
 
 class RoomType extends Model
 {
@@ -25,14 +26,14 @@ class RoomType extends Model
      */
     protected $hidden = [
         'created_at',
-        'updated_at'
+        'updated_at',
+        'laravel_through_key'
     ];
 
     /**
-     * Relationship "One To Many" with the Heater model table. 
+     * Relationship "inversed  One To Many" with the Room model table. 
      */
     public function RoomType(){
-        return $this->hasMany(RoomType::class);
+        return $this->belongsTo(Room::class);
     }
-
 }

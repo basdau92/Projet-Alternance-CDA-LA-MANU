@@ -10,6 +10,12 @@ use App\Models\PropertyPicture;
 use App\Models\Kitchen;
 use App\Models\Heater;
 use App\Models\Room;
+use App\Models\RoomTypes;
+use App\Models\FeaturesList;
+use App\Models\Hygiene;
+use App\Models\Outdoor;
+use App\Models\Annexe;
+use App\Models\ParkingNumber;
 
 class Property extends Model
 {
@@ -98,7 +104,7 @@ class Property extends Model
      * Relationship "One To Many" through intermediate model with the RoomType model table. 
      */
     public function Rooms(){
-        return $this->hasManyThrough(RoomType::class, Room::class, 'id', 'id');
+        return $this->hasMany(Room::class, 'id', 'id');
     }
 
     /**
@@ -106,5 +112,40 @@ class Property extends Model
      */
     public function RoomTypes(){
         return $this->hasManyThrough(RoomType::class, Room::class, 'id', 'id');
+    }
+
+    /**
+     * Relationship "One To Many" with the FeaturesList model table. 
+     */
+    public function FeaturesLists(){
+        return $this->hasMany(FeaturesList::class, 'id', 'id');
+    }
+
+    /**
+     * Relationship "One To Many" through intermediate model with the Hygiene model table. 
+     */
+    public function Hygienes(){
+        return $this->hasManyThrough(Hygiene::class, FeaturesList::class, 'id', 'id');
+    }
+
+    /**
+     * Relationship "One To Many" through intermediate model with the Outdoor model table. 
+     */
+    public function Outdoors(){
+        return $this->hasManyThrough(Outdoor::class, FeaturesList::class, 'id', 'id');
+    }
+
+    /**
+     * Relationship "One To Many" through intermediate model with the Annexe model table. 
+     */
+    public function Annexes(){
+        return $this->hasManyThrough(Annexe::class, FeaturesList::class, 'id', 'id');
+    }
+
+    /**
+     * Relationship "One To One" through intermediate model with the Annexe model table. 
+     */
+    public function ParkingNumbers(){
+        return $this->hasOneThrough(ParkingNumber::class, Annexe::class, 'id', 'id');
     }
 }
