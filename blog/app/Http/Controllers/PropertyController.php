@@ -116,12 +116,54 @@ class PropertyController extends Controller
             // Results of inserted parkingNumber. 
             $resultParkingNumbers = [];
 
-            // Insert annexes, outdoors and hygienes in the table Featureslist.
-            switch ($maxName) {
-                case 'annexe': {
-                        for ($i = 0; $i < $maxSize; $i++) {
-                            $featuresList = new FeaturesList();
-                            $featuresList->id_property = $property->id;
+            // Insert annexes, outdoors and hygienes in the table features_list.
+            switch($maxName)
+            {
+                case 'annexe':
+                {
+                    for($i=0;$i<$maxSize;$i++)
+                    {
+                        $featuresList = new FeaturesList();
+                        $featuresList->id_property = $property->id;
+                        $featuresList->id_annexe = $annexes[$i];
+                        array_push($resultParkingNumbers,[$annexes[$i] => ParkingNumber::where('id_annexe',$annexes[$i])->get()]);
+
+
+                        // Insert parkingNumber from each annexe.
+
+                        $parkingNumber = $parkingNumbers[$i];
+                        $sizeParkingNumber = count($parkingNumber);
+                        for($j=0;$j<$sizeParkingNumber;$j++)
+                        {
+                            $pn = new ParkingNumber();
+                            $pn->id_annexe = $annexes[$i];
+                            $pn->number = $parkingNumber[$j];
+                            $pn->save();
+                        }
+
+                        if(array_key_exists($i,$outdoors))
+                        {
+                            $featuresList->id_outdoor = $outdoors[$i];
+                        }
+                        if(array_key_exists($i,$hygienes))
+                        {
+                            $featuresList->id_hygiene = $hygienes[$i];
+                        }
+                        $featuresList->save();
+                    }
+
+                    break;
+                }
+                case 'outdoor':
+                {
+                    for($i=0;$i<$maxSize;$i++)
+                    {
+                        $featuresList = new FeaturesList();
+                        $featuresList->id_property = $property->id;
+                        $featuresList->id_outdoor = $outdoors[$i];
+
+                        if(array_key_exists($i,$annexes))
+                        {
                             $featuresList->id_annexe = $annexes[$i];
                             array_push($resultParkingNumbers, [$annexes[$i] => ParkingNumber::where('id_annexe', $annexes[$i])->get()]);
 
@@ -140,6 +182,7 @@ class PropertyController extends Controller
                             if (array_key_exists($i, $outdoors)) {
                                 $featuresList->id_outdoor = $outdoors[$i];
                             }
+
                             if (array_key_exists($i, $hygienes)) {
                                 $featuresList->id_hygiene = $hygienes[$i];
                             }
@@ -148,64 +191,71 @@ class PropertyController extends Controller
 
                         break;
                     }
-                case 'outdoor': {
-                        for ($i = 0; $i < $maxSize; $i++) {
-                            $featuresList = new FeaturesList();
-                            $featuresList->id_property = $property->id;
-                            $featuresList->id_outdoor = $outdoors[$i];
+                }
+                case 'outdoor': 
+                {
+                    for ($i = 0; $i < $maxSize; $i++) 
+                    {
+                        $featuresList = new FeaturesList();
+                        $featuresList->id_property = $property->id;
+                        $featuresList->id_outdoor = $outdoors[$i];
 
-                            if (array_key_exists($i, $annexes)) {
-                                $featuresList->id_annexe = $annexes[$i];
+                        if (array_key_exists($i, $annexes)) {
+                            $featuresList->id_annexe = $annexes[$i];
 
-                                // Insert parkingNumber from each annexe.
+                            // Insert parkingNumber from each annexe.
 
-                                $parkingNumber = $parkingNumbers[$i];
-                                $sizeParkingNumber = count($parkingNumber);
-                                for ($j = 0; $j < $sizeParkingNumber; $j++) {
-                                    $pn = new ParkingNumber();
-                                    $pn->id_annexe = $annexes[$i];
-                                    $pn->number = $parkingNumber[$j];
-                                    $pn->save();
-                                }
-                                array_push($resultParkingNumbers, [$annexes[$i] => ParkingNumber::where('id_annexe', $annexes[$i])->get()]);
+                            $parkingNumber = $parkingNumbers[$i];
+                            $sizeParkingNumber = count($parkingNumber);
+                            for ($j = 0; $j < $sizeParkingNumber; $j++) {
+                                $pn = new ParkingNumber();
+                                $pn->id_annexe = $annexes[$i];
+                                $pn->number = $parkingNumber[$j];
+                                $pn->save();
                             }
-                            if (array_key_exists($i, $hygienes)) {
-                                $featuresList->id_hygiene = $hygienes[$i];
-                            }
-                            $featuresList->save();
+                            array_push($resultParkingNumbers, [$annexes[$i] => ParkingNumber::where('id_annexe', $annexes[$i])->get()]);
                         }
-
-                        break;
-                    }
-                case 'hygiene': {
-                        for ($i = 0; $i < $maxSize; $i++) {
-                            $featuresList = new FeaturesList();
-                            $featuresList->id_property = $property->id;
+                        if (array_key_exists($i, $hygienes)) {
                             $featuresList->id_hygiene = $hygienes[$i];
-
-                            if (array_key_exists($i, $annexes)) {
-                                $featuresList->id_annexe = $annexes[$i];
-
-                                // Insert parkingNumber from each annexe.
-
-                                $parkingNumber = $parkingNumbers[$i];
-                                $sizeParkingNumber = count($parkingNumber);
-                                for ($j = 0; $j < $sizeParkingNumber; $j++) {
-                                    $pn = new ParkingNumber();
-                                    $pn->id_annexe = $annexes[$i];
-                                    $pn->number = $parkingNumber[$j];
-                                    $pn->save();
-                                }
-                                array_push($resultParkingNumbers, [$annexes[$i] => ParkingNumber::where('id_annexe', $annexes[$i])->get()]);
-                            }
-                            if (array_key_exists($i, $outdoors)) {
-                                $featuresList->id_outdoor = $outdoors[$i];
-                            }
-                            $featuresList->save();
                         }
-                        break;
+                        $featuresList->save();
                     }
+
+                    break;
+                }
+                case 'hygiene': 
+                {
+                    for ($i = 0; $i < $maxSize; $i++) 
+                    {
+                        $featuresList = new FeaturesList();
+                        $featuresList->id_property = $property->id;
+                        $featuresList->id_hygiene = $hygienes[$i];
+
+                        if (array_key_exists($i, $annexes)) {
+                            $featuresList->id_annexe = $annexes[$i];
+
+                            // Insert parkingNumber from each annexe.
+
+                            $parkingNumber = $parkingNumbers[$i];
+                            $sizeParkingNumber = count($parkingNumber);
+                            for ($j = 0; $j < $sizeParkingNumber; $j++) {
+                                $pn = new ParkingNumber();
+                                $pn->id_annexe = $annexes[$i];
+                                $pn->number = $parkingNumber[$j];
+                                $pn->save();
+                            }
+                            array_push($resultParkingNumbers, [$annexes[$i] => ParkingNumber::where('id_annexe', $annexes[$i])->get()]);
+                        }
+                        if (array_key_exists($i, $outdoors)) {
+                            $featuresList->id_outdoor = $outdoors[$i];
+                        }
+                        $featuresList->save();
+                    }
+
+                    break;
+                }
             }
+            
             $resultRooms = Room::where('id_property', $property->id)->get();
             $resultfeaturesList = FeaturesList::where('id_property', $property->id)->get();
             //dd($request);
@@ -213,7 +263,9 @@ class PropertyController extends Controller
             // Return successful response.
             return response()->json(['property' => $property, 'property_type' => $propertyType, 'rooms' => $resultRooms, 'featuresList' => $resultfeaturesList, 'parkingNumbers' => $resultParkingNumbers, 'message' => 'CREATED'], 201);
             // Return response()->json(['rooms'=>$resultRooms],201);
+
         } catch (\Exception $e) {
+
             // Return error message.
             return response()->json(['message' => 'Le prospect n\'a pas pu être créé !', 'error' => $e->getMessage()], 409);
         }
@@ -257,10 +309,9 @@ class PropertyController extends Controller
 
 
         } catch (\Exception $e) {
+
             return response()->json(['message' => 'Le fichier ne peut pas être uploadé!', 'error' => $e->getMessage()], 409);
         }
-
-
     }
 
     /**
@@ -292,7 +343,9 @@ class PropertyController extends Controller
                     $energyAudit->save();
 
                     return response()->json(['energy_audit' => $energyAudit->id, 'message' => 'File uploaded !'], 201);
+
                 } else {
+
                     return $this->result['message'] = 'L\'extension ' . $file_ext . ' n\'est pas autorisée!';
                 }
             }
@@ -323,6 +376,7 @@ class PropertyController extends Controller
 
             // If successful, return successful response.
             return response()->json(['property' => $getAllDatas], 200);
+
         } catch (\Exception $e) {
 
             // If unsuccessful, return a custom error message and a HTML status.
@@ -343,6 +397,7 @@ class PropertyController extends Controller
             $property = Property::findOrFail($id);
 
             return response()->json(['property' => $property], 200);
+
         } catch (\Exception $e) {
             // If unsuccessful, return a custom error message and a HTML status.
             return response()->json(['message' => 'La propriété n\'a pas été trouvé !'], 404);
@@ -410,6 +465,7 @@ class PropertyController extends Controller
             then return the results in a JSON file.*/
             $property->update($request->all());
             return response()->json($property, 200);
+
         } catch (\Exception $e) {
             // If unsuccessful, return a custom error message and a HTML status.
             return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
