@@ -37,7 +37,7 @@ use App\Models\PropertyCategory;
     /**
      * Relationship "One To One" with the PropertyCategory model table. 
      */
-    public function PropertyCategories(){
+    public function propertyCategories(){
         return $this->hasOne(PropertyCategory::class, 'id', 'id');
     }
 }

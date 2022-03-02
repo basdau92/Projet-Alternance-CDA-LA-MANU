@@ -33,7 +33,7 @@ class Hygiene extends Model
     /**
      * Relationship "inversed One To Many" with the FeaturesList model table. 
      */
-    public function Hygienes(){
+    public function hygienes(){
         return $this->belongsTo(FeaturesList::class);
     }
 }

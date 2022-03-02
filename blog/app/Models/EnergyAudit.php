@@ -37,7 +37,7 @@ class EnergyAudit extends Model
     /**
      * Relationship "inversed One To One" with the Property model table. 
      */
-    public function Property(){
+    public function property(){
         return $this->belongsTo(Property::class);
     }
 }

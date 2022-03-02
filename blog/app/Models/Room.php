@@ -34,7 +34,7 @@ class Room extends Model
     /**
      * Relationship "One To One" with the RoomType model table. 
      */
-    public function RoomType(){
+    public function roomType(){
         return $this->hasOne(RoomType::class);
     }
 }

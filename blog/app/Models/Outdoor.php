@@ -33,7 +33,7 @@ class Outdoor extends Model
     /**
      * Relationship "inversed One To Many" with the FeaturesList model table. 
      */
-    public function Outdoors(){
+    public function outdoors(){
         return $this->belongsTo(FeaturesList::class);
     }
 }

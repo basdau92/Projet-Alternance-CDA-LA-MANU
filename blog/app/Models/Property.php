@@ -61,91 +61,91 @@ class Property extends Model
     /**
      * Relationship "One To One" with the EnergyAudit model table. 
      */
-    public function EnergyAudits(){
+    public function energyAudits(){
         return $this->hasOne(EnergyAudit::class, 'id', 'id');
     }
     
     /**
      * Relationship "One To One" with the PropertyType model table.
      */
-    public function PropertyTypes(){
+    public function propertyTypes(){
         return $this->hasOne(PropertyType::class, 'id', 'id');
     }
 
     /**
      * Relationship "One To One" through intermediate model with the PropertyCategory model table.
      */
-    public function PropertyCategories(){
+    public function propertyCategories(){
         return $this->hasOneThrough(PropertyCategory::class, PropertyType::class, 'id', 'id');
     }
 
     /**
      * Relationship "One To Many" with the PropertyPictures model table. 
      */
-    public function PropertyPictures(){
+    public function propertyPictures(){
         return $this->hasMany(PropertyPicture::class, 'id', 'id');
     }
 
     /**
      * Relationship "One To One" with the Kitchen model table. 
      */
-    public function Kitchen(){
+    public function kitchen(){
         return $this->hasOne(Kitchen::class, 'id', 'id');
     }
 
     /**
      * Relationship "One To One" with the Heater model table. 
      */
-    public function Heater(){
+    public function heater(){
         return $this->hasOne(Heater::class, 'id', 'id');
     }
 
     /**
      * Relationship "One To Many" through intermediate model with the RoomType model table. 
      */
-    public function Rooms(){
+    public function rooms(){
         return $this->hasMany(Room::class, 'id', 'id');
     }
 
     /**
      * Relationship "One To Many" through intermediate model with the RoomType model table. 
      */
-    public function RoomTypes(){
+    public function roomTypes(){
         return $this->hasManyThrough(RoomType::class, Room::class, 'id', 'id');
     }
 
     /**
      * Relationship "One To Many" with the FeaturesList model table. 
      */
-    public function FeaturesLists(){
+    public function featuresLists(){
         return $this->hasMany(FeaturesList::class, 'id', 'id');
     }
 
     /**
      * Relationship "One To Many" through intermediate model with the Hygiene model table. 
      */
-    public function Hygienes(){
+    public function hygienes(){
         return $this->hasManyThrough(Hygiene::class, FeaturesList::class, 'id', 'id');
     }
 
     /**
      * Relationship "One To Many" through intermediate model with the Outdoor model table. 
      */
-    public function Outdoors(){
+    public function outdoors(){
         return $this->hasManyThrough(Outdoor::class, FeaturesList::class, 'id', 'id');
     }
 
     /**
      * Relationship "One To Many" through intermediate model with the Annexe model table. 
      */
-    public function Annexes(){
+    public function annexes(){
         return $this->hasManyThrough(Annexe::class, FeaturesList::class, 'id', 'id');
     }
 
     /**
      * Relationship "One To One" through intermediate model with the Annexe model table. 
      */
-    public function ParkingNumbers(){
+    public function parkingNumbers(){
         return $this->hasOneThrough(ParkingNumber::class, Annexe::class, 'id', 'id');
     }
 }

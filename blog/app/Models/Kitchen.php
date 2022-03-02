@@ -32,7 +32,7 @@ class Kitchen extends Model
     /**
      * Relationship "inversed One To One" with the Kitchen model table. 
      */
-    public function Kitchen(){
+    public function kitchen(){
         return $this->belongsTo(Property::class);
     }
 }
