@@ -220,6 +220,50 @@ class PropertyController extends Controller
     }
 
     /**
+     * Upload property pictures
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function uploadPropertyPictures(Request $request)
+    {
+        try {
+            $images = $request->file('images');
+            $id_property = $request->input('id_property');
+
+            foreach($images as $image)
+            {
+                $extensionArray = array('jpg', 'png', 'jpeg', 'pdf', 'doc', 'docx', 'odt'); // Authorized extension
+                $filename = $image->hashName(); // Generate a unique, random name 
+                $file_ext = $image->extension(); // Determine the file's extension based on the file's MIME type
+                $document = time() . '.' . $filename;
+                $file_ext = $image->extension(); 
+                $destination_path = storage_path('propertyPictures');
+                if (in_array(strtolower($file_ext), $extensionArray)) {
+
+                    $propertyPicture = new PropertyPicture();
+                    $image->move($destination_path, $document); // move the file to storage/energyAudit
+                    $propertyPicture->title = $filename;
+                    $propertyPicture->path = $destination_path;
+                    $propertyPicture->alt = $request->input('alt');
+                    $propertyPicture->id_property = $id_property;
+                    $propertyPicture->save();  
+                }
+
+            }
+            $result = PropertyPicture::where('id_property',$id_property)->get();
+
+            return response()->json(['property_pictures' => $result, 'message' => 'File uploaded !'], 201);
+
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Le fichier ne peut pas être uploadé!', 'error' => $e->getMessage()], 409);
+        }
+
+
+    }
+
+    /**
      * Upload energy audit file.
      *
      * @param Request $request
