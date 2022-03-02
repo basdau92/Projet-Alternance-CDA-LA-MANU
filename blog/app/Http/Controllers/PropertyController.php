@@ -112,7 +112,7 @@ class PropertyController extends Controller
             // Results of inserted parkingNumber. 
             $resultParkingNumbers = [];
 
-            // Insert annexes, outdoors and hygienes in the table Featureslist.
+            // Insert annexes, outdoors and hygienes in the table features_list.
             switch($maxName)
             {
                 case 'annexe':
