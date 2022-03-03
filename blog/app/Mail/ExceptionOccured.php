@@ -30,7 +30,7 @@ class ExceptionOccured extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.exception')
-            ->with('content', $this->content);
+        return $this->subject('There was an error in your Laravel App')
+            ->view('emails.exception');
     }
 }
