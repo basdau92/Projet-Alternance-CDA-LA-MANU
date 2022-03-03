@@ -1,0 +1,5 @@
+{
+    "require": {
+        "illuminate/mail": "^8.83"
+    }
+}
