@@ -58,7 +58,7 @@ $router->get('send-mail', function () {
         'body' => 'This is for testing email using smtp'
     ];
    
-    Illuminate\Support\Facades\Mail::to('inesbkht@gmail.com')->send(new \App\Mail\TestMail($details));
+    Mail::to('inesbkht@gmail.com')->send(new \App\Mail\TestMail($details));
    
     dd("Email is Sent.");
 });

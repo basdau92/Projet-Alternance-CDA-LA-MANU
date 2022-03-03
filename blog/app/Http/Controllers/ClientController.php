@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Throwable;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Models\ClientDocument;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\ErrorHandler\Exception\FlattenException;
+use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
+use App\Mail\ExceptionOccured;
 
 class ClientController extends Controller
 {
@@ -201,7 +206,11 @@ class ClientController extends Controller
         try {
             ClientDocument::findOrFail($id)->delete();
             return response('La ressource a bien été supprimé !', 200);
-        } catch (\Exception $e) {
+        } catch (Throwable $exception) {
+            $e = FlattenException::createFromThrowable($exception);
+            $handler = new HtmlErrorRenderer(true);
+            $content = $handler->getBody($e);
+            Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($content));
 
             return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
         }
