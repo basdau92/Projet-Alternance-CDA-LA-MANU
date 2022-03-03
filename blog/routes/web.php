@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Mail;
+
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
@@ -17,7 +19,6 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-// API route group
 $router->group(['prefix' => 'auth'], function () use ($router) {
 
     $router->post('register', 'AuthController@register');
@@ -36,8 +37,7 @@ $router->group(['prefix' => 'client'], function () use ($router) {
     $router->get('/{id}', 'ClientController@singleClient');
     $router->get('/', 'ClientController@allClients');
     $router->delete('/{id}', 'ClientController@deleteClient');
-    $router->put('/{id}', 'ClientController@updateClient'); 
-
+    $router->put('/{id}', 'ClientController@updateClient');
 });
 
 $router->group(['prefix' => 'property'], function () use ($router) {
@@ -46,8 +46,19 @@ $router->group(['prefix' => 'property'], function () use ($router) {
     $router->post('/pictures', 'PropertyController@uploadPropertyPictures');
     $router->post('/energy-audit', 'PropertyController@uploadEnergyAudit');
 
-
     $router->get('/{id}', 'PropertyController@singleProperty');
     $router->get('/', 'PropertyController@allProperties');
     $router->put('/{id}', 'PropertyController@updateProperty');
+});
+
+$router->get('send-mail', function () {
+   
+    $details = [
+        'title' => 'Mail from test.com',
+        'body' => 'This is for testing email using smtp'
+    ];
+   
+    Illuminate\Support\Facades\Mail::to('inesbkht@gmail.com')->send(new \App\Mail\TestMail($details));
+   
+    dd("Email is Sent.");
 });
