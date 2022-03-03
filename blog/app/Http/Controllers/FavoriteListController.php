@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\FavoriteList;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+
 
 class FavoriteListController extends Controller
 {
@@ -48,7 +50,14 @@ class FavoriteListController extends Controller
             $favoriteList->id_property = $request->input('id_property');
             $favoriteList->save();
 
-            return response()->json(['favorite_list' => true], 200);
+            $details = [
+                'title' => 'Mail from favorite list',
+                'body' => 'This is for testing email using smtp'.$favoriteList->id
+            ];
+           
+            Mail::to(Auth::userOrFail()->mail)->send(new \App\Mail\TestMail($details));
+           
+            return response()->json(['favorite_list' => true,'email'=>'send'], 200);
 
         } catch (\Exception $e) {
 
