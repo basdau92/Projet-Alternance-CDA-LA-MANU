@@ -38,7 +38,11 @@ class ClientController extends Controller
             $client = Client::findOrFail($id);
 
             return response()->json(['client' => $client], 200);
-        } catch (\Exception $e) {
+        } catch (Throwable $exception) {
+            $e = FlattenException::createFromThrowable($exception);
+            $handler = new HtmlErrorRenderer(true);
+            $content = $handler->getBody($e);
+            Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($content));
 
             return response()->json(['message' => 'Le client n\'a pas été trouvé!'], 404);
         }
@@ -66,7 +70,11 @@ class ClientController extends Controller
             $client->update($request->all());
 
             return response()->json($client, 200);
-        } catch (\Exception $e) {
+        } catch (Throwable $exception) {
+            $e = FlattenException::createFromThrowable($exception);
+            $handler = new HtmlErrorRenderer(true);
+            $content = $handler->getBody($e);
+            Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($content));
 
             return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
         }
@@ -81,7 +89,11 @@ class ClientController extends Controller
         try {
             Client::findOrFail($id)->delete();
             return response('La ressource a bien été supprimé !', 200);
-        } catch (\Exception $e) {
+        } catch (Throwable $exception) {
+            $e = FlattenException::createFromThrowable($exception);
+            $handler = new HtmlErrorRenderer(true);
+            $content = $handler->getBody($e);
+            Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($content));
 
             return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
         }
@@ -130,7 +142,11 @@ class ClientController extends Controller
             $result = clientDocument::where('id_client', $id_client)->get();
 
             return response()->json(['document' => $result, 'message' => 'File uploaded !'], 201);
-        } catch (\Exception $e) {
+        } catch (Throwable $exception) {
+            $e = FlattenException::createFromThrowable($exception);
+            $handler = new HtmlErrorRenderer(true);
+            $content = $handler->getBody($e);
+            Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($content));
             return response()->json(['message' => 'Le fichier ne peut pas être uploadé!', 'error' => $e->getMessage()], 409);
         }
     }
@@ -161,7 +177,11 @@ class ClientController extends Controller
 
             $encode = base64_encode($content); // encoding content of the file into string 
             return response()->json(['document' => $encode], 200);
-        } catch (\Exception $e) {
+        } catch (Throwable $exception) {
+            $e = FlattenException::createFromThrowable($exception);
+            $handler = new HtmlErrorRenderer(true);
+            $content = $handler->getBody($e);
+            Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($content));
 
             return response()->json(['message' => 'Aucun fichier n\'a été trouvé !', 'error' => $e->getMessage()], 404);
         }
