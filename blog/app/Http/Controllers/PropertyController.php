@@ -106,7 +106,6 @@ class PropertyController extends Controller
                 $room->save();
             }
 
-
             // Insert the features_list related to one property.
             $tab = ['annexe' => $annexes, 'outdoor' => $outdoors, 'hygiene' => $hygienes];
 
@@ -124,7 +123,6 @@ class PropertyController extends Controller
                             $featuresList->id_property = $property->id;
                             $featuresList->id_annexe = $annexes[$i];
                             array_push($resultParkingNumbers, [$annexes[$i] => ParkingNumber::where('id_annexe', $annexes[$i])->get()]);
-
 
                             // Insert parkingNumber from each annexe.
 
@@ -208,7 +206,6 @@ class PropertyController extends Controller
             }
             $resultRooms = Room::where('id_property', $property->id)->get();
             $resultfeaturesList = FeaturesList::where('id_property', $property->id)->get();
-            //dd($request);
 
             // Return successful response.
             return response()->json(['property' => $property, 'property_type' => $propertyType, 'rooms' => $resultRooms, 'featuresList' => $resultfeaturesList, 'parkingNumbers' => $resultParkingNumbers, 'message' => 'CREATED'], 201);
@@ -268,14 +265,16 @@ class PropertyController extends Controller
     {
         try {
             // Try to get several models/tables datas related to the Property model/table by Eloquence.
-            $getAllDatas = Property::with(['energyAudits', 'propertyTypes', 'propertyCategories', 
-                                            'propertyPictures', 'kitchen', 'heater',
-                                            'rooms', 'roomTypes', 'featuresLists',
-                                            'hygienes', 'outdoors', 'annexes', 'parkingNumbers'])
-                                    ->get();
-            
+            $getAllDatas = Property::with([
+                'energyAudits', 'propertyTypes', 'propertyCategories',
+                'propertyPictures', 'kitchen', 'heater',
+                'rooms', 'roomTypes', 'featuresLists',
+                'hygienes', 'outdoors', 'annexes', 'parkingNumbers'
+            ])
+                ->get();
+
             // If successful, return successful response.
-            return response()->json(['property'=>$getAllDatas], 200);
+            return response()->json(['property' => $getAllDatas], 200);
 
             // If successful, return successful response.
             return response()->json(['property' => $getAllDatas], 200);
