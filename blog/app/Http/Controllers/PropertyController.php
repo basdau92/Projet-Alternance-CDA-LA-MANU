@@ -338,6 +338,7 @@ class PropertyController extends Controller
                     $energyAudit->path = $destination_path;
                     $energyAudit->alt = $request->input('alt');
                     $energyAudit->save();
+                    
 
                     return response()->json(['energy_audit' => $energyAudit->id, 'message' => 'File uploaded !'], 201);
 
