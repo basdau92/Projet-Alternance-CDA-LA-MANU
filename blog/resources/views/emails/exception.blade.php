@@ -8,7 +8,6 @@
 </head>
 
 <body>
-    <p>{!! $content !!}</p>
+    <p>Contenu de l'erreur: {!! $content !!}</p>
+    <p>Erreur générée par l'utilisateur : {!! $mail !!}</p>
 </body>
-
-</html
