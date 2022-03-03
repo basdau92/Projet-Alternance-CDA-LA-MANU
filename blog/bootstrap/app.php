@@ -98,7 +98,6 @@ $app->routeMiddleware([
 |
 */
 
-$app->configure('mail');
 // $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
