@@ -372,10 +372,7 @@ class PropertyController extends Controller
                 ->get();
 
             // If successful, return successful response.
-            return response()->json(['property' => $getAllDatas], 200);
-
-            // If successful, return successful response.
-            return response()->json(['property' => $getAllDatas], 200);
+            return response()->json(['property' => $getAllDatas], 200); 
 
         } catch (\Exception $e) {
 
