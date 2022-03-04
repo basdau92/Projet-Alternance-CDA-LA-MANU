@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Mail;
 | and give it the Closure to call when that URI is requested.
 |
 */
-$router->post('rdv', 'RdvController@createRdv');
+
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
@@ -28,9 +28,9 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
 
 $router->group(['prefix' => 'client'], function () use ($router) {
 
-    $router->get('/my-favorites', 'FavoriteListController@showFavoriteList');
-    $router->post('/add-favorites', 'FavoriteListController@createFavoriteList');
-    $router->delete('delete-favorites/{id}', 'FavoriteListController@deleteFavoriteList');
+    $router->get('/favorites', 'FavoriteListController@showFavoriteList');
+    $router->post('/favorites', 'FavoriteListController@createFavoriteList');
+    $router->delete('/favorites/{id}', 'FavoriteListController@deleteFavoriteList');
     $router->post('/documents', 'ClientController@upload');
     $router->delete('/documents/{id}', 'ClientController@deleteFile');
     $router->put('/documents/{id}', 'ClientController@updateFile');
@@ -51,3 +51,5 @@ $router->group(['prefix' => 'property'], function () use ($router) {
     $router->get('/', 'PropertyController@allProperties');
     $router->put('/{id}', 'PropertyController@updateProperty');
 });
+
+$router->post('rdv', 'RdvController@createRdv');
