@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RdvController;
 use Illuminate\Support\Facades\Mail;
 
 /** @var \Laravel\Lumen\Routing\Router $router */
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Mail;
 | and give it the Closure to call when that URI is requested.
 |
 */
-
+$router->post('rdv', 'RdvController@createRdv');
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
@@ -30,7 +31,7 @@ $router->group(['prefix' => 'client'], function () use ($router) {
     $router->get('/my-favorites', 'FavoriteListController@showFavoriteList');
     $router->post('/add-favorites', 'FavoriteListController@createFavoriteList');
     $router->delete('delete-favorites/{id}', 'FavoriteListController@deleteFavoriteList');
-    $router->post('/new-documents', 'ClientController@upload');
+    $router->post('/documents', 'ClientController@upload');
     $router->delete('/documents/{id}', 'ClientController@deleteFile');
     $router->put('/documents/{id}', 'ClientController@updateFile');
     $router->get('/documents', 'ClientController@readFiles');
@@ -49,16 +50,4 @@ $router->group(['prefix' => 'property'], function () use ($router) {
     $router->get('/{id}', 'PropertyController@singleProperty');
     $router->get('/', 'PropertyController@allProperties');
     $router->put('/{id}', 'PropertyController@updateProperty');
-});
-
-$router->get('send-mail', function () {
-
-    $details = [
-        'title' => 'Mail from test.com',
-        'body' => 'This is for testing email using smtp'
-    ];
-
-    Mail::to('inesbkht@gmail.com')->send(new \App\Mail\TestMail($details));
-
-    dd("Email is Sent.");
 });
