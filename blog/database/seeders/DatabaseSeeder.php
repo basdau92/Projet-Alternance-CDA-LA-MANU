@@ -30,6 +30,8 @@ class DatabaseSeeder extends Seeder
             OutdoorSeeder::class,
             FeaturesListSeeder::class,
             ParkingNumberSeeder::class,
+            LabelSeeder::class,
+            RdvSeeder::class,
         ]);
         
     }
