@@ -31,14 +31,19 @@ class RdvController extends Controller
             'mail' => 'email|unique:rdv',
             'phone' => 'numeric',
             'is_visit' => 'required|boolean',
+            'id_employee' => 'required'
         ]);
-        dd($request);
+
         try {
-            
+
             $rdv = new Rdv();
-            $rdv->id_employee = Auth::user();
+            
+            $rdv->id_employee = Auth::user()->id;
+            
             $label = $rdv->id_label = $request->input('label');
+            
             $beginning = $rdv->beginning = $request->input('beginning');
+            
             $end = $rdv->end = $request->input('end');
             $description = $rdv->description = $request->input('description');
             $rdv->lastname = $request->input('lastname');
