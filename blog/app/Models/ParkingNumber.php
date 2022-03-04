@@ -32,7 +32,7 @@ class ParkingNumber extends Model
     ];
 
     /**
-     * Relationship "inversed One To One" with the Annexe model table. 
+     * Relationship "inversed One To Many" with the Annexe model table. 
      */
     public function parkingNumbers(){
         return $this->belongsTo(Annexe::class);

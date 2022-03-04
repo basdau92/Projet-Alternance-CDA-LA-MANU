@@ -125,27 +125,27 @@ class Property extends Model
      * Relationship "One To Many" through intermediate model with the Hygiene model table. 
      */
     public function hygienes(){
-        return $this->hasManyThrough(Hygiene::class, FeaturesList::class, 'id', 'id');
+        return $this->hasManyThrough(Hygiene::class, FeaturesList::class, 'id_hygiene', 'id');
     }
 
     /**
      * Relationship "One To Many" through intermediate model with the Outdoor model table. 
      */
     public function outdoors(){
-        return $this->hasManyThrough(Outdoor::class, FeaturesList::class, 'id', 'id');
+        return $this->hasManyThrough(Outdoor::class, FeaturesList::class, 'id_outdoor', 'id');
     }
 
     /**
      * Relationship "One To Many" through intermediate model with the Annexe model table. 
      */
     public function annexes(){
-        return $this->hasManyThrough(Annexe::class, FeaturesList::class, 'id', 'id');
+        return $this->hasManyThrough(Annexe::class, FeaturesList::class, 'id_annexe', 'id');
     }
 
     /**
-     * Relationship "One To One" through intermediate model with the Annexe model table. 
+     * Relationship "One To Many" through intermediate model with the Annexe model table. 
      */
-    public function parkingNumbers(){
-        return $this->hasOneThrough(ParkingNumber::class, Annexe::class, 'id', 'id');
-    }
+    // public function parkingNumbers(){
+    //     return $this->hasManyThrough(ParkingNumber::class, Annexe::class, 'id_annexe', 'id');
+    // }
 }

@@ -36,4 +36,11 @@ class Annexe extends Model
     public function annexes(){
         return $this->belongsTo(FeaturesList::class);
     }
+
+    /**
+     * Relationship "One To Many" with the parkingNumber model table. 
+     */
+    public function parkingNumbers(){
+        return $this->hasMany(parkingNumber::class, 'id', 'id');
+    }
 }
