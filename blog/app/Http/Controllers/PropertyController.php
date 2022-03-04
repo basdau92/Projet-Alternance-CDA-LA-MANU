@@ -367,7 +367,7 @@ class PropertyController extends Controller
                 'energyAudits', 'propertyTypes', 'propertyCategories',
                 'propertyPictures', 'kitchen', 'heater',
                 'rooms', 'roomTypes', 'featuresLists',
-                'hygienes', 'outdoors', 'annexes', 'parkingNumbers'
+                'hygienes', 'outdoors', 'annexes'
             ])
                 ->get();
 
