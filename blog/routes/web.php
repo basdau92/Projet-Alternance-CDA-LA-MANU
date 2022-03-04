@@ -52,13 +52,13 @@ $router->group(['prefix' => 'property'], function () use ($router) {
 });
 
 $router->get('send-mail', function () {
-   
+
     $details = [
         'title' => 'Mail from test.com',
         'body' => 'This is for testing email using smtp'
     ];
-   
+
     Mail::to('inesbkht@gmail.com')->send(new \App\Mail\TestMail($details));
-   
+
     dd("Email is Sent.");
 });

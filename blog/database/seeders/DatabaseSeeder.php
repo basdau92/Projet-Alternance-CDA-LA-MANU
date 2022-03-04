@@ -32,7 +32,9 @@ class DatabaseSeeder extends Seeder
             ParkingNumberSeeder::class,
             RoleSeeder::class,
             EmployeeSeeder::class,
-            PropertyListSeeder::class
+            PropertyListSeeder::class,
+            LabelSeeder::class,
+            RdvSeeder::class
         ]);
         
     }
