@@ -30,6 +30,9 @@ class DatabaseSeeder extends Seeder
             OutdoorSeeder::class,
             FeaturesListSeeder::class,
             ParkingNumberSeeder::class,
+            RoleSeeder::class,
+            EmployeeSeeder::class,
+            PropertyListSeeder::class
         ]);
         
     }
