@@ -21,29 +21,28 @@ class RdvController extends Controller
      */
     public function createRdv(Request $request)
     {
-        
+
         $this->validate($request, [
             'label' => 'required',
-            'beginning' => 'required|date_format:d-m-Y H:i:s',
-            'end' => 'required|date_format:d-m-Y H:i:s',
+            'beginning' => 'required|date_format:Y-m-d H:i:s',
+            'end' => 'required|date_format:Y-m-d H:i:s',
             'lastname' => 'required|string',
             'firstname' => 'required|string',
             'mail' => 'email|unique:rdv',
             'phone' => 'numeric',
             'is_visit' => 'required|boolean',
-            'id_employee' => 'required'
+            'id_employee' => 'required',
+            'id_agency' => 'required'
         ]);
 
         try {
 
             $rdv = new Rdv();
-            
+
             $rdv->id_employee = Auth::user()->id;
-            
+
             $label = $rdv->id_label = $request->input('label');
-            
             $beginning = $rdv->beginning = $request->input('beginning');
-            
             $end = $rdv->end = $request->input('end');
             $description = $rdv->description = $request->input('description');
             $rdv->lastname = $request->input('lastname');
@@ -54,17 +53,17 @@ class RdvController extends Controller
             $address = $rdv->address = $request->input('address');
             $city = $rdv->city = $request->input('city');
             $zipcode = $rdv->zipcode = $request->input('zipcode');
-
+            $agency = $rdv->id_agency = $request->input('id_agency');
             $rdv->save();
 
-            Mail::to($clientMail)->send(new RdvMail($label, $beginning, $end, $description, $address, $city, $zipcode));
+            Mail::to($clientMail)->send(new RdvMail($label, $beginning, $end, $description, $address, $city, $zipcode, $agency));
 
             return response()->json(['rdv' => $rdv, 'message' => 'RDV CRÉE'], 201);
         } catch (\Exception $e) {
             $mail = Auth::user()->mail;
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
 
-            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', $e->getMessage()], 409);
         }
     }
 }
