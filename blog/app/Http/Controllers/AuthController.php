@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
+use App\Models\Employee;
+
+
 
 class AuthController extends Controller
 {
@@ -16,7 +19,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','register']]);
+        $this->middleware('auth:api', ['except' => ['login_client','register_client','login_employee','register_employee']]);
     }
 
     /**
@@ -25,7 +28,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function register(Request $request)
+    public function register_client(Request $request)
     {
         //validate incoming request 
         $this->validate($request, [
@@ -61,7 +64,70 @@ class AuthController extends Controller
     /**
      * Login method
      */
-    public function login(Request $request)
+    public function login_client(Request $request)
+    {
+          //validate incoming request 
+        $this->validate($request, [
+            'mail' => 'required|string',
+            'password' => 'required|string',
+        ]);
+        $credentials = $request->only(['mail', 'password']);
+        if (!$token = Auth::attempt($credentials)) {
+            return response()->json(['message' => 'ACCÈS NON AUTORISÉ! VEUILLEZ VOUS AUTHENTIFIER.'], 401);
+        }
+        return $this->respondWithToken($token);
+    }
+
+    /**
+     * Register new employee
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function register_employee(Request $request)
+    {
+        //validate incoming request 
+        $this->validate($request, [
+            'lastname' => 'required|string',
+            'firstname' => 'required|string',
+            'mail' => 'required|email|unique:employee',
+            'phone' => 'required|numeric',
+            'id_role' => 'required|numeric',
+            'id_agency' => 'required|numeric',
+            'password' => 'required',
+            'idNumber' =>'unique:employee'
+        ]);
+
+        try {
+            //dd($request);
+            $employee = new Employee();
+            $employee->lastname = $request->input('lastname');
+            $$employee->firstname = $request->input('firstname');
+            $employee->mail = $request->input('mail');
+            $employee->phone = $request->input('phone');
+            $plainPassword = $request->input('password');
+            $employee->password = app('hash')->make($plainPassword);
+            $employee->idNumber = rand(1,100);
+            $employee->id_role = $request->input('id_role');
+            $employee->id_agency = $request->input('id_agency');
+
+
+            $employee->save();
+
+            //return successful response
+            return response()->json(['employee' => $employee, 'message' => 'CREATED'], 201);
+
+        } catch (\Exception $e) {
+            //return error message
+            return response()->json(['message' => 'L\'enregistrement de l\'employée a échoué !', 'error' => $e->getMessage()], 409);
+        }
+
+    }
+
+    /**
+     * Login method for employee
+     */
+    public function login_employee(Request $request)
     {
           //validate incoming request 
         $this->validate($request, [
