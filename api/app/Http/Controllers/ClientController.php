@@ -29,12 +29,10 @@ class ClientController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function singleClient($id)
+    public function singleClient()
     {
         try {
-            $client = Client::findOrFail($id);
-
-            return response()->json(['client' => $client], 200);
+            return response()->json(['client' => Auth::user()], 200);
         } catch (\Exception $e) {
             $mail = Auth::user()->mail;
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
@@ -58,18 +56,24 @@ class ClientController extends Controller
      *
      * @return Response
      */
-    public function updateClient($id, Request $request)
+    public function updateClient(Request $request)
     {
         try {
-            $client = Client::findOrFail($id);
-            $client->update($request->all());
+            $client = Auth::user();
+            $client->lastname = $request->input('lastname');
+            $client->firstname = $request->input('firstname');
+            $client->mail = $request->input('mail');
+            $client->phone = $request->input('phone');
 
-            return response()->json($client, 200);
+            // Update client to database
+            $client->save();
+
+            return response()->json(['message' => 'Le profil a bien été modifié.', 'client' => Auth::user()], 200);
         } catch (\Exception $e) {
             $mail = Auth::user()->mail;
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
 
-            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
         }
     }
 

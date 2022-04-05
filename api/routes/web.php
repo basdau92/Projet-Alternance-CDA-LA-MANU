@@ -37,10 +37,10 @@ $router->group(['prefix' => 'client'], function () use ($router) {
     $router->delete('/documents/{id}', 'ClientController@deleteFile');
     $router->put('/documents/{id}', 'ClientController@updateFile');
     $router->get('/documents', 'ClientController@readFiles');
-    $router->get('/{id}', 'ClientController@singleClient');
+    $router->get('/profile', 'ClientController@singleClient');
     $router->get('/', 'ClientController@allClients');
     $router->delete('/{id}', 'ClientController@deleteClient');
-    $router->put('/{id}', 'ClientController@updateClient');
+    $router->put('/profile', 'ClientController@updateClient');
 });
 
 $router->group(['prefix' => 'property'], function () use ($router) {
