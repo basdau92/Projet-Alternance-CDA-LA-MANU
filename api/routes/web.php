@@ -24,8 +24,8 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
 
     $router->post('/', 'AuthController@register_client');
     $router->get('/', 'AuthController@login_client');
-    $router->post('register_employee', 'AuthController@register_employee');
-    $router->post('login_employee', 'AuthController@login_employee');
+    $router->post('/employee', 'AuthController@register_employee');
+    $router->get('/employee', 'AuthController@login_employee');
 });
 
 $router->group(['prefix' => 'client'], function () use ($router) {

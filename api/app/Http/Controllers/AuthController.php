@@ -99,10 +99,10 @@ class AuthController extends Controller
         ]);
 
         try {
-            //dd($request);
             $employee = new Employee();
+            
             $employee->lastname = $request->input('lastname');
-            $$employee->firstname = $request->input('firstname');
+            $employee->firstname = $request->input('firstname');
             $employee->mail = $request->input('mail');
             $employee->phone = $request->input('phone');
             $plainPassword = $request->input('password');
@@ -110,13 +110,11 @@ class AuthController extends Controller
             $employee->idNumber = rand(1,100);
             $employee->id_role = $request->input('id_role');
             $employee->id_agency = $request->input('id_agency');
-
-
             $employee->save();
-
+            
             //return successful response
             return response()->json(['employee' => $employee, 'message' => 'CREATED'], 201);
-
+          
         } catch (\Exception $e) {
             //return error message
             return response()->json(['message' => 'L\'enregistrement de l\'employée a échoué !', 'error' => $e->getMessage()], 409);
