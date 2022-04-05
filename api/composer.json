@@ -8,6 +8,7 @@
         "php": "^7.3|^8.0",
         "doctrine/dbal": "^3.3",
         "flipbox/lumen-generator": "^8.2",
+        "fruitcake/laravel-cors": "^3.0",
         "illuminate/mail": "*",
         "laravel/lumen-framework": "^8.3.1",
         "nesbot/carbon": "^2.56",
