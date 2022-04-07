@@ -68,8 +68,8 @@ class AuthController extends Controller
     {
           //validate incoming request 
         $this->validate($request, [
-            'mail' => 'required|string',
-            'password' => 'required|string',
+            'mail' => 'required|email',
+            'password' => 'required',
         ]);
         $credentials = $request->only(['mail', 'password']);
         if (!$token = Auth::attempt($credentials)) {
