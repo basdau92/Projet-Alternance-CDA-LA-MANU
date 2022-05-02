@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Room;
 use App\Models\Annexe;
 use App\Models\Heater;
@@ -29,7 +28,7 @@ class PropertyController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api',['except' => ['allProperties','singleProperty']]);
     }
 
     public function compareSizeArray($tab)
