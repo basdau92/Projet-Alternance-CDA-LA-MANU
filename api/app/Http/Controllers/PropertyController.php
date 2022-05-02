@@ -1,11 +1,8 @@
 <?php
 
-use App\Models\Room;
-
 namespace App\Http\Controllers;
 
 use App\Models\Room;
-
 use App\Models\Annexe;
 use App\Models\Heater;
 use App\Models\Hygiene;

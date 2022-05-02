@@ -41,6 +41,7 @@ $router->group(['prefix' => 'client'], function () use ($router) {
     $router->get('/', 'ClientController@allClients');
     $router->delete('/{id}', 'ClientController@deleteClient');
     $router->put('/profile', 'ClientController@updateClient');
+    $router->put('/profile', 'ClientController@updatePassword');
 });
 
 $router->group(['prefix' => 'property'], function () use ($router) {

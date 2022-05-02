@@ -58,6 +58,14 @@ class ClientController extends Controller
      */
     public function updateClient(Request $request)
     {
+        //validate incoming request 
+        $this->validate($request, [
+            'lastname' => 'string',
+            'firstname' => 'string',
+            'mail' => 'email|unique:client',
+            'phone' => 'numeric',
+        ]);
+
         try {
             $client = Auth::user();
             $client->lastname = $request->input('lastname');
@@ -69,6 +77,28 @@ class ClientController extends Controller
             $client->save();
 
             return response()->json(['message' => 'Le profil a bien été modifié.', 'client' => Auth::user()], 200);
+        } catch (\Exception $e) {
+            $mail = Auth::user()->mail;
+            Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
+
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
+        }
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $this->validate($request, [
+            'password' => 'password'
+        ]);
+
+        try {
+            $client = new Client();
+            $plainPassword = $request->input('password');
+            $client->password = app('hash')->make($plainPassword);
+
+            $client->save();
+
+            return response()->json(['message' => 'Le mot de passe a bien été modifié.', 'client' => Auth::user()], 200);
         } catch (\Exception $e) {
             $mail = Auth::user()->mail;
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
