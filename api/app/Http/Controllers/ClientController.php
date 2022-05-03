@@ -103,7 +103,7 @@ class ClientController extends Controller
             //     ]
             // ]
         ]);
-        
+
         try {
             $client = Auth::user();
             $plainPassword = $request->input('password');
@@ -116,7 +116,7 @@ class ClientController extends Controller
             $mail = Auth::user()->mail;
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
 
-            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
         }
     }
 
