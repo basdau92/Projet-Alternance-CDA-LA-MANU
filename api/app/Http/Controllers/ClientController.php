@@ -60,10 +60,10 @@ class ClientController extends Controller
     {
         //validate incoming request 
         $this->validate($request, [
-            'lastname' => 'string',
-            'firstname' => 'string',
-            'mail' => 'email|unique:client',
-            'phone' => 'numeric',
+            'lastname' => 'string|required',
+            'firstname' => 'string|required',
+            'mail' => 'email|unique:client|required',
+            'phone' => 'numeric|required',
         ]);
 
         try {
@@ -91,6 +91,7 @@ class ClientController extends Controller
             $request,
             [
                 'password' => [
+                    'required',
                     'min:6',
                     'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
                 ]
