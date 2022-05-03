@@ -87,23 +87,16 @@ class ClientController extends Controller
 
     public function updatePassword(Request $request)
     {
-        $this->validate($request, [
-            'password' => [
-                'min:6',
-                'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
-            ],
+        $this->validate(
+            $request,
             [
-                'password.regex' => 'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
-                'password.min' => 'Votre mot de passe doit contenir au moins 6 caractères.'
-            ],
-            // 'custom' => [
-            //     'password' => [
-            //         'regex' =>  'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
-            //         'min' => 'Votre mot de passe doit contenir au moins 6 caractères.'
-            //     ]
-            // ]
-        ]);
-        
+                'password' => [
+                    'min:6',
+                    'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
+                ]
+            ]
+        );
+
         try {
             $client = Auth::user();
             $plainPassword = $request->input('password');
@@ -113,10 +106,11 @@ class ClientController extends Controller
 
             return response()->json(['message' => 'Le mot de passe a bien été modifié.', 'client' => Auth::user()], 200);
         } catch (\Exception $e) {
+
             $mail = Auth::user()->mail;
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
 
-            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
         }
     }
 
