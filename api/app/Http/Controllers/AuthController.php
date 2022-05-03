@@ -40,18 +40,9 @@ class AuthController extends Controller
                 'required',
                 'min:6',
                 'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
-            ],
-            [
-                'password.regex' => 'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
-                'password.min' => 'Votre mot de passe doit contenir au moins 6 caractères.'
             ]
         ]);
-        // 'custom' => [
-        //     'password' => [
-        //         'regex' =>  'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
-        //         'min' => 'Votre mot de passe doit contenir au moins 6 caractères.'
-        //     ]
-        // ]
+
         try {
 
             $client = new Client();
@@ -84,10 +75,6 @@ class AuthController extends Controller
                 'required',
                 'min:6',
                 'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
-            ],
-            [
-                'password.regex' => 'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
-                'password.min' => 'Votre mot de passe doit contenir au moins 6 caractères.'
             ]
         ]);
         $credentials = $request->only(['mail', 'password']);
@@ -118,10 +105,6 @@ class AuthController extends Controller
                 'required',
                 'min:6',
                 'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
-            ],
-            [
-                'password.regex' => 'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
-                'password.min' => 'Votre mot de passe doit contenir au moins 6 caractères.'
             ]
         ]);
 
@@ -159,10 +142,6 @@ class AuthController extends Controller
                 'required',
                 'min:6',
                 'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
-            ],
-            [
-                'password.regex' => 'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
-                'password.min' => 'Votre mot de passe doit contenir au moins 6 caractères.'
             ]
         ]);
         $credentials = $request->only(['mail', 'password']);

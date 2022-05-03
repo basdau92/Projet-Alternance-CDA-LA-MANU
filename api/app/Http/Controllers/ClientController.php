@@ -87,23 +87,15 @@ class ClientController extends Controller
 
     public function updatePassword(Request $request)
     {
-        $this->validate($request, [
-            'password' =>
+        $this->validate(
+            $request,
             [
-                'min:6',
-                'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
-            ], 'message' =>
-            [
-                'password.regex' => 'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
-                'password.min' => 'Votre mot de passe doit contenir au moins 6 caractères.'
-            ],
-            // 'custom' => [
-            //     'password' => [
-            //         'regex' =>  'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
-            //         'min' => 'Votre mot de passe doit contenir au moins 6 caractères.'
-            //     ]
-            // ]
-        ]);
+                'password' => [
+                    'min:6',
+                    'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
+                ]
+            ]
+        );
 
         try {
             $client = Auth::user();
@@ -114,6 +106,7 @@ class ClientController extends Controller
 
             return response()->json(['message' => 'Le mot de passe a bien été modifié.', 'client' => Auth::user()], 200);
         } catch (\Exception $e) {
+
             $mail = Auth::user()->mail;
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
 
