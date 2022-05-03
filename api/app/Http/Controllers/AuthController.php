@@ -56,10 +56,10 @@ class AuthController extends Controller
             $client->save();
 
             //return successful response
-            return response()->json(['client' => $client, 'message' => 'CREATED'], 201);
+            return response()->json(['client' => $client, 'message' => 'Votre compte a bien été créé. Vous pouvez vous authentifier.'], 201);
         } catch (\Exception $e) {
             //return error message
-            return response()->json(['message' => 'L\'enregistrement du client a échoué !', 'error' => $e->getMessage()], 409);
+            return response()->json(['message' => 'L\'enregistrement a échoué.', 'error' => $e->getMessage()], 409);
         }
     }
 
@@ -79,7 +79,7 @@ class AuthController extends Controller
         ]);
         $credentials = $request->only(['mail', 'password']);
         if (!$token = Auth::attempt($credentials)) {
-            return response()->json(['message' => 'ACCÈS NON AUTORISÉ! VEUILLEZ VOUS AUTHENTIFIER.'], 401);
+            return response()->json(['message' => 'Accès non autorisé. Veuillez vérifier vos informations.'], 401);
         }
         return $this->respondWithToken($token);
     }
@@ -123,10 +123,10 @@ class AuthController extends Controller
             $employee->save();
 
             //return successful response
-            return response()->json(['employee' => $employee, 'message' => 'CREATED'], 201);
+            return response()->json(['employee' => $employee, 'message' => 'Le compte employé a bien été créé.'], 201);
         } catch (\Exception $e) {
             //return error message
-            return response()->json(['message' => 'L\'enregistrement de l\'employée a échoué !', 'error' => $e->getMessage()], 409);
+            return response()->json(['message' => 'L\'enregistrement de l\'employé a échoué.', 'error' => $e->getMessage()], 409);
         }
     }
 
@@ -146,7 +146,7 @@ class AuthController extends Controller
         ]);
         $credentials = $request->only(['mail', 'password']);
         if (!$token = Auth::attempt($credentials)) {
-            return response()->json(['message' => 'ACCÈS NON AUTORISÉ! VEUILLEZ VOUS AUTHENTIFIER.'], 401);
+            return response()->json(['message' => 'Accès non autorisé. Veuillez vérifier vos informations.'], 401);
         }
         return $this->respondWithToken($token);
     }
@@ -170,7 +170,7 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Vous avez été connecté avec succès !']);
+        return response()->json(['message' => 'Vous avez été déconnecté avec succès !']);
     }
 
     /**
