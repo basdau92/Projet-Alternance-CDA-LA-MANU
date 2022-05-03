@@ -39,14 +39,19 @@ class AuthController extends Controller
             'password' => [
                 'required',
                 'min:6',
-                'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/gmx'
+                'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
             ],
             [
                 'password.regex' => 'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
                 'password.min' => 'Votre mot de passe doit contenir au moins 6 caractères.'
             ]
         ]);
-
+        // 'custom' => [
+        //     'password' => [
+        //         'regex' =>  'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
+        //         'min' => 'Votre mot de passe doit contenir au moins 6 caractères.'
+        //     ]
+        // ]
         try {
 
             $client = new Client();
@@ -78,7 +83,7 @@ class AuthController extends Controller
             'password' => [
                 'required',
                 'min:6',
-                'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/gmx'
+                'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
             ],
             [
                 'password.regex' => 'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
@@ -108,12 +113,12 @@ class AuthController extends Controller
             'phone' => 'required|numeric',
             'id_role' => 'required|numeric',
             'id_agency' => 'required|numeric',
+            'idNumber' => 'unique:employee',
             'password' => [
                 'required',
                 'min:6',
-                'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/gmx'
+                'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
             ],
-            'idNumber' => 'unique:employee',
             [
                 'password.regex' => 'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
                 'password.min' => 'Votre mot de passe doit contenir au moins 6 caractères.'
@@ -153,7 +158,7 @@ class AuthController extends Controller
             'password' => [
                 'required',
                 'min:6',
-                'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/gmx'
+                'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
             ],
             [
                 'password.regex' => 'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
