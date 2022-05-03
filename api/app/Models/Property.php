@@ -83,7 +83,7 @@ class Property extends Model
      * Relationship "One To Many" with the PropertyPictures model table. 
      */
     public function propertyPictures(){
-        return $this->hasMany(PropertyPicture::class, 'id', 'id');
+        return $this->hasMany(PropertyPicture::class, 'id_property', 'id');
     }
 
     /**
@@ -104,14 +104,14 @@ class Property extends Model
      * Relationship "One To Many" through intermediate model with the RoomType model table. 
      */
     public function rooms(){
-        return $this->hasMany(Room::class, 'id', 'id');
+        return $this->hasMany(Room::class, 'id_property', 'id');
     }
 
     /**
      * Relationship "One To Many" through intermediate model with the RoomType model table. 
      */
     public function roomTypes(){
-        return $this->hasManyThrough(RoomType::class, Room::class, 'id', 'id');
+        return $this->hasManyThrough(RoomType::class, Room::class, 'id_room_type', 'id');
     }
 
     /**
