@@ -88,10 +88,11 @@ class ClientController extends Controller
     public function updatePassword(Request $request)
     {
         $this->validate($request, [
-            'password' => [
+            'password' =>
+            [
                 'min:6',
                 'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
-            ],
+            ], 'message' =>
             [
                 'password.regex' => 'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
                 'password.min' => 'Votre mot de passe doit contenir au moins 6 caractères.'
