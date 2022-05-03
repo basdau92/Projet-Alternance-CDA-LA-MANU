@@ -19,7 +19,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login_client','register_client','login_employee','register_employee']]);
+        $this->middleware('auth:api', ['except' => ['login_client', 'register_client', 'login_employee', 'register_employee']]);
     }
 
     /**
@@ -36,7 +36,15 @@ class AuthController extends Controller
             'firstname' => 'required|string',
             'mail' => 'required|email|unique:client',
             'phone' => 'required|numeric',
-            'password' => 'required',
+            'password' => [
+                'required',
+                'min:6',
+                'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/gmx'
+            ],
+            [
+                'password.regex' => 'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
+                'password.min' => 'Votre mot de passe doit contenir au moins 6 caractères.'
+            ]
         ]);
 
         try {
@@ -53,12 +61,10 @@ class AuthController extends Controller
 
             //return successful response
             return response()->json(['client' => $client, 'message' => 'CREATED'], 201);
-
         } catch (\Exception $e) {
             //return error message
             return response()->json(['message' => 'L\'enregistrement du client a échoué !', 'error' => $e->getMessage()], 409);
         }
-
     }
 
     /**
@@ -66,10 +72,18 @@ class AuthController extends Controller
      */
     public function login_client(Request $request)
     {
-          //validate incoming request 
+        //validate incoming request 
         $this->validate($request, [
             'mail' => 'required|email',
-            'password' => 'required',
+            'password' => [
+                'required',
+                'min:6',
+                'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/gmx'
+            ],
+            [
+                'password.regex' => 'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
+                'password.min' => 'Votre mot de passe doit contenir au moins 6 caractères.'
+            ]
         ]);
         $credentials = $request->only(['mail', 'password']);
         if (!$token = Auth::attempt($credentials)) {
@@ -94,32 +108,38 @@ class AuthController extends Controller
             'phone' => 'required|numeric',
             'id_role' => 'required|numeric',
             'id_agency' => 'required|numeric',
-            'password' => 'required',
-            'idNumber' =>'unique:employee'
+            'password' => [
+                'required',
+                'min:6',
+                'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/gmx'
+            ],
+            'idNumber' => 'unique:employee',
+            [
+                'password.regex' => 'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
+                'password.min' => 'Votre mot de passe doit contenir au moins 6 caractères.'
+            ]
         ]);
 
         try {
             $employee = new Employee();
-            
+
             $employee->lastname = $request->input('lastname');
             $employee->firstname = $request->input('firstname');
             $employee->mail = $request->input('mail');
             $employee->phone = $request->input('phone');
             $plainPassword = $request->input('password');
             $employee->password = app('hash')->make($plainPassword);
-            $employee->idNumber = rand(1,100);
+            $employee->idNumber = rand(1, 100);
             $employee->id_role = $request->input('id_role');
             $employee->id_agency = $request->input('id_agency');
             $employee->save();
-            
+
             //return successful response
             return response()->json(['employee' => $employee, 'message' => 'CREATED'], 201);
-          
         } catch (\Exception $e) {
             //return error message
             return response()->json(['message' => 'L\'enregistrement de l\'employée a échoué !', 'error' => $e->getMessage()], 409);
         }
-
     }
 
     /**
@@ -127,10 +147,18 @@ class AuthController extends Controller
      */
     public function login_employee(Request $request)
     {
-          //validate incoming request 
+        //validate incoming request 
         $this->validate($request, [
             'mail' => 'required|string',
-            'password' => 'required|string',
+            'password' => [
+                'required',
+                'min:6',
+                'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/gmx'
+            ],
+            [
+                'password.regex' => 'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
+                'password.min' => 'Votre mot de passe doit contenir au moins 6 caractères.'
+            ]
         ]);
         $credentials = $request->only(['mail', 'password']);
         if (!$token = Auth::attempt($credentials)) {
