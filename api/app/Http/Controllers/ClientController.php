@@ -92,7 +92,7 @@ class ClientController extends Controller
             [
                 'password' => [
                     'min:6',
-                    'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
+                    'regex:/(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?=^.*[^\s].*$).*$/'
                 ]
             ]
         );

@@ -39,7 +39,7 @@ class AuthController extends Controller
             'password' => [
                 'required',
                 'min:6',
-                'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
+                'regex:/(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?=^.*[^\s].*$).*$'
             ]
         ]);
 
@@ -71,11 +71,7 @@ class AuthController extends Controller
         //validate incoming request 
         $this->validate($request, [
             'mail' => 'required|email',
-            'password' => [
-                'required',
-                'min:6',
-                'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
-            ]
+            'password' => 'required'
         ]);
         $credentials = $request->only(['mail', 'password']);
         if (!$token = Auth::attempt($credentials)) {
@@ -104,7 +100,7 @@ class AuthController extends Controller
             'password' => [
                 'required',
                 'min:6',
-                'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
+                'regex:/(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?=^.*[^\s].*$).*$/'
             ]
         ]);
 
@@ -138,11 +134,7 @@ class AuthController extends Controller
         //validate incoming request 
         $this->validate($request, [
             'mail' => 'required|string',
-            'password' => [
-                'required',
-                'min:6',
-                'regex:/^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/'
-            ]
+            'password' => 'required',
         ]);
         $credentials = $request->only(['mail', 'password']);
         if (!$token = Auth::attempt($credentials)) {
