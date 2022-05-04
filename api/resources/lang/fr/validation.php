@@ -3,7 +3,7 @@ return [
     'custom' => [
         'password' => [
             'required' => 'Le mot de passe est obligatoire',
-            'min' => 'Le mot de passe doit contenir au moins :min caractères.',
+            'min' => 'Votre mot de passe doit contenir au moins :min caractères.',
             'regex' =>  'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial.',
         ],
         'mail' => [
