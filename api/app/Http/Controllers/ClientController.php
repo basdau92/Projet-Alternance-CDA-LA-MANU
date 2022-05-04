@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use App\Mail\ExceptionOccured;
 use App\Models\ClientDocument;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
-use App\Mail\ExceptionOccured;
 
 class ClientController extends Controller
 {
@@ -58,16 +59,18 @@ class ClientController extends Controller
      */
     public function updateClient(Request $request)
     {
+        $client = Auth::user();
         //validate incoming request 
         $this->validate($request, [
             'lastname' => 'string',
             'firstname' => 'string',
-            'mail' => 'email|unique:client',
+            'mail' => [
+            'email',
+            Rule::unique('client')->ignore($client->id)] ,
             'phone' => 'numeric',
         ]);
-
+        
         try {
-            $client = Auth::user();
             $client->lastname = $request->input('lastname');
             $client->firstname = $request->input('firstname');
             $client->mail = $request->input('mail');
