@@ -344,10 +344,7 @@ class PropertyController extends Controller
         try {
             // Try to get several models/tables datas related to the Property model/table by Eloquence.
             $getAllDatas = Property::with([
-                'energyAudits', 'propertyTypes', 'propertyCategories',
-                'propertyPictures', 'kitchen', 'heater',
-                'rooms', 'roomTypes', 'featuresLists',
-                'hygienes', 'outdoors', 'annexes'
+                'propertyPictures'
             ])
                 ->get();
 
@@ -356,9 +353,14 @@ class PropertyController extends Controller
         } catch (\Exception $e) {
 
             // If unsuccessful, return a custom error message and a HTML status.
-            return response()->json(['message' => 'La propriété n\'a pas été trouvé !', 'Error' => $e->getMessage()], 404);
+            return response()->json(['message' => 'La liste d\'annonces de propriétés n\'a pas pu être affichée !', 'Error' => $e->getMessage()], 404);
         }
     }
+
+    /*'energyAudits', 'propertyTypes', 'propertyCategories',
+                'propertyPictures', 'kitchen', 'heater',
+                'rooms', 'roomTypes', 'featuresLists',
+                'hygienes', 'outdoors', 'annexes'*/
 
     /** SHOW ONE PROPERTY
      * Get a single property.
@@ -369,8 +371,14 @@ class PropertyController extends Controller
     public function singleProperty($id)
     {
         try {
-            // Try to find a specific record by an id and return an array if successful. Generates an error otherwise.
-            $property = Property::findOrFail($id);
+            /* Try to find a specific record by an id with models/tables datas related to the Property model/table and return an array if successful. 
+            Generates an error otherwise.*/
+            $property = Property::findOrFail($id)->with([
+                'energyAudits', 'propertyTypes', 'propertyCategories',
+                'propertyPictures', 'kitchen', 'heater',
+                'rooms', 'roomTypes', 'featuresLists',
+                'hygienes', 'outdoors', 'annexes'
+            ]);
 
             return response()->json(['property' => $property], 200);
         } catch (\Exception $e) {
