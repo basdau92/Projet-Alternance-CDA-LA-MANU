@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Property;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Property;
 
 class Kitchen extends Model
 {
@@ -30,9 +30,9 @@ class Kitchen extends Model
     ];
 
     /**
-     * Relationship "inversed One To One" with the Kitchen model table. 
+     * Relationship "inversed One To One" with the Property model table. 
      */
-    public function kitchen(){
-        return $this->belongsTo(Property::class);
+    public function property(){
+        return $this->belongsTo(Property::class, 'id_kitchen');
     }
 }

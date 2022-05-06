@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Property;
 
 class Heater extends Model
 {
@@ -29,10 +30,10 @@ class Heater extends Model
     ];
 
     /**
-     * Relationship "inversed One To One" with the Heater model table. 
+     * Relationship "inversed One To One" with the Property model table. 
      */
-    public function heater(){
-        return $this->belongsTo(Heater::class);
+    public function property(){
+        return $this->belongsTo(Property::class, 'id_heater');
     }
 
 }

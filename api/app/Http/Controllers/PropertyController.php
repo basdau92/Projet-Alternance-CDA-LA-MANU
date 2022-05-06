@@ -357,11 +357,6 @@ class PropertyController extends Controller
         }
     }
 
-    /*'energyAudits', 'propertyTypes', 'propertyCategories',
-                'propertyPictures', 'kitchen', 'heater',
-                'rooms', 'roomTypes', 'featuresLists',
-                'hygienes', 'outdoors', 'annexes'*/
-
     /** SHOW ONE PROPERTY
      * Get a single property.
      *

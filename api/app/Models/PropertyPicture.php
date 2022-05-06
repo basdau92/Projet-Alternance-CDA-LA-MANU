@@ -36,7 +36,7 @@ class PropertyPicture extends Model
     /**
      * Relationship "inversed One To Many" with the Property model table. 
      */
-    public function propertyPictures(){
-        return $this->belongsTo(Property::class);
+    public function property(){
+        return $this->belongsTo(Property::class, 'id_property');
     }
 }

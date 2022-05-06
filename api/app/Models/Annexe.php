@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\FeaturesList;
+use App\Models\ParkingNumber;
 
 class Annexe extends Model
 {
@@ -33,7 +34,7 @@ class Annexe extends Model
     /**
      * Relationship "inversed One To Many" with the FeaturesList model table. 
      */
-    public function annexes(){
+    public function featuresLists(){
         return $this->belongsTo(FeaturesList::class);
     }
 
@@ -41,6 +42,6 @@ class Annexe extends Model
      * Relationship "One To Many" with the parkingNumber model table. 
      */
     public function parkingNumbers(){
-        return $this->hasMany(parkingNumber::class, 'id', 'id');
+        return $this->hasMany(parkingNumber::class, 'id_annexe', 'id');
     }
 }

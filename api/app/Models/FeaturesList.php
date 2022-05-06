@@ -39,7 +39,7 @@ class FeaturesList extends Model
     /**
      * Relationship "Inversed One to Many" with the Property model table. 
      */
-    public function featuresList(){
+    public function property(){
         return $this->belongsTo(Property::class, 'id_property', 'id');
     }
 
@@ -64,10 +64,10 @@ class FeaturesList extends Model
         return $this->hasOne(Annexe::class, 'id_annexe', 'id');
     }
 
-    /**
-     * Relationship "One To Many" through intermediate model with the Annexe model table. 
-     */
-    public function parkingNumbers(){
-        return $this->hasManyThrough(ParkingNumber::class, Annexe::class, 'id_annexe', 'id');
-    }
+    // /**
+    //  * Relationship "One To Many" through intermediate model with the Annexe model table. 
+    //  */
+    // public function parkingNumbers(){
+    //     return $this->hasManyThrough(ParkingNumber::class, Annexe::class, 'id_annexe', 'id');
+    // }
 }

@@ -3,19 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\EnergyAudit;
-use App\Models\PropertyType;
-use App\Models\PropertyCategory;
 use App\Models\PropertyPicture;
-use App\Models\Kitchen;
-use App\Models\Heater;
-use App\Models\Room;
-use App\Models\RoomTypes;
-use App\Models\FeaturesList;
-use App\Models\Hygiene;
-use App\Models\Outdoor;
-use App\Models\Annexe;
-use App\Models\ParkingNumber;
 
 class Property extends Model
 {

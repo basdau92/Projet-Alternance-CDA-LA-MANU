@@ -35,9 +35,16 @@ use App\Models\PropertyCategory;
     protected $table = 'property_type';
 
     /**
+     * Relationship "Inversed One To Many" with the Property model table. 
+     */
+    public function property(){
+        return $this->belongsTo(Property::class, 'id_propertyType', 'id');
+    }
+
+    /**
      * Relationship "One To One" with the PropertyCategory model table. 
      */
     public function propertyCategories(){
-        return $this->hasOne(PropertyCategory::class, 'id', 'id');
+        return $this->hasOne(PropertyCategory::class);
     }
 }

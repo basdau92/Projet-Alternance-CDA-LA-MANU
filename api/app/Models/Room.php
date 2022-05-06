@@ -32,9 +32,16 @@ class Room extends Model
     ];
 
     /**
-     * Relationship "One To One" with the RoomType model table. 
+     * Relationship "Inversed One To Many" with the Property model table. 
      */
-    public function roomType(){
+    public function property(){
+        return $this->belongsTo(Property::class, 'id_property', 'id');
+    }
+
+    /**
+     * Relationship "Inversed One To One" with the RoomType model table. 
+     */
+    public function roomTypes(){
         return $this->hasOne(RoomType::class);
     }
 }

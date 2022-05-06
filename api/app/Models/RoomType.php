@@ -33,7 +33,7 @@ class RoomType extends Model
     /**
      * Relationship "inversed  One To Many" with the Room model table. 
      */
-    public function roomType(){
-        return $this->belongsTo(Room::class);
+    public function rooms(){
+        return $this->belongsTo(Room::class, 'id_room_type', 'id');
     }
 }
