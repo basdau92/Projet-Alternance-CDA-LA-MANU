@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Room;
 use App\Models\Annexe;
 use App\Models\Heater;
@@ -28,7 +29,7 @@ class PropertyController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api',['except' => ['allProperties','singleProperty']]);
+        $this->middleware('auth:api', ['except' => ['allProperties', 'singleProperty']]);
     }
 
     public function compareSizeArray($tab)
@@ -373,17 +374,14 @@ class PropertyController extends Controller
         try {
             /* Try to find a specific record by an id with models/tables datas related to the Property model/table and return an array if successful. 
             Generates an error otherwise.*/
-            $property = Property::findOrFail($id)->with([
-                'energyAudits', 'propertyTypes', 'propertyCategories',
-                'propertyPictures', 'kitchen', 'heater',
-                'rooms', 'roomTypes', 'featuresLists',
-                'hygienes', 'outdoors', 'annexes'
-            ]);
+            $property = Property::where('id', $id)
+                ->with('propertyCategories', 'propertyTypes', 'energyAudits', 'propertyPictures', 'kitchen', 'heater', 'rooms', 'roomTypes', 'featuresLists', 'hygienes', 'outdoors', 'annexes')
+                ->first();
 
             return response()->json(['property' => $property], 200);
         } catch (\Exception $e) {
             // If unsuccessful, return a custom error message and a HTML status.
-            return response()->json(['message' => 'La propriété n\'a pas été trouvé !'], 404);
+            return response()->json(['message' => 'La propriété n\'a pas été trouvé !', 'error' => $e->getMessage()], 404);
         }
     }
 
