@@ -20,7 +20,7 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['prefix' => 'auth'], function () use ($router) {
+$router->group(['prefix' => 'authentification'], function () use ($router) {
 
     $router->post('/', 'AuthController@register_client');
     $router->get('/', 'AuthController@login_client');
@@ -30,18 +30,18 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
 
 $router->group(['prefix' => 'client'], function () use ($router) {
 
-    $router->get('/favorites', 'FavoriteListController@showFavoriteList');
-    $router->post('/favorites', 'FavoriteListController@createFavoriteList');
-    $router->delete('/favorites/{id}', 'FavoriteListController@deleteFavoriteList');
+    $router->get('/favoris', 'FavoriteListController@showFavoriteList');
+    $router->post('/favoris', 'FavoriteListController@createFavoriteList');
+    $router->delete('/favoris/{id}', 'FavoriteListController@deleteFavoriteList');
     $router->post('/documents', 'ClientController@upload');
     $router->delete('/documents/{id}', 'ClientController@deleteFile');
     $router->put('/documents/{id}', 'ClientController@updateFile');
     $router->get('/documents', 'ClientController@readFiles');
-    $router->get('/profile', 'ClientController@singleClient');
+    $router->get('/espaceclient', 'ClientController@singleClient');
     $router->get('/', 'ClientController@allClients');
     $router->delete('/{id}', 'ClientController@deleteClient');
-    $router->put('/profile', 'ClientController@updateClient');
-    $router->put('/profile/password', 'ClientController@updatePassword');
+    $router->put('/espaceclient', 'ClientController@updateClient');
+    $router->put('/espaceclient/password', 'ClientController@updatePassword');
 });
 
 $router->group(['prefix' => 'property'], function () use ($router) {
