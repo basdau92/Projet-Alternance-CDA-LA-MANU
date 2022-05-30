@@ -113,7 +113,7 @@ class AuthController extends Controller
             $employee->phone = $request->input('phone');
             $plainPassword = $request->input('password');
             $employee->password = app('hash')->make($plainPassword);
-            $employee->idNumber = rand(1, 100);
+            $employee->idNumber = rand(10000, 99999);
             $employee->id_role = $request->input('id_role');
             $employee->id_agency = $request->input('id_agency');
             $employee->save();
