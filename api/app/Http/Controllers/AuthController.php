@@ -96,7 +96,7 @@ class AuthController extends Controller
             'phone' => 'required|numeric',
             'id_role' => 'required|numeric',
             'id_agency' => 'required|numeric',
-            'idNumber' => 'unique:employee',
+            'matricule' => 'unique:employee',
             'password' => [
                 'required',
                 'min:6',
@@ -113,7 +113,7 @@ class AuthController extends Controller
             $employee->phone = $request->input('phone');
             $plainPassword = $request->input('password');
             $employee->password = app('hash')->make($plainPassword);
-            $employee->idNumber = rand(1, 100);
+            $employee->matricule = rand(10000, 99999);
             $employee->id_role = $request->input('id_role');
             $employee->id_agency = $request->input('id_agency');
             $employee->save();
@@ -133,10 +133,10 @@ class AuthController extends Controller
     {
         //validate incoming request 
         $this->validate($request, [
-            'mail' => 'required|string',
+            'matricule' => 'required|numeric',
             'password' => 'required',
         ]);
-        $credentials = $request->only(['mail', 'password']);
+        $credentials = $request->only(['matricule', 'password']);
         if (!$token = Auth::attempt($credentials)) {
             return response()->json(['message' => 'Accès non autorisé. Veuillez vérifier vos informations.'], 401);
         }
