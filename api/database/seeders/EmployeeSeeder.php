@@ -26,7 +26,7 @@ class EmployeeSeeder extends Seeder
                 'mail' => 'bloupblop@gmail.com',
                 'phone' => '0645784545',
                 'password' => Hash::make('password'),
-                'idNumber'=>1234,
+                'matricule' => rand(10000, 99999),
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -38,7 +38,7 @@ class EmployeeSeeder extends Seeder
                 'mail' => 'taslimaahamedmze@gmail.com',
                 'phone' => '0645784545',
                 'password' => Hash::make('taslima'),
-                'idNumber'=>1233,
+                'matricule' => rand(10000, 99999),
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],

@@ -27,7 +27,7 @@ return [
             'required' => 'Le n° de l\'agence est obligatoire.',
             'numeric' => 'Le n° de l\'agence ne peut être composé que de chiffres.'
         ],
-        'idNUmber' => [
+        'matricule' => [
             'unique' => 'Ce numéro d\'employé existe déjà.'
         ]
     ],
