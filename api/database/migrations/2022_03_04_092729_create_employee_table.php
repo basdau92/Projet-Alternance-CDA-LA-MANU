@@ -21,7 +21,7 @@ class CreateEmployeeTable extends Migration
             $table->string('firstname');
             $table->string('mail');
             $table->integer('phone');
-            $table->integer('idNumber');
+            $table->integer('matricule');
             $table->string('password');
             $table->timestamps();
         });

@@ -133,10 +133,10 @@ class AuthController extends Controller
     {
         //validate incoming request 
         $this->validate($request, [
-            'mail' => 'required|string',
+            'matricule' => 'required|numeric',
             'password' => 'required',
         ]);
-        $credentials = $request->only(['mail', 'password']);
+        $credentials = $request->only(['matricule', 'password']);
         if (!$token = Auth::attempt($credentials)) {
             return response()->json(['message' => 'Accès non autorisé. Veuillez vérifier vos informations.'], 401);
         }
