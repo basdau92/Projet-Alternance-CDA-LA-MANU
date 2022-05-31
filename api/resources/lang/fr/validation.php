@@ -28,6 +28,7 @@ return [
             'numeric' => 'Le n° de l\'agence ne peut être composé que de chiffres.'
         ],
         'matricule' => [
+            'numeric' => 'Le matricule n\'est composé que de chiffres',
             'unique' => 'Ce numéro d\'employé existe déjà.'
         ]
     ],
