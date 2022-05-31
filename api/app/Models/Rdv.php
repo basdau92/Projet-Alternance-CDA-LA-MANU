@@ -23,6 +23,10 @@ class Rdv extends Model
      *
      * @var array
      */
-    protected $hidden = [];
+    protected $hidden = [
+        'id_property',
+        'id_client',
+        'id_label',
+    ];
 
 }

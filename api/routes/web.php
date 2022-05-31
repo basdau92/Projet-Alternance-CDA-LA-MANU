@@ -55,4 +55,8 @@ $router->group(['prefix' => 'property'], function () use ($router) {
     $router->put('/{id}', 'PropertyController@updateProperty');
 });
 
-$router->post('rdv', 'RdvController@createRdv');
+$router->group(['prefix' => 'rdv'], function () use ($router) {
+    $router->post('/', 'RdvController@createRdv');
+    $router->get('/', 'RdvController@employeeRdv');
+}); 
+

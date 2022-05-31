@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rdv;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Mail\ExceptionOccured;
 use App\Mail\RdvMail;
@@ -66,4 +67,31 @@ class RdvController extends Controller
             return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', $e->getMessage()], 409);
         }
     }
+
+    /**
+     * Get all rdv for an employee
+     * 
+     * @return Response
+     */
+    public function employeeRdv()
+    { 
+        $user = Auth::user();
+        /*get several models/tables datas related to the Rdv model/table by Eloquence.*/
+        $getEmployeeRdv = Rdv::with([
+                /*Add other models/tables :
+                -Label
+                -Property
+                */
+            ])
+                ->get();
+
+        /*If user is an employee he can get access to all his rdv, else it returns a http status with message error*/
+        if ($user->id_role == 4) {
+            return response()->json(['rdv' => $getEmployeeRdv], 200);
+        }
+        else {
+            return response()->json(['message' => 'Accès non autorisé : vous ne disposez pas des droits nécessaires.'], 401);
+        } 
+    }
 }
+
