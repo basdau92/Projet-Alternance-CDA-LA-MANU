@@ -38,7 +38,11 @@ return [
     'guards' => [
         'api' => [
             'driver' => 'jwt',
-            'provider' => 'client',
+            'provider' => 'client'
+        ],
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'employee'
         ],
     ],
 
@@ -64,6 +68,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Client::class,
         ],
+        'employee' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Employee::class,
+        ],
     ],
 
     /*
@@ -84,6 +92,11 @@ return [
     'passwords' => [
         'client' => [
             'provider' => 'client',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+        'employee' => [
+            'provider' => 'employee',
             'table' => 'password_resets',
             'expire' => 60,
         ],
