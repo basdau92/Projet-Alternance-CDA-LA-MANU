@@ -42,6 +42,18 @@ class EmployeeSeeder extends Seeder
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
+            [
+                'id_agency' => 1,
+                'id_role' => 4,
+                'lastname' => 'Daugenne',
+                'firstname' => 'Bastien',
+                'mail' => 'daubas@gmail.com',
+                'phone' => '0678956437',
+                'password' => Hash::make('password'),
+                'matricule' => rand(10000, 99999),
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ]
 
         ]);
     }

@@ -21,7 +21,10 @@ class Client extends Model implements AuthenticatableContract, AuthorizableContr
      * @var array
      */
     protected $fillable = [
-        'lastname', 'firstname', 'mail', 'phone'
+        'lastname',
+        'firstname',
+        'mail',
+        'phone'
     ];
 
     /**

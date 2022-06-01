@@ -15,7 +15,20 @@ class Rdv extends Model
      * @var array
      */
     protected $fillable = [
-        'id_property', 'id_client', 'id_label', 'beginning', 'end', 'description', 'lastname', 'firstname', 'mail', 'phone', 'is_visit', 'address', 'city', 'zipcode'
+        'id_property',
+        'id_client',
+        'id_label',
+        'beginning',
+        'end',
+        'description',
+        'lastname',
+        'firstname',
+        'mail',
+        'phone',
+        'is_visit',
+        'address',
+        'city',
+        'zipcode'
     ];
 
     /**
@@ -23,10 +36,6 @@ class Rdv extends Model
      *
      * @var array
      */
-    protected $hidden = [
-        'id_property',
-        'id_client',
-        'id_label',
-    ];
+    protected $hidden = [];
 
 }

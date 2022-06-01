@@ -71,22 +71,22 @@ class RdvController extends Controller
     /**
      * Get all rdv for an employee
      * 
+     * 
      * @return Response
      */
     public function employeeRdv()
     { 
         $user = Auth::user();
-        /*get several models/tables datas related to the Rdv model/table by Eloquence.*/
-        $getEmployeeRdv = Rdv::with([
-                /*Add other models/tables :
-                -Label
-                -Property
-                */
-            ])
-                ->get();
-
-        /*If user is an employee he can get access to all his rdv, else it returns a http status with message error*/
+        
+        //If user is an employee he can get access to all his rdv, else it returns a http status with message error
         if ($user->id_role == 4) {
+
+            //Get the id_employee
+
+
+            //Get all the rdv related to the id_employee
+            $getEmployeeRdv = Rdv::get();
+
             return response()->json(['rdv' => $getEmployeeRdv], 200);
         }
         else {

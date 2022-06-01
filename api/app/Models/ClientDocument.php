@@ -14,7 +14,9 @@ class ClientDocument extends Model
      * @var array
      */
     protected $fillable = [
-        'id_client', 'name', 'path'
+        'id_client',
+        'name',
+        'path'
     ];
 
     /**
