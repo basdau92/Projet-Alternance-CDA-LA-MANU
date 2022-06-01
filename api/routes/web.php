@@ -28,6 +28,10 @@ $router->group(['prefix' => 'authentification'], function () use ($router) {
     $router->get('/employee', 'AuthController@login_employee');
 });
 
+$router->group(['prefix' => 'espaceemploye'], function () use ($router) {
+    $router->get('/dashboard', 'EmployeeController@singleEmployee');
+});
+
 $router->group(['prefix' => 'client'], function () use ($router) {
 
     $router->get('/favoris', 'FavoriteListController@showFavoriteList');
