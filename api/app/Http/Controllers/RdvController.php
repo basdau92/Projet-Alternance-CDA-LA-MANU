@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Rdv;
-use App\Models\Employee;
-use Illuminate\Http\Request;
 use App\Mail\ExceptionOccured;
 use App\Mail\RdvMail;
-use Illuminate\Support\Facades\Mail;
+use App\Models\Employee;
+use App\Models\Rdv;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class RdvController extends Controller
 {
@@ -33,7 +33,7 @@ class RdvController extends Controller
             'phone' => 'numeric',
             'is_visit' => 'required|boolean',
             'id_employee' => 'required',
-            'id_agency' => 'required'
+            'id_agency' => 'required',
         ]);
 
         try {
@@ -70,28 +70,34 @@ class RdvController extends Controller
 
     /**
      * Get all rdv for an employee
-     * 
-     * 
+     *
+     *
      * @return Response
      */
     public function employeeRdv()
-    { 
+    {
+        //Retrieve the datas of the current authentificated user
         $user = Auth::user();
-        
-        //If user is an employee he can get access to all his rdv, else it returns a http status with message error
+
+        //If user is an employee he can get access to all his rdv 
         if ($user->id_role == 4) {
 
-            //Get the id_employee
-
+            //Get the id among the retrieved datas of the user 
+            $idEmployee = $user->id;
 
             //Get all the rdv related to the id_employee
-            $getEmployeeRdv = Rdv::get();
+            $getEmployeeRdv = Rdv::where('id_employee', $idEmployee)
+                ->with([
+                    'employee',
+                    'label'
+            ])
+                ->get();
 
             return response()->json(['rdv' => $getEmployeeRdv], 200);
-        }
-        else {
+        } else {
+            //Else it returns a http status with message error
             return response()->json(['message' => 'Accès non autorisé : vous ne disposez pas des droits nécessaires.'], 401);
-        } 
+        }
     }
 }
 

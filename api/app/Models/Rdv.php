@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Employee;
+use App\Models\Label;
 use Illuminate\Database\Eloquent\Model;
 
 class Rdv extends Model
@@ -15,9 +17,12 @@ class Rdv extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
+        'id_employee',
         'id_property',
         'id_client',
         'id_label',
+        'id_agency',
         'beginning',
         'end',
         'description',
@@ -28,7 +33,9 @@ class Rdv extends Model
         'is_visit',
         'address',
         'city',
-        'zipcode'
+        'zipcode',
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -36,6 +43,31 @@ class Rdv extends Model
      *
      * @var array
      */
-    protected $hidden = [];
+    protected $hidden = [
+        'id',
+        'id_employee',
+        'id_property',
+        'id_client',
+        'id_label',
+        'id_agency',
+        'is_visit',
+        'created_at',
+        'updated_at'
+    ];
 
+    /**
+     * Relationship "Inversed One To Many" with the Employee model table.
+     */
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'id_employee', 'id');
+    }
+
+    /**
+     * Relationship "One To One" with the Label model table.
+     */
+    public function label()
+    {
+        return $this->hasOne(Label::class, 'id', 'id');
+    }
 }

@@ -20,7 +20,17 @@ class Employee extends Model implements AuthenticatableContract, AuthorizableCon
      * @var array
      */
     protected $fillable = [
-        'lastname', 'firstname', 'mail', 'phone', 'matricule', 'idNumber', 'id_role'
+        'id',
+        'id_agency',
+        'id_role',
+        'lastname',
+        'firstname',
+        'mail',
+        'phone',
+        'matricule',
+        'password',
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -29,7 +39,14 @@ class Employee extends Model implements AuthenticatableContract, AuthorizableCon
      * @var array
      */
     protected $hidden = [
-        'password'
+        'id',
+        'id_agency',
+        'id_role',
+        'mail',
+        'phone',
+        'password',
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -50,5 +67,13 @@ class Employee extends Model implements AuthenticatableContract, AuthorizableCon
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * Relationship "One To Many" with the Rdv model table. 
+     */
+    public function rdv()
+    {
+        return $this->hasMany(Rdv::class, 'id', 'id');
     }
 }
