@@ -39,14 +39,7 @@ class Employee extends Model implements AuthenticatableContract, AuthorizableCon
      * @var array
      */
     protected $hidden = [
-        'id',
-        'id_agency',
-        'id_role',
-        'mail',
-        'phone',
         'password',
-        'created_at',
-        'updated_at'
     ];
 
     /**
