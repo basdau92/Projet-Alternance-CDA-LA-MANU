@@ -61,6 +61,6 @@ $router->group(['prefix' => 'property'], function () use ($router) {
 
 $router->group(['prefix' => 'rdv'], function () use ($router) {
     $router->post('/', 'RdvController@createRdv');
-    $router->get('/', 'RdvController@employeeRdv');
+    $router->get('/{id}', 'RdvController@employeeRdv');
 }); 
 

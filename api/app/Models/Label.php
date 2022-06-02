@@ -37,6 +37,6 @@ class Label extends Model
      */
     public function rdv()
     {
-        return $this->belongsTo(Rdv::class, 'id_label');
+        return $this->belongsTo(Rdv::class, 'id_label', 'id');
     }
 }
