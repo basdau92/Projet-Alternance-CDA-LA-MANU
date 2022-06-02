@@ -29,7 +29,7 @@ class RdvController extends Controller
             'end' => 'required|date_format:Y-m-d H:i:s',
             'lastname' => 'required|string',
             'firstname' => 'required|string',
-            'mail' => 'email|unique:rdv',
+            'mail' => 'email|required',
             'phone' => 'numeric',
             'is_visit' => 'required|boolean',
             'id_employee' => 'required',
