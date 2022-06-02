@@ -44,13 +44,6 @@ class Rdv extends Model
      * @var array
      */
     protected $hidden = [
-        'id',
-        'id_employee',
-        'id_property',
-        'id_client',
-        'id_label',
-        'id_agency',
-        'is_visit',
         'created_at',
         'updated_at'
     ];
