@@ -21,9 +21,9 @@ class EmployeeSeeder extends Seeder
             [
                 'id_agency' => 1,
                 'id_role' => 1,
-                'lastname' => 'Bloup',
-                'firstname' => 'Blop',
-                'mail' => 'bloupblop@gmail.com',
+                'lastname' => 'Bakhtaoui',
+                'firstname' => 'Ines',
+                'mail' => 'inesbthk@gmail.com',
                 'phone' => '0645784545',
                 'password' => Hash::make('password'),
                 'matricule' => rand(10000, 99999),
@@ -32,12 +32,12 @@ class EmployeeSeeder extends Seeder
             ],
             [
                 'id_agency' => 1,
-                'id_role' => 1,
+                'id_role' => 3,
                 'lastname' => 'Ahamed Mze',
                 'firstname' => 'Taslima',
                 'mail' => 'taslimaahamedmze@gmail.com',
                 'phone' => '0645784545',
-                'password' => Hash::make('taslima'),
+                'password' => Hash::make('password'),
                 'matricule' => rand(10000, 99999),
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
@@ -53,6 +53,18 @@ class EmployeeSeeder extends Seeder
                 'matricule' => rand(10000, 99999),
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+                'id_agency' => 1,
+                'id_role' => 2,
+                'lastname' => 'Noel',
+                'firstname' => 'Mickael',
+                'mail' => 'm.noel@gmail.com',
+                'phone' => '0612356984',
+                'password' => Hash::make('password'),
+                'matricule' => rand(10000, 99999),
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')   
             ]
 
         ]);

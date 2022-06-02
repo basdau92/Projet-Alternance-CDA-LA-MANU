@@ -68,6 +68,6 @@ class Rdv extends Model
      */
     public function label()
     {
-        return $this->hasOne(Label::class, 'id', 'id');
+        return $this->hasOne(Label::class, 'id', 'id_label');
     }
 }

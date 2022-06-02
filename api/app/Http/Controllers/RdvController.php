@@ -14,7 +14,7 @@ class RdvController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api', ['except' => ['employeeRdv']]);
     }
 
     /**
@@ -71,33 +71,27 @@ class RdvController extends Controller
     /**
      * Get all rdv for an employee
      *
-     *
+     * @param  int  $id
      * @return Response
      */
-    public function employeeRdv()
+    public function employeeRdv($id)
     {
-        //Retrieve the datas of the current authentificated user
-        $user = Auth::user();
+        try {
 
-        //If user is an employee he can get access to all his rdv 
-        if ($user->id_role == 4) {
-
-            //Get the id among the retrieved datas of the user 
-            $idEmployee = $user->id;
-
-            //Get all the rdv related to the id_employee
-            $getEmployeeRdv = Rdv::where('id_employee', $idEmployee)
+            //Get all the rdv related to a specific employee
+            $getEmployeeRdv = Rdv::where('id_employee', $id)
                 ->with([
                     'employee',
-                    'label'
-            ])
+                    'label',
+                ])
                 ->get();
 
             return response()->json(['rdv' => $getEmployeeRdv], 200);
-        } else {
+
+        } catch (\Exception $e) {
+
             //Else it returns a http status with message error
-            return response()->json(['message' => 'Accès non autorisé : vous ne disposez pas des droits nécessaires.'], 401);
+            return response()->json(['message' => 'Accès non autorisé : vous ne disposez pas des droits nécessaires.', 'error' => $e->getMessage()], 401);
         }
     }
 }
-
