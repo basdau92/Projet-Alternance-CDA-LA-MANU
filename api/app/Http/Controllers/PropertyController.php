@@ -43,13 +43,11 @@ class PropertyController extends Controller
 
     public function create(Request $request)
     {
-        echo 'toto';
         $this->validate($request, [
             'name' => 'required|string',
             'price' => 'required|numeric',
-            'number' => 'numeric|unique:property',
             'address' => 'required|string',
-            'addition_adress' => 'string',
+            'addition_address' => 'string',
             'zipcode' => 'required|string',
             'description' => 'required',
             'surface' => 'required|numeric',
@@ -65,7 +63,6 @@ class PropertyController extends Controller
 
             $property->name = $request->input('name');
             $property->price = $request->input('price');
-            $property->number = rand(1, 10000);
             $property->address = $request->input('address');
             $property->addition_address = $request->input('addition_address');
             $property->zipcode = $request->input('zipcode');
@@ -242,7 +239,7 @@ class PropertyController extends Controller
 
             $resultRooms = Room::where('id_property', $property->id)->get();
             $resultfeaturesList = FeaturesList::where('id_property', $property->id)->get();
-
+            
             // Return successful response.
             return response()->json(['property' => $property, 'property_type' => $propertyType, 'rooms' => $resultRooms, 'featuresList' => $resultfeaturesList, 'parkingNumbers' => $resultParkingNumbers, 'message' => 'CREATED'], 201);
             // Return response()->json(['rooms'=>$resultRooms],201);
@@ -396,7 +393,6 @@ class PropertyController extends Controller
             $this->validate($request, [
                 'name' => 'required|string',
                 'price' => 'required|numeric',
-                'number' => 'required|unique:property',
                 'address' => 'required|string',
                 'addition_address' => 'required|string',
                 'zipcode' => 'required|string',

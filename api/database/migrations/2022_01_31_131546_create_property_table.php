@@ -21,7 +21,6 @@ class CreatePropertyTable extends Migration
             $table->foreignId('id_energy_audit')->nullable()->constrained('energy_audit');
             $table->string('name');
             $table->integer('price');
-            $table->integer('number');
             $table->string('address');
             $table->string('addition_address');
             $table->integer('zipcode');
