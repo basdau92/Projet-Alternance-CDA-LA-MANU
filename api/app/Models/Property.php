@@ -19,7 +19,6 @@ class Property extends Model
         'id_heater',
         'name',
         'price',
-        'number',
         'address',
         'addition_address',
         'zipcode',
