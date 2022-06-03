@@ -49,6 +49,7 @@ class PropertyController extends Controller
             'address' => 'required|string',
             'addition_address' => 'string',
             'zipcode' => 'required|string',
+            'city' => 'required|string',
             'description' => 'required',
             'surface' => 'required|numeric',
             'floor' => 'required|numeric',
@@ -66,6 +67,7 @@ class PropertyController extends Controller
             $property->address = $request->input('address');
             $property->addition_address = $request->input('addition_address');
             $property->zipcode = $request->input('zipcode');
+            $property->city = $request->input('city');
             $property->description = $request->input('description');
             $property->surface = $request->input('surface');
             $property->floor = $request->input('floor');
