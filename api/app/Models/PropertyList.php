@@ -9,7 +9,7 @@ use App\Models\Employee;
 
 class PropertyList extends Model
 {
-    protected $table = 'Property_list';
+    protected $table = 'property_list';
 
 
     /**
