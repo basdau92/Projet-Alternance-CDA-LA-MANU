@@ -366,13 +366,17 @@ class PropertyController extends Controller
      * 
      * @return Response
      */
-    public function allEmployeeProperties()
+    public function allEmployeeProperties($id)
     {
         try {
             // Try to get several models/tables datas related to the Property model/table by Eloquence.
-            $getAllDatas = PropertyList::with([
+            /* $getAllDatas = PropertyList::with([
                 'property'
             ])
+                ->get(); */
+
+                $getAllDatas = PropertyList::where('id_employee', $id)
+                ->with('property')
                 ->get();
 
             // If successful, return successful response.
@@ -380,7 +384,7 @@ class PropertyController extends Controller
         } catch (\Exception $e) {
 
             // If unsuccessful, return a custom error message and a HTML status.
-            return response()->json(['message' => 'La liste d\'annonces de propriétés n\'a pas pu être affichée !', 'Error' => $e->getMessage()], 404);
+            return response()->json(['message' => 'La liste d\'annonces de propriétés de cet employee n\'a pas pu être affichée !', 'Error' => $e->getMessage()], 404);
         }
     }
 
