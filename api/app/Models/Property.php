@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PropertyPicture;
+use App\Models\PropertyList;
+
+
 
 class Property extends Model
 {
@@ -140,5 +143,10 @@ class Property extends Model
     public function annexes()
     {
         return $this->hasManyThrough(Annexe::class, FeaturesList::class, 'id_annexe', 'id');
+    }
+    
+    public function propertyList()
+    {
+        return $this->hasMany(PropertyList::class, 'id_property', 'id');
     }
 }

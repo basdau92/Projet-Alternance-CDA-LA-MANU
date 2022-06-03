@@ -17,6 +17,8 @@ use Illuminate\Http\Request;
 use App\Models\ParkingNumber;
 use App\Models\PropertyPicture;
 use App\Models\PropertyCategory;
+use App\Models\PropertyList;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -356,6 +358,36 @@ class PropertyController extends Controller
             return response()->json(['message' => 'La liste d\'annonces de propriétés n\'a pas pu être affichée !', 'Error' => $e->getMessage()], 404);
         }
     }
+
+    /** SHOW ALL PROPERTIES Emplyee
+     * Get all properties.
+     *
+     * 
+     * @return Response
+     */
+    public function allEmployeeProperties($id)
+    {
+        try {
+            // Try to get several models/tables datas related to the Property model/table by Eloquence.
+            /* $getAllDatas = PropertyList::with([
+                'property'
+            ])
+                ->get(); */
+
+                $getAllDatas = PropertyList::where('id_employee', $id)
+                ->with('property')
+                ->get();
+
+            // If successful, return successful response.
+            return response()->json(['property' => $getAllDatas], 200);
+        } catch (\Exception $e) {
+
+            // If unsuccessful, return a custom error message and a HTML status.
+            return response()->json(['message' => 'La liste d\'annonces de propriétés de cet employee n\'a pas pu être affichée !', 'Error' => $e->getMessage()], 404);
+        }
+    }
+
+
 
     /** SHOW ONE PROPERTY
      * Get a single property.
