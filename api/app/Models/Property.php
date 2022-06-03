@@ -22,6 +22,7 @@ class Property extends Model
         'address',
         'addition_address',
         'zipcode',
+        'city',
         'description',
         'surface',
         'floor',

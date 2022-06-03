@@ -24,6 +24,7 @@ class CreatePropertyTable extends Migration
             $table->string('address');
             $table->string('addition_address');
             $table->integer('zipcode');
+            $table->string('city');
             $table->text('description');
             $table->integer('surface');
             $table->string('floor');
