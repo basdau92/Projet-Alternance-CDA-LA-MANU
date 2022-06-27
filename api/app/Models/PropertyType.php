@@ -38,7 +38,7 @@ use App\Models\PropertyCategory;
      * Relationship "Inversed One To Many" with the Property model table. 
      */
     public function property(){
-        return $this->belongsTo(Property::class, 'id_propertyType', 'id');
+        return $this->belongsTo(Property::class, 'id_property_type', 'id');
     }
 
     /**

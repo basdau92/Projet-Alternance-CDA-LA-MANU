@@ -84,14 +84,11 @@ class PropertyController extends Controller
             // $propertyType->name = $request->input('name_property_type');
             // $propertyType->id_property_category = $request->input('id_property_category');
 
-
-
             $hygienes = unserialize($request->input('hygiene'));
             $outdoors = unserialize($request->input('outdoor'));
             $annexes = unserialize($request->input('annexe'));
             $parkingNumbers = unserialize($request->input('parking_number'));
-
-            // 
+            
             // $propertyType->save();
             // $property->id_property_type = $propertyType->id;
             $property->id_property_type = $request->input('name_property_type');
@@ -372,7 +369,7 @@ class PropertyController extends Controller
     {
         try {
             // Try to get several datas related to the PropertyList model/table by Eloquence.
-                $getAllDatas = PropertyList::where('id_employee', $id)
+            $getAllDatas = PropertyList::where('id_employee', $id)
                 ->with('property')
                 ->get();
 
@@ -397,9 +394,20 @@ class PropertyController extends Controller
             /* Try to find a specific record by an id with models/tables datas related to the Property model/table and return an array if successful. 
             Generates an error otherwise.*/
             $property = Property::where('id', $id)
-                ->with('propertyCategories', 'propertyTypes', 'energyAudits', 
-                        'propertyPictures', 'kitchen', 'heater', 'rooms', 
-                        'roomTypes', 'featuresLists', 'hygienes', 'outdoors', 'annexes')
+                ->with(
+                    'propertyCategories',
+                    'propertyTypes',
+                    'energyAudits',
+                    'propertyPictures',
+                    'kitchen',
+                    'heater',
+                    'rooms',
+                    'roomTypes',
+                    'featuresLists',
+                    'hygienes',
+                    'outdoors',
+                    'annexes'
+                )
                 ->first();
 
             return response()->json(['property' => $property], 200);
