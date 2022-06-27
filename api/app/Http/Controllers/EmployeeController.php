@@ -39,7 +39,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Get all Employees.
+     * Get all Employees
      *
      * @return Response
      */
