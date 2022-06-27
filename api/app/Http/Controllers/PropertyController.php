@@ -81,31 +81,33 @@ class PropertyController extends Controller
             $property->id_energy_audit = $request->input('id_energy_audit');
 
             // Datas belonging to propertyType.
-            $propertyType->name = $request->input('name_property_type');
-            $propertyType->id_property_category = $request->input('id_property_category');
+            // $propertyType->name = $request->input('name_property_type');
+            // $propertyType->id_property_category = $request->input('id_property_category');
 
-            // Get posted datas through an array.
-            $rooms = unserialize($request->input('room'));
+
 
             $hygienes = unserialize($request->input('hygiene'));
             $outdoors = unserialize($request->input('outdoor'));
             $annexes = unserialize($request->input('annexe'));
             $parkingNumbers = unserialize($request->input('parking_number'));
 
-
-            $propertyType->save();
-            $property->id_property_type = $propertyType->id;
+            // 
+            // $propertyType->save();
+            // $property->id_property_type = $propertyType->id;
+            $property->id_property_type = $request->input('name_property_type');
             $property->save();
+            // Get posted datas through an array.
+            $rooms = unserialize($request->input('room'));
+            if ($rooms != null) {
+                // Insert the rooms related to one property.
+                foreach ($rooms as $r) {
+                    $room = new Room();
+                    $room->id_property = $property->id;
 
-            // Insert the rooms related to one property.
-            foreach ($rooms as $r) {
-                $room = new Room();
-                $room->id_property = $property->id;
-
-                $room->id_room_type = $r;
-                $room->save();
+                    $room->id_room_type = $r;
+                    $room->save();
+                }
             }
-
             // Insert the features_list related to one property.
             $tab = ['annexe' => $annexes, 'outdoor' => $outdoors, 'hygiene' => $hygienes];
 
@@ -243,7 +245,7 @@ class PropertyController extends Controller
 
             $resultRooms = Room::where('id_property', $property->id)->get();
             $resultfeaturesList = FeaturesList::where('id_property', $property->id)->get();
-            
+
             // Return successful response.
             return response()->json(['property' => $property, 'property_type' => $propertyType, 'rooms' => $resultRooms, 'featuresList' => $resultfeaturesList, 'parkingNumbers' => $resultParkingNumbers, 'message' => 'CREATED'], 201);
             // Return response()->json(['rooms'=>$resultRooms],201);
@@ -374,7 +376,7 @@ class PropertyController extends Controller
             ])
                 ->get(); */
 
-                $getAllDatas = PropertyList::where('id_employee', $id)
+            $getAllDatas = PropertyList::where('id_employee', $id)
                 ->with('property')
                 ->get();
 
