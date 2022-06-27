@@ -255,6 +255,11 @@ class PropertyController extends Controller
         }
     }
 
+    public function getPropertyTypes()
+    {
+        return response()->json(['property_type' =>  PropertyType::all()], 200);
+    }
+
     /**
      * Upload property pictures
      *

@@ -54,6 +54,7 @@ $router->group(['prefix' => 'property'], function () use ($router) {
     $router->post('/pictures', 'PropertyController@uploadPropertyPictures');
     $router->post('/energy-audit', 'PropertyController@uploadEnergyAudit');
 
+    $router->get('/type', 'PropertyController@getPropertyTypes');
     $router->get('/{id}', 'PropertyController@singleProperty');
     $router->get('/employee/{id}','PropertyController@allEmployeeProperties');
     $router->get('/', 'PropertyController@allProperties');
