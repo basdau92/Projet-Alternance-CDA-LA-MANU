@@ -69,7 +69,7 @@ class RdvController extends Controller
     }
 
     /**
-     * Get all rdv for an employee
+     * Get all rdv related to an employee
      *
      * @param  int  $id
      * @return Response
@@ -87,11 +87,35 @@ class RdvController extends Controller
                 ->get();
 
             return response()->json(['rdv' => $getEmployeeRdv], 200);
-
         } catch (\Exception $e) {
 
-            //Else it returns a http status with message error
+            //Else it returns a http status with message error.
             return response()->json(['message' => 'Accès non autorisé : vous ne disposez pas des droits nécessaires.', 'error' => $e->getMessage()], 401);
         }
     }
+
+    /**
+     * Get all rdv for an authentified employee
+     *
+     * 
+     * @return Response
+     */
+    public function showAuthEmployeeRdv()
+    {
+        try {
+            /* Try to get datas related to the Rdv model/table by Eloquence through the Fkey 'id_employee' 
+            with attempt to get the current user. */
+            $getAuthEmployeeRdv = Rdv::with(['employee'])
+            ->where('id_employee', Auth::userOrFail()->id)
+            ->get();
+
+            return response()->json(['rdv' => $getAuthEmployeeRdv], 200); 
+        } catch (\Exception $th) {
+
+            //Else it returns a http status with message error.
+            return response()->json(['message' => 'La liste des rendez-vous pour cet(te) employé(e) n\'a pas été trouvée !', 'error' => $e->getMessage()], 404);
+        }
+    }
 }
+
+    

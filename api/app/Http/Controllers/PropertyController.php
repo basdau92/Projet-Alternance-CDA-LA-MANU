@@ -359,7 +359,7 @@ class PropertyController extends Controller
         }
     }
 
-    /** SHOW ALL PROPERTIES Emplyee
+    /** SHOW ALL PROPERTIES Employee
      * Get all properties.
      *
      * 
@@ -368,12 +368,7 @@ class PropertyController extends Controller
     public function allEmployeeProperties($id)
     {
         try {
-            // Try to get several models/tables datas related to the Property model/table by Eloquence.
-            /* $getAllDatas = PropertyList::with([
-                'property'
-            ])
-                ->get(); */
-
+            // Try to get several datas related to the PropertyList model/table by Eloquence.
                 $getAllDatas = PropertyList::where('id_employee', $id)
                 ->with('property')
                 ->get();
@@ -383,11 +378,9 @@ class PropertyController extends Controller
         } catch (\Exception $e) {
 
             // If unsuccessful, return a custom error message and a HTML status.
-            return response()->json(['message' => 'La liste d\'annonces de propriétés de cet employee n\'a pas pu être affichée !', 'Error' => $e->getMessage()], 404);
+            return response()->json(['message' => 'La liste d\'annonces de propriétés de cet(te) employé(e) n\'a pas pu être affichée!', 'Error' => $e->getMessage()], 404);
         }
     }
-
-
 
     /** SHOW ONE PROPERTY
      * Get a single property.
@@ -401,7 +394,9 @@ class PropertyController extends Controller
             /* Try to find a specific record by an id with models/tables datas related to the Property model/table and return an array if successful. 
             Generates an error otherwise.*/
             $property = Property::where('id', $id)
-                ->with('propertyCategories', 'propertyTypes', 'energyAudits', 'propertyPictures', 'kitchen', 'heater', 'rooms', 'roomTypes', 'featuresLists', 'hygienes', 'outdoors', 'annexes')
+                ->with('propertyCategories', 'propertyTypes', 'energyAudits', 
+                        'propertyPictures', 'kitchen', 'heater', 'rooms', 
+                        'roomTypes', 'featuresLists', 'hygienes', 'outdoors', 'annexes')
                 ->first();
 
             return response()->json(['property' => $property], 200);
