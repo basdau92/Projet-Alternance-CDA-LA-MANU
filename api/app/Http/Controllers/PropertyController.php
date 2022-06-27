@@ -95,6 +95,7 @@ class PropertyController extends Controller
             // $propertyType->save();
             // $property->id_property_type = $propertyType->id;
             $property->id_property_type = $request->input('name_property_type');
+            $propertyType->findOrFail($property->id_property_type);
             $property->save();
             // Get posted datas through an array.
             $rooms = unserialize($request->input('room'));
