@@ -31,7 +31,7 @@ class PropertyController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['allProperties', 'singleProperty']]);
+        $this->middleware('auth:api', ['except' => ['allProperties', 'singleProperty', 'getPropertyTypes','getPropertyCategories','getPropertyHeater','getPropertyHygiene','getPropertyKitchen', 'getPropertyOutdoor', 'getPropertyAnnexe', 'getPropertyRoomTypes']]);
     }
 
     public function compareSizeArray($tab)
