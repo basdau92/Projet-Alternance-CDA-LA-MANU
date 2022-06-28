@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Property;
-use App\Models\PropertyCategory;
 
- class PropertyType extends Model
+class PropertyType extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -15,8 +14,7 @@ use App\Models\PropertyCategory;
      */
     protected $fillable = [
         'id',
-        'id_property_category',
-        'name', 
+        'name',
     ];
 
     /**
@@ -37,14 +35,8 @@ use App\Models\PropertyCategory;
     /**
      * Relationship "Inversed One To Many" with the Property model table. 
      */
-    public function property(){
+    public function property()
+    {
         return $this->belongsTo(Property::class, 'id_property_type', 'id');
-    }
-
-    /**
-     * Relationship "One To One" with the PropertyCategory model table. 
-     */
-    public function propertyCategories(){
-        return $this->hasOne(PropertyCategory::class);
     }
 }

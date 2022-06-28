@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\PropertyType;
 
 class PropertyCategory extends Model
 {
@@ -14,7 +13,7 @@ class PropertyCategory extends Model
      */
     protected $fillable = [
         'id',
-        'name', 
+        'name',
     ];
 
     /**
@@ -24,8 +23,7 @@ class PropertyCategory extends Model
      */
     protected $hidden = [
         'created_at',
-        'updated_at',
-        'laravel_through_key'
+        'updated_at'
     ];
 
     /**
@@ -34,9 +32,10 @@ class PropertyCategory extends Model
     protected $table = 'property_category';
 
     /**
-     * Relationship "inversed One To Many" with the PropertyType model table. 
+     * Relationship "Inversed One To Many" with the Property model table. 
      */
-    public function propertyTypes(){
-        return $this->belongsTo(PropertyType::class);
+    public function property()
+    {
+        return $this->belongsTo(Property::class, 'id_property_category', 'id');
     }
 }

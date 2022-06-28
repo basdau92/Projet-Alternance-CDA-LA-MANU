@@ -56,8 +56,14 @@ $router->group(['prefix' => 'property'], function () use ($router) {
 
     $router->get('/type', 'PropertyController@getPropertyTypes');
     $router->get('/category', 'PropertyController@getPropertyCategories');
+    $router->get('/heater', 'PropertyController@getPropertyHeater');
+    $router->get('/hygiene', 'PropertyController@getPropertyHygiene');
+    $router->get('/kitchen', 'PropertyController@getPropertyKitchen');
+    $router->get('/outdoor', 'PropertyController@getPropertyOutdoor');
+    $router->get('/annexe', 'PropertyController@getPropertyAnnexe');
+    $router->get('/room-type', 'PropertyController@getPropertyRoomTypes');
     $router->get('/{id}', 'PropertyController@singleProperty');
-    $router->get('/employee/{id}','PropertyController@allEmployeeProperties');
+    $router->get('/employee/{id}', 'PropertyController@allEmployeeProperties');
     $router->get('/', 'PropertyController@allProperties');
     $router->put('/{id}', 'PropertyController@updateProperty');
 });
@@ -66,6 +72,4 @@ $router->group(['prefix' => 'rdv'], function () use ($router) {
     $router->post('/', 'RdvController@createRdv');
     $router->get('/', 'RdvController@showAuthEmployeeRdv');
     $router->get('/{id}', 'RdvController@employeeRdv');
-    
-}); 
-
+});

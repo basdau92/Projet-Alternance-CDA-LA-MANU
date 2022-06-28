@@ -277,6 +277,60 @@ class PropertyController extends Controller
     }
 
     /**
+     * return all property's heater types
+     * 
+     */
+    public function getPropertyHeater()
+    {
+        return response()->json(['heater' =>  Heater::all()], 200);
+    }
+
+    /**
+     * return all property's hygiene room types
+     * 
+     */
+    public function getPropertyHygiene()
+    {
+        return response()->json(['hygiene' =>  Hygiene::all()], 200);
+    }
+
+    /**
+     * return all property's kitchen room types
+     * 
+     */
+    public function getPropertyKitchen()
+    {
+        return response()->json(['kitchen' =>  Kitchen::all()], 200);
+    }
+
+    /**
+     * return all property's outdoor room types
+     * 
+     */
+    public function getPropertyOutdoor()
+    {
+        return response()->json(['outdoor' =>  Outdoor::all()], 200);
+    }
+
+    /**
+     * return all property's annexe types
+     * 
+     */
+    public function getPropertyAnnexe()
+    {
+        return response()->json(['annexe' =>  Annexe::all()], 200);
+    }
+
+    /**
+     * return all property's room types
+     * 
+     */
+    public function getPropertyRoomTypes()
+    {
+        return response()->json(['room_type' =>  RoomType::all()], 200);
+    }
+
+    /**
      * Upload property pictures
      *
      * @param Request $request
