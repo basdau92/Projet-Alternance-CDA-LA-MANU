@@ -18,6 +18,7 @@ class Property extends Model
     protected $fillable = [
         'id',
         'id_property_type',
+        'id_property_category',
         'id_kitchen',
         'id_heater',
         'name',
@@ -66,11 +67,11 @@ class Property extends Model
     }
 
     /**
-     * Relationship "One To One" through intermediate model with the PropertyCategory model table.
+     * Relationship "One To One" with the PropertyCategory model table.
      */
     public function propertyCategories()
     {
-        return $this->hasOneThrough(PropertyCategory::class, PropertyType::class, 'id', 'id');
+        return $this->hasOne(PropertyCategory::class);
     }
 
     /**
