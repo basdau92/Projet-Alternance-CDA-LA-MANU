@@ -92,7 +92,7 @@ class PropertyController extends Controller
             // Datas belonging to propertyType.        
             $resultPropertyType = $propertyType->findOrFail($property->id_property_type);
 
-             // Datas belonging to propertyCategory.
+            // Datas belonging to propertyCategory.
             $resultPropertyCategory = $propertyCategory->findOrFail($property->id_property_category);
 
             $property->save();
@@ -248,7 +248,7 @@ class PropertyController extends Controller
             $resultfeaturesList = FeaturesList::where('id_property', $property->id)->get();
 
             // Return successful response.
-            return response()->json(['property' => $property, 'property_type' => $resultPropertyType, 'property_category' => $resultPropertyCategory ,'rooms' => $resultRooms, 'featuresList' => $resultfeaturesList, 'parkingNumbers' => $resultParkingNumbers, 'message' => 'CREATED'], 201);
+            return response()->json(['property' => $property, 'property_type' => $resultPropertyType, 'property_category' => $resultPropertyCategory, 'rooms' => $resultRooms, 'featuresList' => $resultfeaturesList, 'parkingNumbers' => $resultParkingNumbers, 'message' => 'CREATED'], 201);
             // Return response()->json(['rooms'=>$resultRooms],201);
 
         } catch (\Exception $e) {
@@ -264,7 +264,11 @@ class PropertyController extends Controller
      */
     public function getPropertyTypes()
     {
-        return response()->json(['property_type' =>  PropertyType::all()], 200);
+        try {
+            return response()->json(['property_type' =>  PropertyType::all()], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -273,7 +277,11 @@ class PropertyController extends Controller
      */
     public function getPropertyCategories()
     {
-        return response()->json(['property_category' =>  PropertyCategory::all()], 200);
+        try {
+            return response()->json(['property_category' =>  PropertyCategory::all()], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -282,7 +290,11 @@ class PropertyController extends Controller
      */
     public function getPropertyHeater()
     {
-        return response()->json(['heater' =>  Heater::all()], 200);
+        try {
+            return response()->json(['heater' =>  Heater::all()], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -291,7 +303,11 @@ class PropertyController extends Controller
      */
     public function getPropertyHygiene()
     {
-        return response()->json(['hygiene' =>  Hygiene::all()], 200);
+        try {
+            return response()->json(['hygiene' =>  Hygiene::all()], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -300,7 +316,11 @@ class PropertyController extends Controller
      */
     public function getPropertyKitchen()
     {
-        return response()->json(['kitchen' =>  Kitchen::all()], 200);
+        try {
+            return response()->json(['kitchen' =>  Kitchen::all()], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -309,7 +329,11 @@ class PropertyController extends Controller
      */
     public function getPropertyOutdoor()
     {
-        return response()->json(['outdoor' =>  Outdoor::all()], 200);
+        try {
+            return response()->json(['outdoor' =>  Outdoor::all()], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -318,7 +342,11 @@ class PropertyController extends Controller
      */
     public function getPropertyAnnexe()
     {
-        return response()->json(['annexe' =>  Annexe::all()], 200);
+        try {
+            return response()->json(['annexe' =>  Annexe::all()], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 
     /**
