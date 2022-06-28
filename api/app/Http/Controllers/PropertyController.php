@@ -57,12 +57,14 @@ class PropertyController extends Controller
             'floor' => 'required|numeric',
             'is_furnished' => 'required|boolean',
             'is_available' => 'required|boolean',
+            'id_property_type' => 'required',
         ]);
 
         try {
 
             $property = new Property();
             $propertyType = new PropertyType();
+            $propertyCategory = new PropertyCategory();
 
             $property->name = $request->input('name');
             $property->price = $request->input('price');
@@ -75,25 +77,26 @@ class PropertyController extends Controller
             $property->floor = $request->input('floor');
             $property->is_furnished = $request->input('is_furnished');
             $property->is_available = $request->input('is_available');
+            $property->id_property_type = $request->input('id_property_type');
+            $property->id_property_category = $request->input('id_property_category');
             $property->is_prospect = true;
             $property->id_kitchen = $request->input('id_kitchen');
             $property->id_heater = $request->input('id_heater');
             $property->id_energy_audit = $request->input('id_energy_audit');
 
-            // Datas belonging to propertyType.
-            // $propertyType->name = $request->input('name_property_type');
-            // $propertyType->id_property_category = $request->input('id_property_category');
-
             $hygienes = unserialize($request->input('hygiene'));
             $outdoors = unserialize($request->input('outdoor'));
             $annexes = unserialize($request->input('annexe'));
             $parkingNumbers = unserialize($request->input('parking_number'));
-            
-            // $propertyType->save();
-            // $property->id_property_type = $propertyType->id;
-            $property->id_property_type = $request->input('name_property_type');
-            $propertyType->findOrFail($property->id_property_type);
+
+            // Datas belonging to propertyType.        
+            $resultPropertyType = $propertyType->findOrFail($property->id_property_type);
+
+             // Datas belonging to propertyCategory.
+            $resultPropertyCategory = $propertyCategory->findOrFail($property->id_property_category);
+
             $property->save();
+
             // Get posted datas through an array.
             $rooms = unserialize($request->input('room'));
             if ($rooms != null) {
@@ -245,7 +248,7 @@ class PropertyController extends Controller
             $resultfeaturesList = FeaturesList::where('id_property', $property->id)->get();
 
             // Return successful response.
-            return response()->json(['property' => $property, 'property_type' => $propertyType, 'rooms' => $resultRooms, 'featuresList' => $resultfeaturesList, 'parkingNumbers' => $resultParkingNumbers, 'message' => 'CREATED'], 201);
+            return response()->json(['property' => $property, 'property_type' => $resultPropertyType, 'property_category' => $resultPropertyCategory ,'rooms' => $resultRooms, 'featuresList' => $resultfeaturesList, 'parkingNumbers' => $resultParkingNumbers, 'message' => 'CREATED'], 201);
             // Return response()->json(['rooms'=>$resultRooms],201);
 
         } catch (\Exception $e) {
@@ -255,9 +258,22 @@ class PropertyController extends Controller
         }
     }
 
+    /**
+     * return all property's types
+     * 
+     */
     public function getPropertyTypes()
     {
         return response()->json(['property_type' =>  PropertyType::all()], 200);
+    }
+
+    /**
+     * return all property's categories
+     * 
+     */
+    public function getPropertyCategories()
+    {
+        return response()->json(['property_category' =>  PropertyCategory::all()], 200);
     }
 
     /**
