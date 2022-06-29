@@ -7,3 +7,5 @@ Homestead.yaml
 storage/client
 storage/energyAudit
 storage/propertyPictures
+.DS_Store
+../.DS_Store
