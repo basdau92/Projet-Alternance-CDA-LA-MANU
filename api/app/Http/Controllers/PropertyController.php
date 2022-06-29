@@ -180,39 +180,11 @@ class PropertyController extends Controller
                                 }
                                 $featuresList->save();
                             }
-
+                            
                             break;
                         }
                     }
-                case 'outdoor': {
-                        for ($i = 0; $i < $maxSize; $i++) {
-                            $featuresList = new FeaturesList();
-                            $featuresList->id_property = $property->id;
-                            $featuresList->id_outdoor = $outdoors[$i];
 
-                            if (array_key_exists($i, $annexes)) {
-                                $featuresList->id_annexe = $annexes[$i];
-
-                                // Insert parkingNumber from each annexe.
-
-                                $parkingNumber = $parkingNumbers[$i];
-                                $sizeParkingNumber = count($parkingNumber);
-                                for ($j = 0; $j < $sizeParkingNumber; $j++) {
-                                    $pn = new ParkingNumber();
-                                    $pn->id_annexe = $annexes[$i];
-                                    $pn->number = $parkingNumber[$j];
-                                    $pn->save();
-                                }
-                                array_push($resultParkingNumbers, [$annexes[$i] => ParkingNumber::where('id_annexe', $annexes[$i])->get()]);
-                            }
-                            if (array_key_exists($i, $hygienes)) {
-                                $featuresList->id_hygiene = $hygienes[$i];
-                            }
-                            $featuresList->save();
-                        }
-
-                        break;
-                    }
                 case 'hygiene': {
                         for ($i = 0; $i < $maxSize; $i++) {
                             $featuresList = new FeaturesList();
