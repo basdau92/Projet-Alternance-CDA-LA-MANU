@@ -17,17 +17,17 @@ class KitchenSeeder extends Seeder
     {
         DB::table('kitchen')->insert([
             [
-                'name' => 'kitchnette',
+                'name' => 'Kitchenette',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'name' => 'cuisine aménagée',
+                'name' => 'Cuisine aménagée',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'name' => 'chauffage américaine',
+                'name' => 'Cuisine américaine',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],

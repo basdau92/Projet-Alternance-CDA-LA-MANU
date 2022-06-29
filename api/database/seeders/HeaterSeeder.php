@@ -17,17 +17,17 @@ class HeaterSeeder extends Seeder
     {
         DB::table('heater')->insert([
             [   
-                'name' => 'chauffage au sol',
+                'name' => 'Chauffage au sol',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'name' => 'chauffage électrique',
+                'name' => 'Chauffage électrique',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'name' => 'climatisation convertible',
+                'name' => 'Climatisation convertible',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
