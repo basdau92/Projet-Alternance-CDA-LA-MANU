@@ -3,12 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\FeaturesList;
 
-class Hygiene extends Model
+class Feature extends Model
 {
-    protected $table = 'hygiene';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -16,7 +13,7 @@ class Hygiene extends Model
      */
     protected $fillable = [
         'id',
-        'name',
+        'name'
     ];
 
     /**
@@ -26,14 +23,13 @@ class Hygiene extends Model
      */
     protected $hidden = [
         'created_at',
-        'updated_at',
-        'laravel_through_key'
+        'updated_at'
     ];
 
-    /**
-     * Relationship "inversed One To Many" with the FeaturesList model table. 
-     */
-    public function hygienes(){
+    protected $table = 'feature';
+
+    public function featuresList()
+    {
         return $this->belongsTo(FeaturesList::class);
     }
 }

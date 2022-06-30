@@ -17,30 +17,35 @@ class FeaturesListSeeder extends Seeder
     {
         DB::table('features_list')->insert([
             [
-                'id_hygiene' => 1,
-                'id_outdoor' => 2,
+                'id_feature' => 1,
                 'id_property' => 1,
-                'id_annexe' => 2,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'id_hygiene' => 2,
-                'id_outdoor' => 2,
-                'id_property' => 3,
-                'id_annexe' => 2,
+                'id_feature' => 5,
+                'id_property' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'id_hygiene' => 3,
-                'id_outdoor' => 3,
-                'id_property' => 2,
-                'id_annexe' => 4,
+                'id_feature' => 6,
+                'id_property' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-            ]
-
+            ],
+            [
+                'id_feature' => 8,
+                'id_property' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+                'id_feature' => 12,
+                'id_property' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
         ]);
     }
 }
