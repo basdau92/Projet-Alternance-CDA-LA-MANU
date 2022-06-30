@@ -4,10 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Property;
-use App\Models\Hygiene;
-use App\Models\Outdoor;
-use App\Models\Annexe;
-use App\Models\ParkingNumber;
+use App\Models\Feature;
 
 class FeaturesList extends Model
 {
@@ -17,11 +14,8 @@ class FeaturesList extends Model
      * @var array
      */
     protected $fillable = [
-        'id',
-        'id_hygiene',
-        'id_outdoor',
-        'id_property',
-        'id_annexe'
+        'id_feature',
+        'id_property'
     ];
 
     /**
@@ -39,29 +33,17 @@ class FeaturesList extends Model
     /**
      * Relationship "Inversed One to Many" with the Property model table. 
      */
-    public function property(){
+    public function property()
+    {
         return $this->belongsTo(Property::class, 'id_property', 'id');
     }
 
     /**
      * Relationship "One to One" with the Hygiene model table. 
      */
-    public function hygienes(){
-        return $this->hasOne(Hygiene::class, 'id_hygiene', 'id');
-    }
-
-    /**
-     * Relationship "One to One" with the Outdoor model table. 
-     */
-    public function outdoors(){
-        return $this->hasOne(Outdoor::class, 'id_outdoor', 'id');
-    }
-
-    /**
-     * Relationship "One to One" with the Annexe model table. 
-     */
-    public function annexes(){
-        return $this->hasOne(Annexe::class, 'id_annexe', 'id');
+    public function features()
+    {
+        return $this->hasMany(Feature::class, 'id_feature', 'id');
     }
 
     // /**
