@@ -469,9 +469,6 @@ class PropertyController extends Controller
                     'rooms',
                     'roomTypes',
                     'featuresLists',
-                    'hygienes',
-                    'outdoors',
-                    'annexes'
                 )
                 ->first();
 

@@ -68,7 +68,7 @@ class Property extends Model
      */
     public function propertyCategories()
     {
-        return $this->hasOne(PropertyCategory::class);
+        return $this->hasOne(PropertyCategory::class, 'id', 'id');
     }
 
     /**
