@@ -16,9 +16,7 @@ class CreateParkingNumberTable extends Migration
         Schema::create('parking_number', function (Blueprint $table) {
             $table->id();
             $table->integer('number');
-            $table->foreignId('id_annexe')->constrained('annexe');
             $table->foreignId('id_property')->constrained('property');
-
             $table->timestamps();
         });
     }
