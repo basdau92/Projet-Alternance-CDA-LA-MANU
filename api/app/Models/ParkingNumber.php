@@ -16,8 +16,7 @@ class ParkingNumber extends Model
      */
     protected $fillable = [
         'id',
-        'number',
-        'id_annexe'
+        'number'
     ];
 
     /**
@@ -30,11 +29,4 @@ class ParkingNumber extends Model
         'updated_at',
         'laravel_through_key'
     ];
-
-    /**
-     * Relationship "inversed One To Many" with the Annexe model table. 
-     */
-    public function parkingNumbers(){
-        return $this->belongsTo(Annexe::class);
-    }
 }
