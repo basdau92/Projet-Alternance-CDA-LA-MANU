@@ -103,6 +103,12 @@ class PropertyController extends Controller
 
                 }
             }
+            // Insert the property list related to auth employee
+            $propertyList = new PropertyList();
+            $propertyList->id_employee = Auth::userOrFail()->id;
+            $propertyList->id_property = $property->id;
+            $propertyList->save();
+
             
             // Datas belonging to propertyType.        
             $resultPropertyType = $propertyType->findOrFail($property->id_property_type);
@@ -115,7 +121,7 @@ class PropertyController extends Controller
             $resultfeaturesList = FeaturesList::where('id_property', $property->id)->get();
 
             // Return successful response.
-            return response()->json(['property' => $property, 'property_type' => $resultPropertyType, 'property_category' => $resultPropertyCategory, 'rooms' => $resultRooms, 'featuresList' => $resultfeaturesList,  'message' => 'CREATED'], 201);
+            return response()->json(['property' => $property, 'property_type' => $resultPropertyType, 'property_category' => $resultPropertyCategory, 'rooms' => $resultRooms, 'featuresList' => $resultfeaturesList, 'message' => 'CREATED'], 201);
             // Return response()->json(['rooms'=>$resultRooms],201);
 
         } catch (\Exception $e) {
