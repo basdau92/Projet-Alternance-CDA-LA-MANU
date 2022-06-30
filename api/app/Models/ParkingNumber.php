@@ -16,13 +16,7 @@ class ParkingNumber extends Model
      */
     protected $fillable = [
         'id',
-<<<<<<< HEAD
-        'number',
-        'id_annexe',
-        'id_property'
-=======
         'number'
->>>>>>> IB
     ];
 
     /**
