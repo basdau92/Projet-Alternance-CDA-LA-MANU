@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\PropertyPicture;
 use App\Models\PropertyList;
 
-
-
 class Property extends Model
 {
     /**
@@ -27,9 +25,8 @@ class Property extends Model
         'addition_address',
         'zipcode',
         'city',
-        'description',
         'surface',
-        'floor',
+        'description',
         'is_furnished',
         'is_available',
         'is_prospect'

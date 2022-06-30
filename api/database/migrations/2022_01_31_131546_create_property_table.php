@@ -26,9 +26,8 @@ class CreatePropertyTable extends Migration
             $table->string('addition_address');
             $table->integer('zipcode');
             $table->string('city');
-            $table->text('description');
             $table->integer('surface');
-            $table->string('floor');
+            $table->text('description');
             $table->boolean('is_furnished');
             $table->boolean('is_available');
             $table->boolean('is_prospect');
