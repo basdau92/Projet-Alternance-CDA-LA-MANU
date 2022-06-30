@@ -20,6 +20,7 @@ use App\Models\PropertyCategory;
 use App\Models\PropertyList;
 
 use App\Http\Controllers\Controller;
+use App\Models\Feature;
 use Illuminate\Support\Facades\Auth;
 
 class PropertyController extends Controller
@@ -31,7 +32,7 @@ class PropertyController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['allProperties', 'singleProperty', 'getPropertyTypes','getPropertyCategories','getPropertyHeater','getPropertyHygiene','getPropertyKitchen', 'getPropertyOutdoor', 'getPropertyAnnexe', 'getPropertyRoomTypes']]);
+        $this->middleware('auth:api', ['except' => ['allProperties', 'singleProperty', 'getPropertyTypes', 'getPropertyCategories', 'getPropertyHeater', 'getPropertyHygiene', 'getPropertyKitchen', 'getPropertyOutdoor', 'getPropertyAnnexe', 'getPropertyRoomTypes']]);
     }
 
     public function compareSizeArray($tab)
@@ -271,7 +272,7 @@ class PropertyController extends Controller
      * return all property's heater types
      * 
      */
-    public function getPropertyHeater()
+    public function getPropertyHeaters()
     {
         try {
             return response()->json(['heater' =>  Heater::all()], 200);
@@ -281,23 +282,10 @@ class PropertyController extends Controller
     }
 
     /**
-     * return all property's hygiene room types
-     * 
-     */
-    public function getPropertyHygiene()
-    {
-        try {
-            return response()->json(['hygiene' =>  Hygiene::all()], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()]);
-        }
-    }
-
-    /**
      * return all property's kitchen room types
      * 
      */
-    public function getPropertyKitchen()
+    public function getPropertyKitchens()
     {
         try {
             return response()->json(['kitchen' =>  Kitchen::all()], 200);
@@ -307,26 +295,13 @@ class PropertyController extends Controller
     }
 
     /**
-     * return all property's outdoor room types
-     * 
-     */
-    public function getPropertyOutdoor()
-    {
-        try {
-            return response()->json(['outdoor' =>  Outdoor::all()], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()]);
-        }
-    }
-
-    /**
      * return all property's annexe types
      * 
      */
-    public function getPropertyAnnexe()
+    public function getPropertyFeatures()
     {
         try {
-            return response()->json(['annexe' =>  Annexe::all()], 200);
+            return response()->json(['feature' =>  Feature::all()], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
         }
