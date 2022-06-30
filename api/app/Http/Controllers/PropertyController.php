@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
-use App\Models\Annexe;
 use App\Models\Heater;
-use App\Models\Hygiene;
 use App\Models\Kitchen;
-use App\Models\Outdoor;
 use App\Models\Property;
 use App\Models\RoomType;
 use App\Models\EnergyAudit;
@@ -21,7 +18,6 @@ use App\Models\PropertyList;
 
 use App\Http\Controllers\Controller;
 use App\Models\Feature;
-use Illuminate\Support\Facades\Auth;
 
 class PropertyController extends Controller
 {
@@ -32,7 +28,7 @@ class PropertyController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['allProperties', 'singleProperty', 'getPropertyTypes', 'getPropertyCategories', 'getPropertyHeater', 'getPropertyHygiene', 'getPropertyKitchen', 'getPropertyOutdoor', 'getPropertyAnnexe', 'getPropertyRoomTypes']]);
+        $this->middleware('auth:api', ['except' => ['allProperties', 'singleProperty', 'getPropertyTypes', 'getPropertyCategories', 'getPropertyHeater', 'getPropertyKitchen', 'getPropertyRoomTypes', 'getPropertyFeatures']]);
     }
 
     public function compareSizeArray($tab)
