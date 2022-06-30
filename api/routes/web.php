@@ -28,24 +28,24 @@ $router->group(['prefix' => 'authentification'], function () use ($router) {
     $router->get('/employee', 'AuthController@login_employee');
 });
 
-$router->group(['prefix' => 'espaceemploye'], function () use ($router) {
+$router->group(['prefix' => 'employee'], function () use ($router) {
     $router->get('/dashboard', 'EmployeeController@singleEmployee');
 });
 
-$router->group(['prefix' => 'client'], function () use ($router) {
+$router->group(['prefix' => 'customer'], function () use ($router) {
 
-    $router->get('/favoris', 'FavoriteListController@showFavoriteList');
-    $router->post('/favoris', 'FavoriteListController@createFavoriteList');
-    $router->delete('/favoris/{id}', 'FavoriteListController@deleteFavoriteList');
+    $router->get('/favorites', 'FavoriteListController@showFavoriteList');
+    $router->post('/favorites', 'FavoriteListController@createFavoriteList');
+    $router->delete('/favorites/{id}', 'FavoriteListController@deleteFavoriteList');
     $router->post('/documents', 'ClientController@upload');
     $router->delete('/documents/{id}', 'ClientController@deleteFile');
     $router->put('/documents/{id}', 'ClientController@updateFile');
     $router->get('/documents', 'ClientController@readFiles');
-    $router->get('/espaceclient', 'ClientController@singleClient');
+    $router->get('/profile', 'ClientController@singleClient');
     $router->get('/', 'ClientController@allClients');
     $router->delete('/{id}', 'ClientController@deleteClient');
-    $router->put('/espaceclient', 'ClientController@updateClient');
-    $router->put('/espaceclient/password', 'ClientController@updatePassword');
+    $router->put('/profile', 'ClientController@updateClient');
+    $router->put('/profile/password', 'ClientController@updatePassword');
 });
 
 $router->group(['prefix' => 'property'], function () use ($router) {
@@ -54,14 +54,12 @@ $router->group(['prefix' => 'property'], function () use ($router) {
     $router->post('/pictures', 'PropertyController@uploadPropertyPictures');
     $router->post('/energy-audit', 'PropertyController@uploadEnergyAudit');
 
-    $router->get('/type', 'PropertyController@getPropertyTypes');
-    $router->get('/category', 'PropertyController@getPropertyCategories');
-    $router->get('/heater', 'PropertyController@getPropertyHeater');
-    $router->get('/hygiene', 'PropertyController@getPropertyHygiene');
-    $router->get('/kitchen', 'PropertyController@getPropertyKitchen');
-    $router->get('/outdoor', 'PropertyController@getPropertyOutdoor');
-    $router->get('/annexe', 'PropertyController@getPropertyAnnexe');
-    $router->get('/room-type', 'PropertyController@getPropertyRoomTypes');
+    $router->get('/types', 'PropertyController@getPropertyTypes');
+    $router->get('/categories', 'PropertyController@getPropertyCategories');
+    $router->get('/heaters', 'PropertyController@getPropertyHeaters');
+    $router->get('/kitchens', 'PropertyController@getPropertyKitchens');
+    $router->get('/features', 'PropertyController@getPropertyFeatures');
+    $router->get('/room-types', 'PropertyController@getPropertyRoomTypes');
     $router->get('/{id}', 'PropertyController@singleProperty');
     $router->get('/employee/{id}', 'PropertyController@allEmployeeProperties');
     $router->get('/', 'PropertyController@allProperties');
