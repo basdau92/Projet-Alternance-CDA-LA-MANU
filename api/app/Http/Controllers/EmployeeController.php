@@ -39,12 +39,23 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Get all Employees
+     * Get all Employees if permission accorded
      *
      * @return Response
      */
     public function allEmployees()
     {
-        return response()->json(['employee' =>  Employee::all()], 200);
+        try {
+            if (Auth::user()->id_role == 1 || Auth::user()->id_role == 2 || Auth::user()->id_role == 3) {
+                return response()->json(['employee' =>  Employee::all()], 200);
+            } else {
+                return response()->json(['message' => 'Vous n\'avez pas les droits nécessaires pour accéder à ces informations.'], 403);
+            }
+        } catch (\Exception $e) {
+            $mail = Auth::user()->mail;
+            Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
+
+            return response()->json(['message' => 'Aucun employé n\'a été trouvé.'], 404);
+        }
     }
 }

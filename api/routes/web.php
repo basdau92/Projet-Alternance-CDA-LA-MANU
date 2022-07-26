@@ -29,6 +29,7 @@ $router->group(['prefix' => 'authentification'], function () use ($router) {
 });
 
 $router->group(['prefix' => 'employee'], function () use ($router) {
+    $router->get('/', 'EmployeeController@allEmployees');
     $router->get('/dashboard', 'EmployeeController@singleEmployee');
 });
 
