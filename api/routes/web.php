@@ -72,3 +72,5 @@ $router->group(['prefix' => 'rdv'], function () use ($router) {
     $router->get('/', 'RdvController@showAuthEmployeeRdv');
     $router->get('/{id}', 'RdvController@employeeRdv');
 });
+
+$router->get('/contact','AgencyController@getAgencies');
