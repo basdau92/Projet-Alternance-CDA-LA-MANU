@@ -19,7 +19,7 @@ class CreateAgencyTable extends Migration
             $table->string('address');
             $table->integer('zipcode');
             $table->string('mail');
-            $table->integer('phone');
+            $table->string('phone');
             $table->timestamps();
         });
     }
