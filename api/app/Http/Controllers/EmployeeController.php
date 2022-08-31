@@ -47,7 +47,7 @@ class EmployeeController extends Controller
     {
         try {
             if (Auth::user()->id_role == 1 || Auth::user()->id_role == 2 || Auth::user()->id_role == 3) {
-                $employees = Employee::join('agency','employee.id_agency','=','agency.id')->get(['employee.*','agency.*']);
+                $employees = Employee::join('agency','employee.id_agency','=','agency.id')->get(['employee.*','agency.name', 'agency.address', 'agency.zipcode', 'agency.phone as agencyPhone']);
 
                 return response()->json(['employee' =>  $employees], 200);
             } else {
