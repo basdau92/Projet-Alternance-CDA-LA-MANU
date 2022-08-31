@@ -47,7 +47,9 @@ class EmployeeController extends Controller
     {
         try {
             if (Auth::user()->id_role == 1 || Auth::user()->id_role == 2 || Auth::user()->id_role == 3) {
-                return response()->json(['employee' =>  Employee::all()], 200);
+                $employees = Employee::join('agency','employee.id_agency','=','agency.id')->get(['employee.*','agency.*']);
+
+                return response()->json(['employee' =>  $employees], 200);
             } else {
                 return response()->json(['message' => 'Vous n\'avez pas les droits nécessaires pour accéder à ces informations.'], 403);
             }

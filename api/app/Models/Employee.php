@@ -31,8 +31,6 @@ class Employee extends Model implements AuthenticatableContract, AuthorizableCon
         'phone',
         'matricule',
         'password',
-        'created_at',
-        'updated_at'
     ];
 
     /**
@@ -41,6 +39,8 @@ class Employee extends Model implements AuthenticatableContract, AuthorizableCon
      * @var array
      */
     protected $hidden = [
+        'created_at',
+        'updated_at',
         'password',
     ];
 
