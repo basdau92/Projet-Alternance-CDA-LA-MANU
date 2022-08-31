@@ -19,46 +19,46 @@ class AgencySeeder extends Seeder
         DB::table('agency')->insert([
             
             [
-                'name' => 'Agence du 1er arrondissement',
+                'name' => 'Palais-Royal',
                 'address' => '6 rue du Poteau',
                 'zipcode' => '75001',
-                'mail' => 'agencedu1er@gmail.com',
+                'mail' => 'immopport-palaisroyalgmail.com',
                 'phone' => '0145789596',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'name' => 'Agence du 6ème arrondissement',
+                'name' => 'Odéon',
                 'address' => '12 avenue baron Haussman',
                 'zipcode' => '75006',
-                'mail' => 'agencedu6eme@gmail.com',
+                'mail' => 'immopport-odeon@gmail.com',
                 'phone' => '0145789293',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'name' => 'Agence du 7ème arrondissement',
+                'name' => 'Invalides',
                 'address' => '3 rue du Emile Zola',
                 'zipcode' => '75007',
-                'mail' => 'agencedu7eme@gmail.com',
+                'mail' => 'immopport-invalides@gmail.com',
                 'phone' => '01457898687',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'name' => 'Agence du 8ème arrondissement',
+                'name' => 'Madeleine',
                 'address' => '3 boulevard des Capucines',
                 'zipcode' => '75008',
-                'mail' => 'agencedu8eme@gmail.com',
+                'mail' => 'immopport-madeleine@gmail.com',
                 'phone' => '01457898564',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'name' => 'Agence du 13ème arrondissement',
+                'name' => 'Gare',
                 'address' => '50 avenue Paul Vaillant-Couturier',
                 'zipcode' => '75013',
-                'mail' => 'agencedu13eme@gmail.com',
+                'mail' => 'immopport-gare@gmail.com',
                 'phone' => '01457751236',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
