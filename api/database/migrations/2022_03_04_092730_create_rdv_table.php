@@ -26,7 +26,7 @@ class CreateRdvTable extends Migration
             $table->string('lastname');
             $table->string('firstname');
             $table->string('mail')->nullable();
-            $table->integer('phone')->nullable();
+            $table->string('phone')->nullable();
             $table->boolean('is_visit');
             $table->string('address')->nullable();
             $table->string('city')->nullable();
