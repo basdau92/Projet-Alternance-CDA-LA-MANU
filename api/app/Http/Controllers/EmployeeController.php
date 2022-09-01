@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PropertyList;
 use App\Models\Employee;
+use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+
 use App\Mail\ExceptionOccured;
 
 class EmployeeController extends Controller
@@ -58,6 +61,64 @@ class EmployeeController extends Controller
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
 
             return response()->json(['message' => 'Aucun employé n\'a été trouvé.'], 404);
+        }
+    }
+
+    /** SHOW ALL PROPERTIES ASSOCIATED TO AN EMPLOYEE
+     * Get all properties.
+     *
+     * 
+     * @return Response
+     */
+    public function allEmployeeProperties()
+    {
+        try {
+            // Try to get several datas related to the PropertyList model/table by Eloquence.
+            $getAllDatas = PropertyList::where('id_employee', Auth::user()->id)
+                ->with('property')
+                ->get();
+
+            // If successful, return successful response.
+            return response()->json(['property' => $getAllDatas], 200);
+        } catch (\Exception $e) {
+
+            // If unsuccessful, return a custom error message and a HTML status.
+            return response()->json(['message' => 'La liste d\'annonces de propriétés de cet(te) employé(e) n\'a pas pu être affichée!', 'Error' => $e->getMessage()], 404);
+        }
+    }
+
+    /** SHOW ALL PROPERTIES FOR DESKTOP APP WITH AUTH
+     * Get all properties.
+     *
+     * 
+     * @return Response
+     */
+    public function allProperties()
+    {
+        try {
+
+            if (Auth::user()->id_role == 1 || Auth::user()->id_role == 2 || Auth::user()->id_role == 3) {
+
+
+                // Try to get several models/tables datas related to the Property model/table by Eloquence.
+/*                 $getAllDatas = PropertyList::with([
+                    'property', 'employee'
+                ])
+                    ->get(); */
+                    $getAllDatas = PropertyList::join('property','property_list.id_property','=','property.id')->join('employee','property_list.id_employee','=','employee.id')->get(['property.*','employee.id as id_employee' ,'employee.lastname','employee.firstname']);
+
+    
+                // If successful, return successful response.
+                return response()->json(['property' => $getAllDatas], 200);
+
+            }else {
+                return response()->json(['message' => 'Vous n\'avez pas les droits nécessaires pour accéder à ces informations.'], 403);
+            }
+
+        } catch (\Exception $e) {
+
+            // If unsuccessful, return a custom error message and a HTML status.
+            return response()->json(['message' => 'La liste d\'annonces de propriétés n\'a pas pu être affichée !', 'Error' => $e->getMessage()], 404);
         }
     }
 }

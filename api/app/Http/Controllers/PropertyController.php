@@ -313,28 +313,7 @@ class PropertyController extends Controller
         }
     }
 
-    /** SHOW ALL PROPERTIES Employee
-     * Get all properties.
-     *
-     * 
-     * @return Response
-     */
-    public function allEmployeeProperties($id)
-    {
-        try {
-            // Try to get several datas related to the PropertyList model/table by Eloquence.
-            $getAllDatas = PropertyList::where('id_employee', $id)
-                ->with('property')
-                ->get();
-
-            // If successful, return successful response.
-            return response()->json(['property' => $getAllDatas], 200);
-        } catch (\Exception $e) {
-
-            // If unsuccessful, return a custom error message and a HTML status.
-            return response()->json(['message' => 'La liste d\'annonces de propriétés de cet(te) employé(e) n\'a pas pu être affichée!', 'Error' => $e->getMessage()], 404);
-        }
-    }
+    
 
     /** SHOW ONE PROPERTY
      * Get a single property.
