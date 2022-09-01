@@ -49,7 +49,16 @@ class ClientController extends Controller
      */
     public function allClients()
     {
-        return response()->json(['client' =>  Client::all()], 200);
+        try {
+            $customers = Client::join('agency', 'client.id_agency', '=', 'agency.id')
+                ->get(['client.*', 'agency.name']);
+            return response()->json(['client' =>  $customers], 200);
+        } catch (\Exception $e) {
+            $mail = Auth::user()->mail;
+            Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
+
+            return response()->json(['message' => 'Aucun employé n\'a été trouvé.'], 404);
+        }
     }
 
     /**
@@ -65,11 +74,12 @@ class ClientController extends Controller
             'lastname' => 'string',
             'firstname' => 'string',
             'mail' => [
-            'email',
-            Rule::unique('client')->ignore($client->id)] ,
+                'email',
+                Rule::unique('client')->ignore($client->id)
+            ],
             'phone' => 'numeric',
         ]);
-        
+
         try {
             $client->lastname = $request->input('lastname');
             $client->firstname = $request->input('firstname');
