@@ -77,7 +77,7 @@ class EmployeeController extends Controller
             /* $getAllDatas = PropertyList::where('id_employee', Auth::user()->id)
                 ->with('property')
                 ->get(); */
-            $getAllDatas = PropertyList::join('property','property_list.id_property','=','property.id')->where('id_employee',Auth::user()->id)->get('property.*');
+            $getAllDatas = PropertyList::join('property','property_list.id_property','=','property.id')->where('id_employee',Auth::user()->id)->get(['property.*']);
 
             // If successful, return successful response.
             return response()->json(['property' => $getAllDatas], 200);
@@ -101,13 +101,9 @@ class EmployeeController extends Controller
             if (Auth::user()->id_role == 1 || Auth::user()->id_role == 2 || Auth::user()->id_role == 3) {
 
 
-                // Try to get several models/tables datas related to the Property model/table by Eloquence.
-                /*                 $getAllDatas = PropertyList::with([
-                    'property', 'employee'
-                ])
-                    ->get(); */
-                $getAllDatas = PropertyList::join('property', 'property_list.id_property', '=', 'property.id')->join('employee', 'property_list.id_employee', '=', 'employee.id')->get(['property.*', 'employee.id as id_employee', 'employee.lastname', 'employee.firstname']);
+                //$getAllDatas = PropertyList::join('property', 'property_list.id_property', '=', 'property.id')->join('employee', 'property_list.id_employee', '=', 'employee.id')->get(['property.*', 'employee.id as id_employee', 'employee.lastname', 'employee.firstname']);
 
+                $getAllDatas = PropertyList::join('property','property_list.id_property','=','property.id')->join('employee','property_list.id_employee','=','employee.id')->join('agency','employee.id_agency','agency.id')->where('agency.id','=',Auth::user()->id_agency)->get(['property.*','employee.id','employee.firstname','agency.id','agency.name']);
 
                 // If successful, return successful response.
                 return response()->json(['property' => $getAllDatas], 200);
