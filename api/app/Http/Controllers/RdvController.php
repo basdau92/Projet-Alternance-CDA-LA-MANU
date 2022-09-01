@@ -24,15 +24,16 @@ class RdvController extends Controller
     {
 
         $this->validate($request, [
-            'label' => 'required',
             'beginning' => 'required|date_format:Y-m-d H:i:s',
             'end' => 'required|date_format:Y-m-d H:i:s',
             'lastname' => 'required|string',
             'firstname' => 'required|string',
             'mail' => 'email|required',
             'phone' => 'numeric',
+            'address' => 'required|string',
+            'city' => 'required|string',
+            'zipcode' => 'required|string',
             'is_visit' => 'required|boolean',
-            'id_employee' => 'required',
             'id_agency' => 'required',
         ]);
 
@@ -41,7 +42,6 @@ class RdvController extends Controller
             $rdv = new Rdv();
 
             $rdv->id_employee = Auth::user()->id;
-
             $label = $rdv->id_label = $request->input('label');
             $beginning = $rdv->beginning = $request->input('beginning');
             $end = $rdv->end = $request->input('end');
@@ -55,8 +55,8 @@ class RdvController extends Controller
             $city = $rdv->city = $request->input('city');
             $zipcode = $rdv->zipcode = $request->input('zipcode');
             $agency = $rdv->id_agency = $request->input('id_agency');
-            $rdv->save();
 
+            $rdv->save();
             Mail::to($clientMail)->send(new RdvMail($label, $beginning, $end, $description, $address, $city, $zipcode, $agency));
 
             return response()->json(['rdv' => $rdv, 'message' => 'RDV CRÉE'], 201);
@@ -103,19 +103,16 @@ class RdvController extends Controller
     public function showAuthEmployeeRdv()
     {
         try {
-            /* Try to get datas related to the Rdv model/table by Eloquence through the Fkey 'id_employee' 
-            with attempt to get the current user. */
-            $getAuthEmployeeRdv = Rdv::with(['employee'])
-            ->where('id_employee', Auth::userOrFail()->id)
-            ->get();
+            $getAuthEmployeeRdv =
+                Rdv::join('employee', 'rdv.id_employee', '=', 'employee.id')
+                ->join('label', 'rdv.id_label', '=', 'label.id')
+                ->join('agency', 'rdv.id_agency', '=', 'agency.id')
+                ->where('id_employee', Auth::userOrFail()->id)
+                ->get(['rdv.*', 'employee.lastname as employeeLastname', 'employee.firstname as employeeFirstname', 'employee.matricule', 'label.name as label']);
 
-            return response()->json(['rdv' => $getAuthEmployeeRdv], 200); 
-        } catch (\Exception $th) {
-
-            //Else it returns a http status with message error.
+            return response()->json(['rdv' => $getAuthEmployeeRdv], 200);
+        } catch (\Exception $e) {
             return response()->json(['message' => 'La liste des rendez-vous pour cet(te) employé(e) n\'a pas été trouvée !', 'error' => $e->getMessage()], 404);
         }
     }
 }
-
-    
