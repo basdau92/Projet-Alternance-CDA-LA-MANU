@@ -31,6 +31,10 @@ $router->group(['prefix' => 'authentification'], function () use ($router) {
 $router->group(['prefix' => 'employee'], function () use ($router) {
     $router->get('/', 'EmployeeController@allEmployees');
     $router->get('/dashboard', 'EmployeeController@singleEmployee');
+    $router->get('/allProperties', 'EmployeeController@allProperties');
+    $router->get('/properties', 'EmployeeController@allEmployeeProperties');
+
+
 });
 
 $router->group(['prefix' => 'customer'], function () use ($router) {
@@ -62,7 +66,6 @@ $router->group(['prefix' => 'property'], function () use ($router) {
     $router->get('/features', 'PropertyController@getPropertyFeatures');
     $router->get('/room-types', 'PropertyController@getPropertyRoomTypes');
     $router->get('/{id}', 'PropertyController@singleProperty');
-    $router->get('/employee/{id}', 'PropertyController@allEmployeeProperties');
     $router->get('/', 'PropertyController@allProperties');
     $router->put('/{id}', 'PropertyController@updateProperty');
 });
