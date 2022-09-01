@@ -74,9 +74,10 @@ class EmployeeController extends Controller
     {
         try {
             // Try to get several datas related to the PropertyList model/table by Eloquence.
-            $getAllDatas = PropertyList::where('id_employee', Auth::user()->id)
+            /* $getAllDatas = PropertyList::where('id_employee', Auth::user()->id)
                 ->with('property')
-                ->get();
+                ->get(); */
+            $getAllDatas = PropertyList::join('property','property_list.id_property','=','property.id')->where('id_employee',Auth::user()->id)->get('property.*');
 
             // If successful, return successful response.
             return response()->json(['property' => $getAllDatas], 200);
