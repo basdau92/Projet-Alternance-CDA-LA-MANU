@@ -50,7 +50,7 @@ class EmployeeController extends Controller
     {
         try {
             if (Auth::user()->id_role == 1 || Auth::user()->id_role == 2 || Auth::user()->id_role == 3) {
-                $employees = Employee::join('agency','employee.id_agency','=','agency.id')->get(['employee.*','agency.name', 'agency.address', 'agency.zipcode', 'agency.phone as agencyPhone']);
+                $employees = Employee::join('agency', 'employee.id_agency', '=', 'agency.id')->get(['employee.*', 'agency.name', 'agency.address', 'agency.zipcode', 'agency.phone as agencyPhone']);
 
                 return response()->json(['employee' =>  $employees], 200);
             } else {
@@ -101,20 +101,18 @@ class EmployeeController extends Controller
 
 
                 // Try to get several models/tables datas related to the Property model/table by Eloquence.
-/*                 $getAllDatas = PropertyList::with([
+                /*                 $getAllDatas = PropertyList::with([
                     'property', 'employee'
                 ])
                     ->get(); */
-                    $getAllDatas = PropertyList::join('property','property_list.id_property','=','property.id')->join('employee','property_list.id_employee','=','employee.id')->get(['property.*','employee.id as id_employee' ,'employee.lastname','employee.firstname']);
+                $getAllDatas = PropertyList::join('property', 'property_list.id_property', '=', 'property.id')->join('employee', 'property_list.id_employee', '=', 'employee.id')->get(['property.*', 'employee.id as id_employee', 'employee.lastname', 'employee.firstname']);
 
-    
+
                 // If successful, return successful response.
                 return response()->json(['property' => $getAllDatas], 200);
-
-            }else {
+            } else {
                 return response()->json(['message' => 'Vous n\'avez pas les droits nécessaires pour accéder à ces informations.'], 403);
             }
-
         } catch (\Exception $e) {
 
             // If unsuccessful, return a custom error message and a HTML status.
