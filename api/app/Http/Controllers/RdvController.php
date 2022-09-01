@@ -108,7 +108,7 @@ class RdvController extends Controller
                 ->join('label', 'rdv.id_label', '=', 'label.id')
                 ->join('agency', 'rdv.id_agency', '=', 'agency.id')
                 ->where('id_employee', Auth::userOrFail()->id)
-                ->get(['rdv.*', 'employee.lastname as employeeLastname', 'employee.firstname as employeeFirstname', 'employee.matricule', 'label.name as label']);
+                ->get(['rdv.*', 'employee.lastname as employeeLastname', 'employee.firstname as employeeFirstname', 'employee.matricule', 'label.name as label', 'agency.name']);
 
             return response()->json(['rdv' => $getAuthEmployeeRdv], 200);
         } catch (\Exception $e) {
