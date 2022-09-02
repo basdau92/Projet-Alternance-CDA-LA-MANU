@@ -77,7 +77,7 @@ class EmployeeController extends Controller
             /* $getAllDatas = PropertyList::where('id_employee', Auth::user()->id)
                 ->with('property')
                 ->get(); */
-            $getAllDatas = PropertyList::join('property','property_list.id_property','=','property.id')->where('id_employee',Auth::user()->id)->get(['property.*']);
+            $getAllDatas = PropertyList::join('property','property_list.id_property','=','property.id')->where('id_employee',Auth::user()->id)->get(['property.*','employee.id as employeeId']);
 
             // If successful, return successful response.
             return response()->json(['property' => $getAllDatas], 200);
@@ -100,7 +100,7 @@ class EmployeeController extends Controller
 
             if (Auth::user()->id_role == 1 || Auth::user()->id_role == 2 || Auth::user()->id_role == 3) {
 
-                $getAllDatas = PropertyList::join('property','property_list.id_property','=','property.id')->join('employee','property_list.id_employee','=','employee.id')->join('agency','employee.id_agency','agency.id')->where('agency.id','=',Auth::user()->id_agency)->get(['property.*','employee.id','employee.firstname', 'employee.lastname','employee.matricule','agency.id','agency.name as AgencyName']);
+                $getAllDatas = PropertyList::join('property','property_list.id_property','=','property.id')->join('employee','property_list.id_employee','=','employee.id')->join('agency','employee.id_agency','agency.id')->where('agency.id','=',Auth::user()->id_agency)->get(['property.*','employee.id as emplyeeId','employee.firstname', 'employee.lastname','employee.matricule','agency.id as agencyId','agency.name as AgencyName']);
 
                 // If successful, return successful response.
                 return response()->json(['property' => $getAllDatas], 200);
