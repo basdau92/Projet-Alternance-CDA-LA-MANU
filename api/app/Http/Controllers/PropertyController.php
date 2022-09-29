@@ -31,7 +31,7 @@ class PropertyController extends Controller
         $this->middleware('auth:api', ['except' => ['allProperties', 'singleProperty', 'getPropertyTypes', 'getPropertyCategories', 'getPropertyHeater', 'getPropertyKitchen', 'getPropertyRoomTypes', 'getPropertyFeatures']]);
     }
 
-
+    // Create a new property.
     public function create(Request $request)
     {
         $this->validate($request, [
