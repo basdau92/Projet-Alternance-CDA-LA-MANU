@@ -73,34 +73,30 @@ class PropertyController extends Controller
             $property->id_heater = $request->input('id_heater');
             $property->id_energy_audit = $request->input('id_energy_audit');
             $property->save();
-            
+
             // Get posted datas through an array.
             $rooms = unserialize($request->input('room'));
 
             $features = unserialize($request->input('feature'));
-            
+
             // Insert the rooms related to one property.
             if ($rooms != null) {
                 foreach ($rooms as $r) {
                     $room = new Room();
                     $room->id_property = $property->id;
-                    
+
                     $room->id_room_type = $r;
                     $room->save();
                 }
             }
 
             // Insert the features_list related to one property.
-            if($features !=null)
-            {
-                foreach($features as $feature)
-                {
+            if ($features != null) {
+                foreach ($features as $feature) {
                     $featureList = new FeaturesList();
                     $featureList->id_feature = $feature;
                     $featureList->id_property = $property->id;
                     $featureList->save();
-
-
                 }
             }
             // Insert the property list related to auth employee
@@ -109,13 +105,13 @@ class PropertyController extends Controller
             $propertyList->id_property = $property->id;
             $propertyList->save();
 
-            
+
             // Datas belonging to propertyType.        
             $resultPropertyType = $propertyType->findOrFail($property->id_property_type);
 
             // Datas belonging to propertyCategory.
             $resultPropertyCategory = $propertyCategory->findOrFail($property->id_property_category);
-            
+
 
             $resultRooms = Room::where('id_property', $property->id)->get();
             $resultfeaturesList = FeaturesList::where('id_property', $property->id)->get();
@@ -313,7 +309,7 @@ class PropertyController extends Controller
         }
     }
 
-    
+
 
     /** SHOW ONE PROPERTY
      * Get a single property.
@@ -333,12 +329,18 @@ class PropertyController extends Controller
                     'energyAudits',
                     'propertyPictures',
                     'kitchen',
-                    'heater',
                     'rooms',
-                    'roomTypes',
+                    'heater',
                     'featuresLists',
                 )
                 ->first();
+
+                foreach ($property['rooms'] as &$room) {
+                    $roomType = Room::join('room_type', 'room.id_room_type', '=', 'room_type.id')
+                        ->where('room.id', $room['id'])
+                        ->first('room_type.name');
+                    $room['name'] = $roomType['name'];
+                }
 
             return response()->json(['property' => $property], 200);
         } catch (\Exception $e) {
