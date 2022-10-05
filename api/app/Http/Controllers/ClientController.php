@@ -33,31 +33,12 @@ class ClientController extends Controller
     public function singleClient()
     {
         try {
-            return response()->json(['client' => Auth::user()], 200);
+            return response()->json(['client' => Auth::guard('api-client')->user()], 200);
         } catch (\Exception $e) {
-            $mail = Auth::user()->mail;
+            $mail = Auth::guard('api-client')->user()->mail;
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
 
-            return response()->json(['message' => 'Le client n\'a pas été trouvé!'], 404);
-        }
-    }
-
-    /**
-     * Get all Client.
-     *
-     * @return Response
-     */
-    public function allClients()
-    {
-        try {
-            $customers = Client::join('agency', 'client.id_agency', '=', 'agency.id')
-                ->get(['client.*', 'agency.name']);
-            return response()->json(['client' =>  $customers], 200);
-        } catch (\Exception $e) {
-            $mail = Auth::user()->mail;
-            Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
-
-            return response()->json(['message' => 'Aucun employé n\'a été trouvé.'], 404);
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
         }
     }
 
@@ -68,7 +49,7 @@ class ClientController extends Controller
      */
     public function updateClient(Request $request)
     {
-        $client = Auth::user();
+        $client = Auth::guard('api-client')->user();
         //validate incoming request 
         $this->validate($request, [
             'lastname' => 'string',
@@ -89,9 +70,9 @@ class ClientController extends Controller
             // Update client to database
             $client->save();
 
-            return response()->json(['message' => 'Le profil a bien été modifié.', 'client' => Auth::user()], 200);
+            return response()->json(['message' => 'Le profil a bien été modifié.', 'client' => Auth::guard('api-client')->user()], 200);
         } catch (\Exception $e) {
-            $mail = Auth::user()->mail;
+            $mail = Auth::guard('api-client')->user()->mail;
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
 
             return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
@@ -111,16 +92,16 @@ class ClientController extends Controller
         );
 
         try {
-            $client = Auth::user();
+            $client = Auth::guard('api-client')->user();
             $plainPassword = $request->input('password');
             $client->password = app('hash')->make($plainPassword);
 
             $client->save();
 
-            return response()->json(['message' => 'Le mot de passe a bien été modifié.', 'client' => Auth::user()], 200);
+            return response()->json(['message' => 'Le mot de passe a bien été modifié.', 'client' => Auth::guard('api-client')->user()], 200);
         } catch (\Exception $e) {
 
-            $mail = Auth::user()->mail;
+            $mail = Auth::guard('api-client')->user()->mail;
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
 
             return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
@@ -137,7 +118,7 @@ class ClientController extends Controller
             Client::findOrFail($id)->delete();
             return response('La ressource a bien été supprimé !', 200);
         } catch (\Exception $e) {
-            $mail = Auth::user()->mail;
+            $mail = Auth::guard('api-client')->user()->mail;
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
 
             return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
@@ -152,16 +133,16 @@ class ClientController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function upload(Request $request)
+    public function uploadFile(Request $request)
     {
         if (!$request->hasFile('document')) { // ensure the request has a file
-            return response()->json('Aucun fichier n\'a été trouvé !', 400); // client side error, Bad Request
+            return response()->json('Aucun fichier n\'a été trouvé !', 404); // client side error, Bad Request
         }
 
-        try {
-            $files = $request->file('document'); // retrieve file from the request
-            $id_client = $request->input('id_client');
+        $files = $request->file('document'); // retrieve file from the request
+        $id_client = $request->input('id_client');
 
+        try {
             foreach ($files as $file) {
                 $extensionArray = ['jpg', 'png', 'jpeg', 'pdf', 'doc', 'docx', 'odt']; // Authorized extension
                 $filename = $file->hashName(); // Generate a unique, random name 
@@ -175,23 +156,25 @@ class ClientController extends Controller
                     $file->move($destination_path, $document); // move the file to storage/client
 
                     $clientDocument = new ClientDocument();
-                    $clientDocument->id_client = Auth::userOrFail()->id;
+                    $clientDocument->id_client = Auth::guard('api-client')->user()->id;
                     $clientDocument->name = $document;
                     $clientDocument->path = $destination_path;
                     $clientDocument->id_client = $id_client;
                     $clientDocument->save();
+
+                    dd($clientDocument);
                 } else {
-                    return response()->json('L\'extension du fichier n\'est pas autorisée!', 403);
+                    return response()->json('L\'extension du fichier n\'est pas autorisée. Seules sont autorisées les jpg, png, jpeg, pdf, doc, docx, odt.', 403);
                 }
             }
             $result = clientDocument::where('id_client', $id_client)->get();
 
-            return response()->json(['document' => $result, 'message' => 'File uploaded !'], 201);
+            return response()->json(['document' => $result, 'message' => 'Le fichier a bien été téléchargé.'], 201);
         } catch (\Exception $e) {
-            $mail = Auth::user()->mail;
+            $mail = Auth::guard('api-client')->user()->mail;
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
 
-            return response()->json(['message' => 'Le fichier ne peut pas être uploadé!', 'error' => $e->getMessage()], 409);
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
         }
     }
 
@@ -201,7 +184,7 @@ class ClientController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function readFiles(Request $request)
+    public function readFile(Request $request)
     {
         if (!$request->hasFile('document')) { // ensure the request has a file
             return response()->json('Aucun fichier n\'a été trouvé !', 400); // client side error, Bad Request
@@ -222,10 +205,10 @@ class ClientController extends Controller
             $encode = base64_encode($content); // encoding content of the file into string 
             return response()->json(['document' => $encode], 200);
         } catch (\Exception $e) {
-            $mail = Auth::user()->mail;
+            $mail = Auth::guard('api-client')->user()->mail;
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
 
-            return response()->json(['message' => 'Aucun fichier n\'a été trouvé !', 'error' => $e->getMessage()], 404);
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
         }
     }
 
@@ -274,7 +257,7 @@ class ClientController extends Controller
             // $handler = new HtmlErrorRenderer(true);
             // $content = $handler->getBody($e);
             // Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($content));
-            $mail = Auth::user()->mail;
+            $mail = Auth::guard('api-client')->user()->mail;
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
 
             return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);

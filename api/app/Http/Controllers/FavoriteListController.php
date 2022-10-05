@@ -12,7 +12,7 @@ class FavoriteListController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api-client');
     }
 
     /**
@@ -23,12 +23,12 @@ class FavoriteListController extends Controller
         try {
 
             $favoriteList = FavoriteList::with(['favoriteList'])
-                ->where('id_client', Auth::userOrFail()->id)
+                ->where('id_client', Auth::guard('api-client')->user()->id)
                 ->get();
             return response()->json(['favorite_list' => $favoriteList], 200);
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'La liste de favoris n\'a pas été trouvé!', 'error' => $e->getMessage()], 404);
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
         }
     }
 
@@ -43,23 +43,14 @@ class FavoriteListController extends Controller
 
         try {
             $favoriteList = new FavoriteList();
-
-
-            $favoriteList->id_client = Auth::userOrFail()->id;
+            $favoriteList->id_client = Auth::guard('api-client')->user()->id;
             $favoriteList->id_property = $request->input('id_property');
             $favoriteList->save();
 
-            $details = [
-                'title' => 'Mail from favorite list',
-                'body' => 'This is for testing email using smtp' . $favoriteList->id
-            ];
-
-            Mail::to(Auth::userOrFail()->mail)->send(new \App\Mail\TestMail($details));
-
-            return response()->json(['favorite_list' => true, 'email' => 'send'], 200);
+            return response()->json(['message' => 'Votre liste de favoris a bien été créée.'], 201);
         } catch (\Exception $e) {
 
-            return response()->json(['message' => 'Echec d\'ajout de favoris', 'error' => $e->getMessage()], 404);
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
         }
     }
 
@@ -71,7 +62,7 @@ class FavoriteListController extends Controller
     {
         try {
             FavoriteList::findOrFail($id)->delete();
-            return response('La ressource a bien été supprimé !', 200);
+            return response('La liste de favoris a bien été supprimé.', 200);
         } catch (\Exception $e) {
 
             return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
