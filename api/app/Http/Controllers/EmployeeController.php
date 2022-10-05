@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PropertyList;
+use App\Models\Client;
 use App\Models\Employee;
 use App\Models\Property;
+use App\Models\PropertyList;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Auth;
-
 use App\Mail\ExceptionOccured;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class EmployeeController extends Controller
 {
@@ -37,7 +38,7 @@ class EmployeeController extends Controller
             $mail = Auth::guard('api-employee')->user()->mail;
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
 
-            return response()->json(['message' => 'L\'employé n\'a pas été trouvé!'], 404);
+            return response()->json(['message' => 'Impossible de récupérer les informations de cet(te) employé(e).'], 409);
         }
     }
 
@@ -49,7 +50,7 @@ class EmployeeController extends Controller
     public function allEmployees()
     {
         try {
-            if (Auth::user()->id_role == 1 || Auth::guard('api-employee')->user()->id_role == 2 || Auth::guard('api-employee')->user()->id_role == 3) {
+            if (Auth::guard('api-employee')->user()->id_role == 1 || Auth::guard('api-employee')->user()->id_role == 2 || Auth::guard('api-employee')->user()->id_role == 3) {
                 $employees = Employee::join('agency', 'employee.id_agency', '=', 'agency.id')->get(['employee.*', 'agency.name', 'agency.address', 'agency.zipcode', 'agency.phone as agencyPhone']);
 
                 return response()->json(['employee' =>  $employees], 200);
@@ -74,17 +75,20 @@ class EmployeeController extends Controller
     {
         try {
             // Try to get several datas related to the PropertyList model/table by Eloquence.
-            /* $getAllDatas = PropertyList::where('id_employee', Auth::guard('api-employee')->user()->id)
-                ->with('property')
-                ->get(); */
-            $getAllDatas = PropertyList::join('property','property_list.id_property','=','property.id')->where('id_employee',Auth::guard('api-employee')->user()->id)->get(['property.*']);
+            $properties = Property::join('property_list', 'property_list.id_property', '=', 'property.id')
+                ->where('id_employee', Auth::guard('api-employee')->user()->id)
+                ->get(['property.*']);
 
-            // If successful, return successful response.
-            return response()->json(['property' => $getAllDatas], 200);
+            if (sizeof($properties) == 0) {
+                return response()->json(['message' => 'Aucun bien immobilier n\'est rattaché à cet(te) employé(e).'], 404);
+            } else {
+                // If successful, return successful response.
+                return response()->json(['property' => $properties], 200);
+            }
         } catch (\Exception $e) {
 
             // If unsuccessful, return a custom error message and a HTML status.
-            return response()->json(['message' => 'La liste d\'annonces de propriétés de cet(te) employé(e) n\'a pas pu être affichée!', 'Error' => $e->getMessage()], 404);
+            return response()->json(['message' => 'La liste des biens immobiliers de cet(te) employé(e) n\' pas pu être récupéré.', 'Error' => $e->getMessage()], 409);
         }
     }
 
@@ -100,17 +104,46 @@ class EmployeeController extends Controller
 
             if (Auth::guard('api-employee')->user()->id_role == 1 || Auth::guard('api-employee')->user()->id_role == 2 || Auth::guard('api-employee')->user()->id_role == 3) {
 
-                $getAllDatas = PropertyList::join('property','property_list.id_property','=','property.id')->join('employee','property_list.id_employee','=','employee.id')->join('agency','employee.id_agency','agency.id')->where('agency.id','=',Auth::guard('api-employee')->user()->id_agency)->get(['property.*','employee.id','employee.firstname', 'employee.lastname','employee.matricule','agency.id','agency.name as AgencyName']);
+                $properties = Property::join('property_list', 'property_list.id_property', '=', 'property.id')
+                    ->join('employee', 'property_list.id_employee', '=', 'employee.id')
+                    ->join('agency', 'employee.id_agency', '=', 'agency.id')
+                    ->where('agency.id', '=', Auth::guard('api-employee')->user()->id_agency)
+                    ->get(['property.*', 'employee.id', 'employee.firstname', 'employee.lastname', 'employee.matricule', 'agency.id', 'agency.name as AgencyName']);
 
-                // If successful, return successful response.
-                return response()->json(['property' => $getAllDatas], 200);
+                if (sizeof($properties) == 0) {
+                    return response()->json(['message' => 'Aucun bien immobilier n\'est rattaché à cette agence.'], 404);
+                } else {
+                    // If successful, return successful response.
+                    return response()->json(['property' => $properties], 200);
+                }
             } else {
                 return response()->json(['message' => 'Vous n\'avez pas les droits nécessaires pour accéder à ces informations.'], 403);
             }
         } catch (\Exception $e) {
 
             // If unsuccessful, return a custom error message and a HTML status.
-            return response()->json(['message' => 'La liste d\'annonces de propriétés n\'a pas pu être affichée !', 'Error' => $e->getMessage()], 404);
+            return response()->json(['message' => 'La liste des biens immobiliers n\'a pas pu être affichée.', 'Error' => $e->getMessage()], 409);
+        }
+    }
+
+    /**
+     * Get all Client.
+     *
+     * @return Response
+     */
+    public function allClients()
+    {
+        if (Auth::guard('api-employee')) {
+            try {
+                $customers = Client::join('agency', 'client.id_agency', '=', 'agency.id')
+                    ->get(['client.*', 'agency.name']);
+                return response()->json(['client' =>  $customers], 200);
+            } catch (\Exception $e) {
+                $mail = Auth::guard('api-employee')->user()->mail;
+                Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
+
+                return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
+            }
         }
     }
 }

@@ -28,11 +28,11 @@ class PropertyController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['allProperties', 'singleProperty', 'getPropertyTypes', 'getPropertyCategories', 'getPropertyHeater', 'getPropertyKitchen', 'getPropertyRoomTypes', 'getPropertyFeatures']]);
+        $this->middleware('auth:api-employee', ['except' => ['allProperties', 'singleProperty', 'getPropertyTypes', 'getPropertyCategories', 'getPropertyHeater', 'getPropertyKitchen', 'getPropertyRoomTypes', 'getPropertyFeatures']]);
     }
 
 
-    public function create(Request $request)
+    public function createProperty(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|string',
@@ -76,7 +76,6 @@ class PropertyController extends Controller
 
             // Get posted datas through an array.
             $rooms = unserialize($request->input('room'));
-
             $features = unserialize($request->input('feature'));
 
             // Insert the rooms related to one property.
@@ -101,7 +100,7 @@ class PropertyController extends Controller
             }
             // Insert the property list related to auth employee
             $propertyList = new PropertyList();
-            $propertyList->id_employee = Auth::userOrFail()->id;
+            $propertyList->id_employee = Auth::guard('api-employee')->user()->id;
             $propertyList->id_property = $property->id;
             $propertyList->save();
 
@@ -117,65 +116,13 @@ class PropertyController extends Controller
             $resultfeaturesList = FeaturesList::where('id_property', $property->id)->get();
 
             // Return successful response.
-            return response()->json(['property' => $property, 'property_type' => $resultPropertyType, 'property_category' => $resultPropertyCategory, 'rooms' => $resultRooms, 'featuresList' => $resultfeaturesList, 'message' => 'CREATED'], 201);
+            return response()->json(['property' => $property, 'property_type' => $resultPropertyType, 'property_category' => $resultPropertyCategory, 'rooms' => $resultRooms, 'featuresList' => $resultfeaturesList, 'message' => 'Le bien immobilier a été créé avec succès.'], 201);
             // Return response()->json(['rooms'=>$resultRooms],201);
 
         } catch (\Exception $e) {
 
             // Return error message.
             return response()->json(['message' => 'Le prospect n\'a pas pu être créé !', 'error' => $e->getMessage()], 409);
-        }
-    }
-
-    /**
-     * return all property's types
-     * 
-     */
-    public function getPropertyTypes()
-    {
-        try {
-            return response()->json(['property_type' =>  PropertyType::all()], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()]);
-        }
-    }
-
-    /**
-     * return all property's categories
-     * 
-     */
-    public function getPropertyCategories()
-    {
-        try {
-            return response()->json(['property_category' =>  PropertyCategory::all()], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()]);
-        }
-    }
-
-    /**
-     * return all property's heater types
-     * 
-     */
-    public function getPropertyHeaters()
-    {
-        try {
-            return response()->json(['heater' =>  Heater::all()], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()]);
-        }
-    }
-
-    /**
-     * return all property's kitchen room types
-     * 
-     */
-    public function getPropertyKitchens()
-    {
-        try {
-            return response()->json(['kitchen' =>  Kitchen::all()], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()]);
         }
     }
 
@@ -211,7 +158,7 @@ class PropertyController extends Controller
             }
             $result = PropertyPicture::where('id_property', $id_property)->get();
 
-            return response()->json(['property_pictures' => $result, 'message' => 'File uploaded !'], 201);
+            return response()->json(['property_pictures' => $result, 'message' => 'L\'image a été téléchargé avec succès.'], 201);
         } catch (\Exception $e) {
 
             return response()->json(['message' => 'Le fichier ne peut pas être uploadé!', 'error' => $e->getMessage()], 409);
@@ -247,7 +194,7 @@ class PropertyController extends Controller
                     $energyAudit->save();
 
 
-                    return response()->json(['energy_audit' => $energyAudit->id, 'message' => 'File uploaded !'], 201);
+                    return response()->json(['energy_audit' => $energyAudit->id, 'message' => 'L\image a été téléchargé avec succès.'], 201);
                 } else {
 
                     return $this->result['message'] = 'L\'extension ' . $file_ext . ' n\'est pas autorisée!';
@@ -309,19 +256,19 @@ class PropertyController extends Controller
                 )
                 ->first();
 
-                foreach ($property['rooms'] as &$room) {
-                    $roomType = Room::join('room_type', 'room.id_room_type', '=', 'room_type.id')
-                        ->where('room.id', $room['id'])
-                        ->first('room_type.name');
-                    $room['name'] = $roomType['name'];
-                }
+            foreach ($property['rooms'] as &$room) {
+                $roomType = Room::join('room_type', 'room.id_room_type', '=', 'room_type.id')
+                    ->where('room.id', $room['id'])
+                    ->first('room_type.name');
+                $room['name'] = $roomType['name'];
+            }
 
-                foreach ($property['featuresLists'] as &$feature) {
-                    $featuresList = FeaturesList::join('feature', 'features_list.id_feature', '=', 'feature.id')
+            foreach ($property['featuresLists'] as &$feature) {
+                $featuresList = FeaturesList::join('feature', 'features_list.id_feature', '=', 'feature.id')
                     ->where('features_list.id', $feature['id'])
                     ->first('feature.name');
                 $feature['name'] = $featuresList['name'];
-                }
+            }
 
             return response()->json(['property' => $property], 200);
         } catch (\Exception $e) {

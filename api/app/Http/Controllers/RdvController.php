@@ -59,7 +59,7 @@ class RdvController extends Controller
             $rdv->save();
             Mail::to($clientMail)->send(new RdvMail($label, $beginning, $end, $description, $address, $city, $zipcode, $agency));
 
-            return response()->json(['rdv' => $rdv, 'message' => 'RDV CRÉE'], 201);
+            return response()->json(['rdv' => $rdv, 'message' => 'Le RDV a été créé avec succès.'], 201);
         } catch (\Exception $e) {
             $mail = Auth::user()->mail;
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));

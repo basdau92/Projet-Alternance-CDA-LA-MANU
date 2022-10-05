@@ -17,7 +17,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login_client', 'register_client', 'login_employee', 'register_employee']]);
+        $this->middleware('auth:api', ['except' => ['loginClient', 'registerClient', 'loginEmployee', 'registerEmployee']]);
     }
 
     /**
@@ -26,7 +26,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function register_client(Request $request)
+    public function registerClient(Request $request)
     {
         //validate incoming request 
         $this->validate($request, [
@@ -64,7 +64,7 @@ class AuthController extends Controller
     /**
      * Login method
      */
-    public function login_client(Request $request)
+    public function loginClient(Request $request)
     {
         //validate incoming request 
         $this->validate($request, [
@@ -84,7 +84,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function register_employee(Request $request)
+    public function registerEmployee(Request $request)
     {
         //validate incoming request 
         $this->validate($request, [
@@ -127,7 +127,7 @@ class AuthController extends Controller
     /**
      * Login method for employee
      */
-    public function login_employee(Request $request)
+    public function loginEmployee(Request $request)
     {
         //validate incoming request 
         $this->validate($request, [
