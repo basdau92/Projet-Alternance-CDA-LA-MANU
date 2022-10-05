@@ -8,8 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Employee;
 
-
-
 class AuthController extends Controller
 {
     /**
@@ -74,7 +72,7 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
         $credentials = $request->only(['mail', 'password']);
-        if (!$token = Auth::attempt($credentials)) {
+        if (!$token = Auth::guard('api-client')->attempt($credentials)) {
             return response()->json(['message' => 'Accès non autorisé. Veuillez vérifier vos informations.'], 401);
         }
         return $this->respondWithToken($token);
@@ -137,7 +135,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
         $credentials = $request->only(['matricule', 'password']);
-        if (!$token = Auth::attempt($credentials)) {
+        if (!$token = Auth::guard('api-employee')->attempt($credentials)) {
             return response()->json(['message' => 'Accès non autorisé. Veuillez vérifier vos informations.'], 401);
         }
         return $this->respondWithToken($token);

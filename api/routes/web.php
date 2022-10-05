@@ -23,7 +23,7 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'authentification'], function () use ($router) {
 
     $router->post('/', 'AuthController@register_client');
-    $router->get('/', 'AuthController@login_client');
+    $router->get('', 'AuthController@login_client');
     $router->post('/employee', 'AuthController@register_employee');
     $router->get('/employee', 'AuthController@login_employee');
 });
