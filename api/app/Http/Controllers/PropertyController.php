@@ -316,6 +316,13 @@ class PropertyController extends Controller
                     $room['name'] = $roomType['name'];
                 }
 
+                foreach ($property['featuresLists'] as &$feature) {
+                    $featuresList = FeaturesList::join('feature', 'features_list.id_feature', '=', 'feature.id')
+                    ->where('features_list.id', $feature['id'])
+                    ->first('feature.name');
+                $feature['name'] = $featuresList['name'];
+                }
+
             return response()->json(['property' => $property], 200);
         } catch (\Exception $e) {
             // If unsuccessful, return a custom error message and a HTML status.
