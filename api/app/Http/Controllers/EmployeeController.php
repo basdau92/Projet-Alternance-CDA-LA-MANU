@@ -32,9 +32,9 @@ class EmployeeController extends Controller
     public function singleEmployee()
     {
         try {
-            return response()->json(['employee' => Auth::user()], 200);
+            return response()->json(['employee' => Auth::guard('api-employee')->user()], 200);
         } catch (\Exception $e) {
-            $mail = Auth::user()->mail;
+            $mail = Auth::guard('api-employee')->user()->mail;
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
 
             return response()->json(['message' => 'L\'employé n\'a pas été trouvé!'], 404);
@@ -49,7 +49,7 @@ class EmployeeController extends Controller
     public function allEmployees()
     {
         try {
-            if (Auth::user()->id_role == 1 || Auth::user()->id_role == 2 || Auth::user()->id_role == 3) {
+            if (Auth::user()->id_role == 1 || Auth::guard('api-employee')->user()->id_role == 2 || Auth::guard('api-employee')->user()->id_role == 3) {
                 $employees = Employee::join('agency', 'employee.id_agency', '=', 'agency.id')->get(['employee.*', 'agency.name', 'agency.address', 'agency.zipcode', 'agency.phone as agencyPhone']);
 
                 return response()->json(['employee' =>  $employees], 200);
@@ -57,7 +57,7 @@ class EmployeeController extends Controller
                 return response()->json(['message' => 'Vous n\'avez pas les droits nécessaires pour accéder à ces informations.'], 403);
             }
         } catch (\Exception $e) {
-            $mail = Auth::user()->mail;
+            $mail = Auth::guard('api-employee')->user()->mail;
             Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
 
             return response()->json(['message' => 'Aucun employé n\'a été trouvé.'], 404);
@@ -74,10 +74,10 @@ class EmployeeController extends Controller
     {
         try {
             // Try to get several datas related to the PropertyList model/table by Eloquence.
-            /* $getAllDatas = PropertyList::where('id_employee', Auth::user()->id)
+            /* $getAllDatas = PropertyList::where('id_employee', Auth::guard('api-employee')->user()->id)
                 ->with('property')
                 ->get(); */
-            $getAllDatas = PropertyList::join('property','property_list.id_property','=','property.id')->where('id_employee',Auth::user()->id)->get(['property.*','employee.id as employeeId']);
+            $getAllDatas = PropertyList::join('property','property_list.id_property','=','property.id')->where('id_employee',Auth::guard('api-employee')->user()->id)->get(['property.*']);
 
             // If successful, return successful response.
             return response()->json(['property' => $getAllDatas], 200);
@@ -98,9 +98,9 @@ class EmployeeController extends Controller
     {
         try {
 
-            if (Auth::user()->id_role == 1 || Auth::user()->id_role == 2 || Auth::user()->id_role == 3) {
+            if (Auth::guard('api-employee')->user()->id_role == 1 || Auth::guard('api-employee')->user()->id_role == 2 || Auth::guard('api-employee')->user()->id_role == 3) {
 
-                $getAllDatas = PropertyList::join('property','property_list.id_property','=','property.id')->join('employee','property_list.id_employee','=','employee.id')->join('agency','employee.id_agency','agency.id')->where('agency.id','=',Auth::user()->id_agency)->get(['property.*','employee.id as emplyeeId','employee.firstname', 'employee.lastname','employee.matricule','agency.id as agencyId','agency.name as AgencyName']);
+                $getAllDatas = PropertyList::join('property','property_list.id_property','=','property.id')->join('employee','property_list.id_employee','=','employee.id')->join('agency','employee.id_agency','agency.id')->where('agency.id','=',Auth::guard('api-employee')->user()->id_agency)->get(['property.*','employee.id','employee.firstname', 'employee.lastname','employee.matricule','agency.id','agency.name as AgencyName']);
 
                 // If successful, return successful response.
                 return response()->json(['property' => $getAllDatas], 200);
