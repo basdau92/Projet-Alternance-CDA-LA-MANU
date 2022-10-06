@@ -110,7 +110,7 @@ class EmployeeController extends Controller
                 ->leftJoin('employee', 'property_list.id_employee', '=', 'employee.id')
                 ->leftJoin('agency', 'employee.id_agency', '=', 'agency.id')
                 ->where('agency.id', '=', Auth::guard('api-employee')->user()->id_agency)
-                ->get(['property.*', 'employee.id', 'employee.firstname', 'employee.lastname', 'employee.matricule', 'agency.id', 'agency.name as AgencyName']);
+                ->get(['property.*', 'employee.firstname', 'employee.lastname', 'employee.matricule', 'agency.name as AgencyName']);
 
             if (sizeof($properties) == 0) {
                 return response()->json(['message' => 'Aucun bien immobilier n\'est rattaché à cette agence.'], 404);
