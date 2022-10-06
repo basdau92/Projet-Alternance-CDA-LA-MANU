@@ -68,7 +68,7 @@ class Property extends Model
      */
     public function propertyTransactionType()
     {
-        return $this->hasOne(propertyTransactionType::class, 'id', 'id_property_transaction_type');
+        return $this->hasOne(PropertyTransactionType::class, 'id', 'id_property_transaction_type');
     }
 
     /**
