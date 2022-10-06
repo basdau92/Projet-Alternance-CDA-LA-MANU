@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\PropertyTransactionType;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -32,7 +33,8 @@ class DatabaseSeeder extends Seeder
             EmployeeSeeder::class,
             PropertyListSeeder::class,
             LabelSeeder::class,
-            RdvSeeder::class
+            RdvSeeder::class,
+            PropertyTransactionType::class
         ]);
         
     }
