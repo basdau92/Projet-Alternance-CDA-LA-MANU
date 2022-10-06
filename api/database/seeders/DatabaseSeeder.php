@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             KitchenSeeder::class,
             PropertyTypeSeeder::class,
             EnergyAuditSeeder::class,
+            PropertyTransactionTypeSeeder::class,
             PropertySeeder::class,
             RoomTypeSeeder::class,
             RoomSeeder::class,
@@ -33,8 +34,7 @@ class DatabaseSeeder extends Seeder
             EmployeeSeeder::class,
             PropertyListSeeder::class,
             LabelSeeder::class,
-            RdvSeeder::class,
-            PropertyTransactionTypeSeeder::class
+            RdvSeeder::class
         ]);
         
     }
