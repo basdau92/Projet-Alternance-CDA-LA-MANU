@@ -106,23 +106,17 @@ class EmployeeController extends Controller
     public function allProperties()
     {
         try {
+            $properties = Property::leftJoin('property_list', 'property_list.id_property', '=', 'property.id')
+                ->leftJoin('employee', 'property_list.id_employee', '=', 'employee.id')
+                ->leftJoin('agency', 'employee.id_agency', '=', 'agency.id')
+                ->where('agency.id', '=', Auth::guard('api-employee')->user()->id_agency)
+                ->get(['property.*', 'employee.id', 'employee.firstname', 'employee.lastname', 'employee.matricule', 'agency.id', 'agency.name as AgencyName']);
 
-            if (Auth::guard('api-employee')->user()->id_role == 1 || Auth::guard('api-employee')->user()->id_role == 2 || Auth::guard('api-employee')->user()->id_role == 3) {
-
-                $properties = Property::leftJoin('property_list', 'property_list.id_property', '=', 'property.id')
-                    ->leftJoin('employee', 'property_list.id_employee', '=', 'employee.id')
-                    ->leftJoin('agency', 'employee.id_agency', '=', 'agency.id')
-                    ->where('agency.id', '=', Auth::guard('api-employee')->user()->id_agency)
-                    ->get(['property.*', 'employee.id', 'employee.firstname', 'employee.lastname', 'employee.matricule', 'agency.id', 'agency.name as AgencyName']);
-
-                if (sizeof($properties) == 0) {
-                    return response()->json(['message' => 'Aucun bien immobilier n\'est rattaché à cette agence.'], 404);
-                } else {
-                    // If successful, return successful response.
-                    return response()->json(['property' => $properties], 200);
-                }
+            if (sizeof($properties) == 0) {
+                return response()->json(['message' => 'Aucun bien immobilier n\'est rattaché à cette agence.'], 404);
             } else {
-                return response()->json(['message' => 'Vous n\'avez pas les droits nécessaires pour accéder à ces informations.'], 403);
+                // If successful, return successful response.
+                return response()->json(['property' => $properties], 200);
             }
         } catch (\Exception $e) {
 
