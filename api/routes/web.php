@@ -1,8 +1,5 @@
 <?php
 
-use App\Http\Controllers\RdvController;
-use Illuminate\Support\Facades\Mail;
-
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
