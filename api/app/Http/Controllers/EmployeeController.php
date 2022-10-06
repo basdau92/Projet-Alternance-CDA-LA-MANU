@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Employee;
 use App\Models\Property;
-use App\Models\PropertyList;
-use Illuminate\Http\Request;
 use App\Mail\ExceptionOccured;
 
 use Illuminate\Support\Facades\Auth;
