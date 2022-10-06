@@ -14,7 +14,7 @@ class RdvController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['employeeRdv']]);
+        $this->middleware('auth:api-employee');
     }
 
     /**
@@ -34,14 +34,13 @@ class RdvController extends Controller
             'city' => 'required|string',
             'zipcode' => 'required|string',
             'is_visit' => 'required|boolean',
-            'id_agency' => 'required',
         ]);
 
         try {
 
             $rdv = new Rdv();
 
-            $rdv->id_employee = Auth::user()->id;
+            $rdv->id_employee = Auth::guard('api-employee')->user()->id;
             $label = $rdv->id_label = $request->input('label');
             $beginning = $rdv->beginning = $request->input('beginning');
             $end = $rdv->end = $request->input('end');
@@ -54,7 +53,7 @@ class RdvController extends Controller
             $address = $rdv->address = $request->input('address');
             $city = $rdv->city = $request->input('city');
             $zipcode = $rdv->zipcode = $request->input('zipcode');
-            $agency = $rdv->id_agency = $request->input('id_agency');
+            $agency = $rdv->id_agency = Auth::guard('api-employee')->user()->id_agency;
 
             $rdv->save();
             Mail::to($clientMail)->send(new RdvMail($label, $beginning, $end, $description, $address, $city, $zipcode, $agency));
@@ -76,21 +75,25 @@ class RdvController extends Controller
      */
     public function employeeRdv($id)
     {
-        try {
+        if (Auth::guard('api-employee')->user()->id_role == 1 || Auth::guard('api-employee')->user()->id_role == 2 || Auth::guard('api-employee')->user()->id_role == 3) {
+            try {
 
-            //Get all the rdv related to a specific employee
-            $getEmployeeRdv = Rdv::where('id_employee', $id)
-                ->with([
-                    'employee',
-                    'label',
-                ])
-                ->get();
+                //Get all the rdv related to a specific employee
+                $getEmployeeRdv = Rdv::where('id_employee', $id)
+                    ->with([
+                        'employee',
+                        'label',
+                    ])
+                    ->get();
 
-            return response()->json(['rdv' => $getEmployeeRdv], 200);
-        } catch (\Exception $e) {
+                return response()->json(['rdv' => $getEmployeeRdv], 200);
+            } catch (\Exception $e) {
 
-            //Else it returns a http status with message error.
-            return response()->json(['message' => 'Accès non autorisé : vous ne disposez pas des droits nécessaires.', 'error' => $e->getMessage()], 401);
+                //Else it returns a http status with message error.
+                return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
+            }
+        } else {
+            return response()->json(['message' => 'Accès non autorisé : vous ne disposez pas des droits nécessaires.'], 401);
         }
     }
 
@@ -107,12 +110,33 @@ class RdvController extends Controller
                 Rdv::join('employee', 'rdv.id_employee', '=', 'employee.id')
                 ->join('label', 'rdv.id_label', '=', 'label.id')
                 ->join('agency', 'rdv.id_agency', '=', 'agency.id')
-                ->where('id_employee', Auth::userOrFail()->id)
+                ->where('id_employee', Auth::guard('api-employee')->user()->id)
                 ->get(['rdv.*', 'employee.lastname as employeeLastname', 'employee.firstname as employeeFirstname', 'employee.matricule', 'label.name as label', 'agency.name']);
 
             return response()->json(['rdv' => $getAuthEmployeeRdv], 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'La liste des rendez-vous pour cet(te) employé(e) n\'a pas été trouvée !', 'error' => $e->getMessage()], 404);
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
+        }
+    }
+
+    public function getAgencyRdv($agencyId)
+    {
+        if (Auth::guard('api-employee')->user()->id_role == 1 || Auth::guard('api-employee')->user()->id_role == 2 || Auth::guard('api-employee')->user()->id_role == 3) {
+            $agencyId =  Auth::guard('api-employee')->user()->id_agency;
+            try {
+                $getAgencyRdv =
+                    Rdv::join('employee', 'rdv.id_employee', '=', 'employee.id')
+                    ->join('label', 'rdv.id_label', '=', 'label.id')
+                    ->join('agency', 'rdv.id_agency', '=', 'agency.id')
+                    ->where('employee.id_agency', $agencyId)
+                    ->get();
+
+                return response()->json(['rdv' => $getAgencyRdv], 200);
+            } catch (\Exception $e) {
+                return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
+            }
+        } else {
+            return response()->json(['message' => 'Accès non autorisé : vous ne disposez pas des droits nécessaires.'], 401);
         }
     }
 }

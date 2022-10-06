@@ -65,6 +65,7 @@ $router->group(['prefix' => 'rdv'], function () use ($router) {
     $router->post('/new', 'RdvController@createRdv');
     $router->get('/', 'RdvController@showAuthEmployeeRdv');
     $router->get('/{id}', 'RdvController@employeeRdv');
+    $router->get('/agency-{agencyId}', 'RdvController@getAgencyRdv');
 });
 
 $router->get('/contact', 'AgencyController@getAgencies');
