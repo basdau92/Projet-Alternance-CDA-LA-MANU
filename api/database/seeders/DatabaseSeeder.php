@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
             PropertyListSeeder::class,
             LabelSeeder::class,
             RdvSeeder::class,
-            PropertyTransactionType::class
+            PropertyTransactionTypeSeeder::class
         ]);
         
     }
