@@ -47,6 +47,7 @@ class PropertyController extends Controller
             'is_furnished' => 'required|boolean',
             'is_available' => 'required|boolean',
             'id_property_type' => 'required',
+            
         ]);
 
         try {

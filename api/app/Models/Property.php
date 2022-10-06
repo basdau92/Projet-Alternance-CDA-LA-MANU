@@ -52,7 +52,7 @@ class Property extends Model
      */
     public function energyAudits()
     {
-        return $this->hasOne(EnergyAudit::class, 'id', 'id');
+        return $this->hasOne(EnergyAudit::class, 'id', 'id_energy_audit');
     }
 
     /**
@@ -60,7 +60,7 @@ class Property extends Model
      */
     public function propertyTypes()
     {
-        return $this->hasOne(PropertyType::class, 'id', 'id');
+        return $this->hasOne(PropertyType::class, 'id', 'id_property_type');
     }
 
     /**
@@ -68,7 +68,7 @@ class Property extends Model
      */
     public function propertyCategories()
     {
-        return $this->hasOne(PropertyCategory::class, 'id', 'id');
+        return $this->hasOne(PropertyCategory::class, 'id', 'id_property_category');
     }
 
     /**
@@ -84,7 +84,7 @@ class Property extends Model
      */
     public function kitchen()
     {
-        return $this->hasOne(Kitchen::class, 'id', 'id');
+        return $this->hasOne(Kitchen::class, 'id', 'id_kitchen');
     }
 
     /**
@@ -92,7 +92,7 @@ class Property extends Model
      */
     public function heater()
     {
-        return $this->hasOne(Heater::class, 'id', 'id');
+        return $this->hasOne(Heater::class, 'id', 'id_heater');
     }
 
     /**
@@ -116,7 +116,7 @@ class Property extends Model
      */
     public function featuresLists()
     {
-        return $this->hasMany(FeaturesList::class, 'id', 'id');
+        return $this->hasMany(FeaturesList::class, 'id_property', 'id');
     }
 
     /**
