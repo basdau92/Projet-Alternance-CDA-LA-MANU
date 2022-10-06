@@ -48,8 +48,15 @@ class EmployeeController extends Controller
     public function allEmployees()
     {
         try {
-            if (Auth::guard('api-employee')->user()->id_role == 1 || Auth::guard('api-employee')->user()->id_role == 2 || Auth::guard('api-employee')->user()->id_role == 3) {
-                $employees = Employee::join('agency', 'employee.id_agency', '=', 'agency.id')->get(['employee.*', 'agency.name', 'agency.address', 'agency.zipcode', 'agency.phone as agencyPhone']);
+            if (Auth::guard('api-employee')->user()->id_role == 1 || Auth::guard('api-employee')->user()->id_role == 2) {
+                $employees = Employee::join('agency', 'employee.id_agency', '=', 'agency.id')
+                    ->get(['employee.*', 'agency.name', 'agency.address', 'agency.zipcode', 'agency.phone as agencyPhone']);
+
+                return response()->json(['employee' =>  $employees], 200);
+            } elseif (Auth::guard('api-employee')->user()->id_role == 3) {
+                $employees = Employee::join('agency', 'employee.id_agency', '=', 'agency.id')
+                    ->where('employee.id_agency', Auth::guard('api-employee')->user()->id_agency)
+                    ->get(['employee.*', 'agency.name', 'agency.address', 'agency.zipcode', 'agency.phone as agencyPhone']);
 
                 return response()->json(['employee' =>  $employees], 200);
             } else {
