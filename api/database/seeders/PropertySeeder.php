@@ -18,6 +18,7 @@ class PropertySeeder extends Seeder
         DB::table('property')->insert([
             [
                 'id_property_type' => 1,
+                'id_property_transaction_type' => 1,
                 'id_property_category' => 1,
                 'id_kitchen' => 1,
                 'id_heater' => 1,
@@ -38,6 +39,7 @@ class PropertySeeder extends Seeder
             ],
             [
                 'id_property_type' => 2,
+                'id_property_transaction_type' => 1,
                 'id_property_category' => 2,
                 'id_kitchen' => 2,
                 'id_heater' => 2,
@@ -58,6 +60,7 @@ class PropertySeeder extends Seeder
             ],
             [
                 'id_property_type' => 3,
+                'id_property_transaction_type' => 2,
                 'id_property_category' => 4,
                 'id_kitchen' => 3,
                 'id_heater' => 3,

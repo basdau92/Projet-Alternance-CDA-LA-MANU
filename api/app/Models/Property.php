@@ -64,6 +64,14 @@ class Property extends Model
     }
 
     /**
+     * Relationship "One To One" with the PropertyTransactionType model table.
+     */
+    public function propertyTransactionType()
+    {
+        return $this->hasOne(propertyTransactionType::class, 'id', 'id_property_transaction_type');
+    }
+
+    /**
      * Relationship "One To One" with the PropertyCategory model table.
      */
     public function propertyCategories()

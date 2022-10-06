@@ -248,6 +248,7 @@ class PropertyController extends Controller
                 ->with(
                     'propertyCategories',
                     'propertyTypes',
+                    'propertyTransactionType',
                     'energyAudits',
                     'propertyPictures',
                     'kitchen',
