@@ -258,14 +258,14 @@ class PropertyController extends Controller
                 ->first();
 
             foreach ($property['rooms'] as &$room) {
-                $roomType = Room::join('room_type', 'room.id_room_type', '=', 'room_type.id')
+                $roomType = Room::leftJoin('room_type', 'room.id_room_type', '=', 'room_type.id')
                     ->where('room.id', $room['id'])
                     ->first('room_type.name');
                 $room['name'] = $roomType['name'];
             }
 
             foreach ($property['featuresLists'] as &$feature) {
-                $featuresList = FeaturesList::join('feature', 'features_list.id_feature', '=', 'feature.id')
+                $featuresList = FeaturesList::leftJoin('feature', 'features_list.id_feature', '=', 'feature.id')
                     ->where('features_list.id', $feature['id'])
                     ->first('feature.name');
                 $feature['name'] = $featuresList['name'];

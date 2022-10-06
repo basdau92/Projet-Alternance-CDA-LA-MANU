@@ -49,12 +49,12 @@ class EmployeeController extends Controller
     {
         try {
             if (Auth::guard('api-employee')->user()->id_role == 1 || Auth::guard('api-employee')->user()->id_role == 2) {
-                $employees = Employee::join('agency', 'employee.id_agency', '=', 'agency.id')
+                $employees = Employee::leftJoin('agency', 'employee.id_agency', '=', 'agency.id')
                     ->get(['employee.*', 'agency.name', 'agency.address', 'agency.zipcode', 'agency.phone as agencyPhone']);
 
                 return response()->json(['employee' =>  $employees], 200);
             } elseif (Auth::guard('api-employee')->user()->id_role == 3) {
-                $employees = Employee::join('agency', 'employee.id_agency', '=', 'agency.id')
+                $employees = Employee::leftJoin('agency', 'employee.id_agency', '=', 'agency.id')
                     ->where('employee.id_agency', Auth::guard('api-employee')->user()->id_agency)
                     ->get(['employee.*', 'agency.name', 'agency.address', 'agency.zipcode', 'agency.phone as agencyPhone']);
 
@@ -80,7 +80,7 @@ class EmployeeController extends Controller
     {
         try {
             // Try to get several datas related to the PropertyList model/table by Eloquence.
-            $properties = Property::join('property_list', 'property_list.id_property', '=', 'property.id')
+            $properties = Property::leftJoin('property_list', 'property_list.id_property', '=', 'property.id')
                 ->where('id_employee', Auth::guard('api-employee')->user()->id)
                 ->get(['property.*']);
 
@@ -109,9 +109,9 @@ class EmployeeController extends Controller
 
             if (Auth::guard('api-employee')->user()->id_role == 1 || Auth::guard('api-employee')->user()->id_role == 2 || Auth::guard('api-employee')->user()->id_role == 3) {
 
-                $properties = Property::join('property_list', 'property_list.id_property', '=', 'property.id')
-                    ->join('employee', 'property_list.id_employee', '=', 'employee.id')
-                    ->join('agency', 'employee.id_agency', '=', 'agency.id')
+                $properties = Property::leftJoin('property_list', 'property_list.id_property', '=', 'property.id')
+                    ->leftJoin('employee', 'property_list.id_employee', '=', 'employee.id')
+                    ->leftJoin('agency', 'employee.id_agency', '=', 'agency.id')
                     ->where('agency.id', '=', Auth::guard('api-employee')->user()->id_agency)
                     ->get(['property.*', 'employee.id', 'employee.firstname', 'employee.lastname', 'employee.matricule', 'agency.id', 'agency.name as AgencyName']);
 
@@ -138,17 +138,15 @@ class EmployeeController extends Controller
      */
     public function allClients()
     {
-        if (Auth::guard('api-employee')) {
-            try {
-                $customers = Client::join('agency', 'client.id_agency', '=', 'agency.id')
-                    ->get(['client.*', 'agency.name']);
-                return response()->json(['client' =>  $customers], 200);
-            } catch (\Exception $e) {
-                $mail = Auth::guard('api-employee')->user()->mail;
-                Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
+        try {
+            $customers = Client::leftJoin('agency', 'client.id_agency', '=', 'agency.id')
+                ->get(['client.*', 'agency.name']);
+            return response()->json(['client' =>  $customers], 200);
+        } catch (\Exception $e) {
+            $mail = Auth::guard('api-employee')->user()->mail;
+            Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
 
-                return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
-            }
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
         }
     }
 }

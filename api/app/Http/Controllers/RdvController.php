@@ -107,9 +107,9 @@ class RdvController extends Controller
     {
         try {
             $getAuthEmployeeRdv =
-                Rdv::join('employee', 'rdv.id_employee', '=', 'employee.id')
-                ->join('label', 'rdv.id_label', '=', 'label.id')
-                ->join('agency', 'rdv.id_agency', '=', 'agency.id')
+                Rdv::leftJoin('employee', 'rdv.id_employee', '=', 'employee.id')
+                ->leftJoin('label', 'rdv.id_label', '=', 'label.id')
+                ->leftJoin('agency', 'rdv.id_agency', '=', 'agency.id')
                 ->where('id_employee', Auth::guard('api-employee')->user()->id)
                 ->get(['rdv.*', 'employee.lastname as employeeLastname', 'employee.firstname as employeeFirstname', 'employee.matricule', 'label.name as label', 'agency.name']);
 
@@ -125,9 +125,9 @@ class RdvController extends Controller
             $agencyId =  Auth::guard('api-employee')->user()->id_agency;
             try {
                 $getAgencyRdv =
-                    Rdv::join('employee', 'rdv.id_employee', '=', 'employee.id')
-                    ->join('label', 'rdv.id_label', '=', 'label.id')
-                    ->join('agency', 'rdv.id_agency', '=', 'agency.id')
+                    Rdv::leftJoin('employee', 'rdv.id_employee', '=', 'employee.id')
+                    ->leftJoin('label', 'rdv.id_label', '=', 'label.id')
+                    ->leftJoin('agency', 'rdv.id_agency', '=', 'agency.id')
                     ->where('employee.id_agency', $agencyId)
                     ->get();
 
