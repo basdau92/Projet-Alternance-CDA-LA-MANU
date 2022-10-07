@@ -56,6 +56,7 @@ $router->group(['prefix' => 'property'], function () use ($router) {
     $router->get('/{id}', 'PropertyController@singleProperty');
     $router->get('/', 'PropertyController@allProperties');
     $router->put('/{id}', 'PropertyController@updateProperty');
+    $router->put('/status/{id}', 'PropertyController@updatePropertyStatus');
 });
 
 $router->group(['prefix' => 'rdv'], function () use ($router) {

@@ -47,7 +47,7 @@ class PropertyController extends Controller
             'is_furnished' => 'required|boolean',
             'is_available' => 'required|boolean',
             'id_property_type' => 'required',
-            
+
         ]);
 
         try {
@@ -341,6 +341,23 @@ class PropertyController extends Controller
             return response()->json($property, 200);
         } catch (\Exception $e) {
             // If unsuccessful, return a custom error message and a HTML status.
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
+        }
+    }
+
+    public function updatePropertyStatus($id, Request $request)
+    {
+        try {
+            $property = Property::findOrFail($id);
+
+            $this->validate($request, [
+                'is_prospect' => 'required|boolean'
+            ]);
+
+            $property->update($request->all());
+            return response()->json($property, 200);
+        } catch (\Exception $e) {
+
             return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
         }
     }
