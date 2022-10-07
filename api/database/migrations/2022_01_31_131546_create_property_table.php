@@ -31,7 +31,7 @@ class CreatePropertyTable extends Migration
             $table->text('description');
             $table->boolean('is_furnished');
             $table->boolean('is_available');
-            $table->boolean('is_prospect');
+            $table->boolean('is_prospect')->default('1');;
             $table->timestamps();
         });
     }
