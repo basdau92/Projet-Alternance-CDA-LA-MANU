@@ -18,6 +18,8 @@ use App\Models\PropertyCategory;
 use App\Models\PropertyList;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PropertyMail;
 
 class PropertyController extends Controller
 {
@@ -28,7 +30,7 @@ class PropertyController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api-employee', ['except' => ['allProperties', 'singleProperty', 'getPropertyTypes', 'getPropertyCategories', 'getPropertyHeater', 'getPropertyKitchen', 'getPropertyRoomTypes', 'getPropertyFeatures']]);
+        $this->middleware('auth:api-employee', ['except' => ['allProperties', 'singleProperty', 'getPropertyTypes', 'getPropertyCategories', 'getPropertyHeater', 'getPropertyKitchen', 'getPropertyRoomTypes', 'getPropertyFeatures','sendMailProperty']]);
     }
 
 
@@ -342,6 +344,30 @@ class PropertyController extends Controller
         } catch (\Exception $e) {
             // If unsuccessful, return a custom error message and a HTML status.
             return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
+        }
+    }
+    /**
+     * Send mail about a property
+     *
+     * @return void
+     */
+    public function sendMailProperty(Request $request)
+    {
+        try {
+            $mail = $request->input('email');
+            $message = $request->input('message');
+            $id = $request->input('id');
+            $to = 'taslimaahamedmze@gmail.com';
+
+
+            $data = ['id'=>$id,'mail'=>$mail,'message'=>$message];
+
+            Mail::to($to)->send(new PropertyMail($data));
+
+            return response()->json(['message' => 'Le mail a été envoyé.'], 201);
+        } catch (\Exception $e) {
+            
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()],409);
         }
     }
 }

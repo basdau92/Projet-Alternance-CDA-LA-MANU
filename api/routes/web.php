@@ -47,6 +47,7 @@ $router->group(['prefix' => 'customer'], function () use ($router) {
     $router->delete('/profile/{id}', 'ClientController@deleteClient');
     $router->put('/profile', 'ClientController@updateClient');
     $router->put('/profile/password', 'ClientController@updatePassword');
+
 });
 
 $router->group(['prefix' => 'property'], function () use ($router) {
@@ -56,6 +57,8 @@ $router->group(['prefix' => 'property'], function () use ($router) {
     $router->get('/{id}', 'PropertyController@singleProperty');
     $router->get('/', 'PropertyController@allProperties');
     $router->put('/{id}', 'PropertyController@updateProperty');
+    $router->post('/send-mail', 'PropertyController@sendMailProperty');
+
 });
 
 $router->group(['prefix' => 'rdv'], function () use ($router) {
