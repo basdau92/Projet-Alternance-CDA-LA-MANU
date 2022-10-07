@@ -345,16 +345,12 @@ class PropertyController extends Controller
         }
     }
 
-    public function updatePropertyStatus($id, Request $request)
+    public function updatePropertyStatus($id)
     {
         try {
             $property = Property::findOrFail($id);
 
-            $this->validate($request, [
-                'is_prospect' => 'required|boolean'
-            ]);
-
-            $property->update($request->all());
+            $property->update(['is_prospect' => false]);
             return response()->json($property, 200);
         } catch (\Exception $e) {
 
