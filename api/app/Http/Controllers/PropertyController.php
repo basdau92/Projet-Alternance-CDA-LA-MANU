@@ -366,8 +366,12 @@ class PropertyController extends Controller
      */
     public function sendMailProperty(Request $request)
     {
+        $this->validate($request, [
+            'mail' => 'required|string',
+            
+        ]);
         try {
-            $mail = $request->input('email');
+            $mail = $request->input('mail');
             $message = $request->input('message');
             $id = $request->input('id');
             $to = 'taslimaahamedmze@gmail.com';
