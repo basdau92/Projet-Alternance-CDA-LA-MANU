@@ -439,4 +439,30 @@ class PropertyController extends Controller
             return response()->json(['error' => $e->getMessage()]);
         }
     }
+
+    /**
+     * return all property's room types
+     * 
+     */
+    public function getPropertyRoomTypes()
+    {
+        try {
+            return response()->json(['room_type' =>  RoomType::all()], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * return all property's annexe types
+     * 
+     */
+    public function getPropertyFeatures()
+    {
+        try {
+            return response()->json(['feature' =>  Feature::all()], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
+    }
 }
