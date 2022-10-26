@@ -64,6 +64,7 @@ $router->group(['prefix' => 'property'], function () use ($router) {
     $router->get('/heaters', 'PropertyController@getPropertyHeaters');
     $router->get('/kitchens', 'PropertyController@getPropertyKitchens');
     $router->get('/categories', 'PropertyController@getPropertyCategories');
+    $router->get('/types', 'PropertyController@getPropertyTypes');
 });
 
 $router->group(['prefix' => 'rdv'], function () use ($router) {
