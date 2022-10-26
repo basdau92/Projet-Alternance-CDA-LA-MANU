@@ -30,7 +30,7 @@ class PropertyController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api-employee', ['except' => ['allProperties', 'singleProperty', 'getPropertyTypes', 'getPropertyCategories', 'getPropertyHeater', 'getPropertyKitchen', 'getPropertyRoomTypes', 'getPropertyFeatures','sendMailProperty']]);
+        $this->middleware('auth:api-employee', ['except' => ['allProperties', 'singleProperty', 'getPropertyTypes', 'getPropertyCategories', 'getPropertyHeater', 'getPropertyKitchen', 'getPropertyRoomTypes', 'getPropertyFeatures', 'sendMailProperty']]);
     }
 
 
@@ -373,14 +373,66 @@ class PropertyController extends Controller
             $to = 'taslimaahamedmze@gmail.com';
 
 
-            $data = ['id'=>$id,'mail'=>$mail,'message'=>$message];
+            $data = ['id' => $id, 'mail' => $mail, 'message' => $message];
 
             Mail::to($to)->send(new PropertyMail($data));
 
             return response()->json(['message' => 'Le mail a été envoyé.'], 201);
         } catch (\Exception $e) {
-            
-            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()],409);
+
+            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
+        }
+    }
+
+    /**
+     * return all property's types
+     * 
+     */
+    public function getPropertyTypes()
+    {
+        try {
+            return response()->json(['property_type' =>  PropertyType::all()], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * return all property's categories
+     * 
+     */
+    public function getPropertyCategories()
+    {
+        try {
+            return response()->json(['property_category' =>  PropertyCategory::all()], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * return all property's heater types
+     * 
+     */
+    public function getPropertyHeaters()
+    {
+        try {
+            return response()->json(['heater' =>  Heater::all()], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * return all property's kitchen room types
+     * 
+     */
+    public function getPropertyKitchens()
+    {
+        try {
+            return response()->json(['kitchen' =>  Kitchen::all()], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
 }
