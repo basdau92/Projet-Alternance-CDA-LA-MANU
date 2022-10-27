@@ -51,6 +51,12 @@ $router->group(['prefix' => 'customer'], function () use ($router) {
 });
 
 $router->group(['prefix' => 'property'], function () use ($router) {
+    $router->get('/features', 'PropertyController@getPropertyFeatures');
+    $router->get('/room-types', 'PropertyController@getPropertyRoomTypes');
+    $router->get('/heaters', 'PropertyController@getPropertyHeaters');
+    $router->get('/kitchens', 'PropertyController@getPropertyKitchens');
+    $router->get('/categories', 'PropertyController@getPropertyCategories');
+    $router->get('/types', 'PropertyController@getPropertyTypes');
     $router->post('/new', 'PropertyController@createProperty');
     $router->post('/pictures', 'PropertyController@uploadPropertyPictures');
     $router->post('/energy-audit', 'PropertyController@uploadEnergyAudit');
@@ -59,12 +65,6 @@ $router->group(['prefix' => 'property'], function () use ($router) {
     $router->put('/{id}', 'PropertyController@updateProperty');
     $router->put('/status/{id}', 'PropertyController@updatePropertyStatus');
     $router->post('/send-mail', 'PropertyController@sendMailProperty');
-    $router->get('/features', 'PropertyController@getPropertyFeatures');
-    $router->get('/room-types', 'PropertyController@getPropertyRoomTypes');
-    $router->get('/heaters', 'PropertyController@getPropertyHeaters');
-    $router->get('/kitchens', 'PropertyController@getPropertyKitchens');
-    $router->get('/categories', 'PropertyController@getPropertyCategories');
-    $router->get('/types', 'PropertyController@getPropertyTypes');
 });
 
 $router->group(['prefix' => 'rdv'], function () use ($router) {
