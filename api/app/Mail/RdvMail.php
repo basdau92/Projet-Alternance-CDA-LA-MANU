@@ -43,7 +43,7 @@ class RdvMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Votre rendez-vous avec Immoport')
+        return $this->subject('Votre rendez-vous avec Immopport')
             ->view('emails.rdv');
     }
 }

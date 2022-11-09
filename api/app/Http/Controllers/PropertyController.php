@@ -368,16 +368,17 @@ class PropertyController extends Controller
     {
         $this->validate($request, [
             'mail' => 'required|string',
-            
+            'message' => 'required|string'
         ]);
+
         try {
             $mail = $request->input('mail');
             $message = $request->input('message');
             $id = $request->input('id');
+            $name = $request->input('name');
             $to = 'taslimaahamedmze@gmail.com';
 
-
-            $data = ['id' => $id, 'mail' => $mail, 'message' => $message];
+            $data = ['id' => $id, 'name' => $name, 'mail' => $mail, 'message' => $message];
 
             Mail::to($to)->send(new PropertyMail($data));
 

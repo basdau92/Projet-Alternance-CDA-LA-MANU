@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <h1>Renseignement du bien  numero: {{ $details['id'] }}</h1>
+    <h1>Renseignement du bien {{ $details['name'] }}</h1>
     <h3>From : {{ $details['mail'] }}</h3>
     <p>{{ $details['message'] }}</p>
 </body>

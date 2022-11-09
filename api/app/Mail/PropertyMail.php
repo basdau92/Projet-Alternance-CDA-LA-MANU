@@ -30,7 +30,7 @@ class PropertyMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Mail from immoport website')
+        return $this->subject('Demande de renseignements sur un bien immobilier')
                     ->view('emails.propertyMail');
     }
 }
