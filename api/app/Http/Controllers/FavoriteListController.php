@@ -35,9 +35,9 @@ class FavoriteListController extends Controller
      */
     public function createFavoriteList(Request $request)
     {
-        $this->validate($request, [
-            'id_property' => 'required|numeric',
-        ]);
+        // $this->validate($request, [
+        //     'id_property' => 'required|numeric',
+        // ]);
 
         try {
             $favoriteList = new FavoriteList();
