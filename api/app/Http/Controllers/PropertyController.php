@@ -30,7 +30,7 @@ class PropertyController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api-employee', ['except' => ['allProperties', 'singleProperty', 'getPropertyTypes', 'getPropertyCategories', 'getPropertyHeater', 'getPropertyKitchen', 'getPropertyRoomTypes', 'getPropertyFeatures', 'sendMailProperty']]);
+        $this->middleware('auth:api-employee', ['except' => ['allProperties', 'singleProperty', 'getPropertyTypes', 'getPropertyCategories', 'getPropertyHeaters', 'getPropertyKitchens', 'getPropertyRoomTypes', 'getPropertyFeatures', 'sendMailProperty']]);
     }
 
 
