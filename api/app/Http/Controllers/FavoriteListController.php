@@ -57,12 +57,19 @@ class FavoriteListController extends Controller
      */
     public function deleteFavoriteList($id)
     {
-        try {
-            FavoriteList::findOrFail($id)->delete();
-            return response('Le bien immobilier a bien été supprimé de votre liste de favoris.', 200);
-        } catch (\Exception $e) {
+        $favoritePropertyId = FavoriteList::where('id_property', $id)->first();
 
-            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
+        if ($favoritePropertyId != null) {
+
+            try {
+                $favoritePropertyId->delete();
+                return response('Le bien immobilier a bien été supprimé de votre liste de favoris.', 200);
+            } catch (\Exception $e) {
+
+                return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
+            }
+        } else {
+            return response()->json(['message' => 'Ce bien n\'existe pas.'], 404);
         }
     }
 }
