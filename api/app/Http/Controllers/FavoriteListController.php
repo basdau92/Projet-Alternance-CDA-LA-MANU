@@ -60,7 +60,7 @@ class FavoriteListController extends Controller
     {
         try {
             FavoriteList::findOrFail($id)->delete();
-            return response('La liste de favoris a bien été supprimé.', 200);
+            return response('Le bien immobilier a bien été supprimé de votre liste de favoris.', 200);
         } catch (\Exception $e) {
 
             return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
