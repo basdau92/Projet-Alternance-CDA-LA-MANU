@@ -71,6 +71,9 @@ return [
         ],
         'is_available' => [
             'required' => 'Ce champ ne peut être vide.'
+        ],
+        'id_property' => [
+            'unique' => 'Ce bien immobilier est déjà dans votre liste de favoris.'
         ]
     ],
 

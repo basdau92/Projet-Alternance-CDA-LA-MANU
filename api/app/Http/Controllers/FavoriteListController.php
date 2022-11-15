@@ -35,10 +35,9 @@ class FavoriteListController extends Controller
      */
     public function createFavoriteList(Request $request)
     {
-        // $this->validate($request, [
-        //     'id_property' => 'required|numeric',
-        // ]);
-
+        $this->validate($request, [
+            'id_property' => 'unique:favorite_list'
+        ]);
         try {
             $favoriteList = new FavoriteList();
             $favoriteList->id_client = Auth::guard('api-client')->user()->id;
