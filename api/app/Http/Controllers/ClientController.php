@@ -114,14 +114,20 @@ class ClientController extends Controller
      */
     public function deleteClient($id)
     {
-        try {
-            Client::findOrFail($id)->delete();
-            return response('La ressource a bien été supprimé !', 200);
-        } catch (\Exception $e) {
-            $mail = Auth::guard('api-client')->user()->mail;
-            Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
+        $clientId = Client::where('id', $id)->first();
 
-            return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
+        if ($clientId != null) {
+            try {
+                $clientId->delete();
+                return response('Le client a bien été supprimé !', 200);
+            } catch (\Exception $e) {
+                $mail = Auth::guard('api-client')->user()->mail;
+                Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
+
+                return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
+            }
+        } else {
+            return response()->json('Ce client n\'existe pas.');
         }
     }
 
