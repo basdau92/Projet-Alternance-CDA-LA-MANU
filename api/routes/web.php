@@ -31,6 +31,7 @@ $router->group(['prefix' => 'employee'], function () use ($router) {
     $router->get('/', 'EmployeeController@allEmployees');
     $router->get('/dashboard', 'EmployeeController@singleEmployee');
     $router->get('/properties', 'EmployeeController@allProperties');
+    $router->delete('/customer/{id}', 'EmployeeController@deleteClient');
     $router->get('/my-properties', 'EmployeeController@allEmployeeProperties');
 });
 
@@ -44,7 +45,6 @@ $router->group(['prefix' => 'customer'], function () use ($router) {
     $router->get('/my-documents', 'ClientController@readFile');
     $router->get('/profile', 'ClientController@singleClient');
     $router->get('/', 'EmployeeController@allClients');
-    $router->delete('/profile/{id}', 'ClientController@deleteClient');
     $router->put('/profile', 'ClientController@updateClient');
     $router->put('/profile/password', 'ClientController@updatePassword');
 
