@@ -219,10 +219,11 @@ class PropertyController extends Controller
     {
         try {
             // Try to get several models/tables datas related to the Property model/table by Eloquence.
-            $getAllDatas = Property::with([
+            $getAllDatas = Property::where('is_prospect', 0)
+            ->with([
                 'propertyPictures'
             ])
-                ->get();
+            ->get();
 
             // If successful, return successful response.
             return response()->json(['property' => $getAllDatas], 200);
