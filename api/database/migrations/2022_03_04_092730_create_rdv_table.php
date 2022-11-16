@@ -17,7 +17,7 @@ class CreateRdvTable extends Migration
             $table->id();
             $table->foreignId('id_employee')->constrained('employee');
             $table->foreignId('id_property')->nullable()->constrained('property');
-            $table->foreignId('id_client')->nullable()->constrained('client');
+            $table->foreignId('id_client')->nullable()->constrained('client')->onDelete('cascade');
             $table->foreignId('id_label')->constrained('label');
             $table->foreignId('id_agency')->constrained('agency');
             $table->dateTime('beginning');
