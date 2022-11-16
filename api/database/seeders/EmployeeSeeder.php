@@ -31,7 +31,7 @@ class EmployeeSeeder extends Seeder
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'id_agency' => 1,
+                'id_agency' => 2,
                 'id_role' => 3,
                 'lastname' => 'Ahamed Mze',
                 'firstname' => 'Taslima',
@@ -43,7 +43,7 @@ class EmployeeSeeder extends Seeder
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'id_agency' => 1,
+                'id_agency' => 3,
                 'id_role' => 4,
                 'lastname' => 'Daugenne',
                 'firstname' => 'Bastien',
@@ -55,7 +55,7 @@ class EmployeeSeeder extends Seeder
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'id_agency' => 1,
+                'id_agency' => 4,
                 'id_role' => 2,
                 'lastname' => 'Noel',
                 'firstname' => 'Mickael',

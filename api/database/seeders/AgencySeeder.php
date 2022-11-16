@@ -22,7 +22,7 @@ class AgencySeeder extends Seeder
                 'name' => 'Palais-Royal',
                 'address' => '6 rue du Poteau',
                 'zipcode' => '75001',
-                'mail' => 'immopport-palaisroyalgmail.com',
+                'mail' => 'immopport-palaisroyal@gmail.com',
                 'phone' => '0145789596',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
