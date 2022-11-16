@@ -152,16 +152,13 @@ class EmployeeController extends Controller
     public function deleteClient($id)
     {
         $clientId = Client::where('id', $id)->first();
-        
+
         if ($clientId != null) {
             try {
                 $clientId->delete();
                 return response('Le client a bien été supprimé !', 200);
             } catch (\Exception $e) {
-                $mail = Auth::guard('api-client')->user()->mail;
-                Mail::to('inesbkht@gmail.com')->send(new ExceptionOccured($e->getMessage(), $mail));
-
-                return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.'], 409);
+                return response()->json(['message' => 'Conflict: La requête ne peut être traitée en l’état actuel.', 'error' => $e->getMessage()], 409);
             }
         } else {
             return response()->json('Ce client n\'existe pas.');
